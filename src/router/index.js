@@ -104,7 +104,7 @@ import RegistrosM from '../views/RegistrosMedicos/registrosmedicos.vue'
 // rutas del area de recursos humanos
 
 import RHDashboard from '../views/RecursosHumanos/DashboardsRH.vue'
-
+import PuestosRH from '../views/RecursosHumanos/PuestosRH.vue'
 
 const childRoutes = (prop, mode) => [
   {
@@ -172,6 +172,13 @@ const childRoutes = (prop, mode) => [
     name: prop + '.recursosh',
     meta: { dark: mode, auth: true, name: 'Recursos humanos' },
     component: RecursosH
+  },
+  // Ruta para la vista de horarios
+  {
+    path: 'PuestosRH',
+    name: prop + '.PuestosRH',
+    meta: { dark: mode, auth: true, name: 'Puestos Horarios' },
+    component: PuestosRH
   },
 // Ruta para los dashboards de recursos humanos
   {

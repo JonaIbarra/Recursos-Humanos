@@ -99,6 +99,17 @@
     "badge" : false,
     "children": [
       {
+        "title": "Puestos y Horarios",
+        "name": "Puestos Horarios",
+        "is_active": false,
+        "link": {
+          "name" : "dashboard.PuestosRH"
+        },
+        "class_name": "",
+        "is_icon_class": true,
+        "icon": "fa fa-calendar"
+      },
+      {
         "title": "Dashboard",
         "name": "Dashboard",
         "is_active": false,
