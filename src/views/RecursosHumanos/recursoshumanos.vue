@@ -3,7 +3,7 @@
     <!-- Encabezado con el logo y título -->
     <header class="header">
       <img src="@/views/RecursosHumanos/logoRH.png" alt="Logo del Hospital" class="logo">
-      <h1 class="titulo">Recursos Humanos</h1>
+      <h1 class="titulo">Recursos</h1>
     </header>
 
     <!-- CRUD -->
