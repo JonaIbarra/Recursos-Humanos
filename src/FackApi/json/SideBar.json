@@ -99,8 +99,19 @@
     "badge" : false,
     "children": [
       {
-        "title": "Puestos y Horarios",
-        "name": "Puestos Horarios",
+        "title": "Asignar Horario",
+        "name": "Asignar Horario",
+        "is_active": false,
+        "link": {
+          "name" : "dashboard.AsignarHorarioPersonal"
+        },
+        "class_name": "",
+        "is_icon_class": true,
+        "icon": "ri-user-add-fill"
+      },
+      {
+        "title": "Puestos ",
+        "name": "Puestos",
         "is_active": false,
         "link": {
           "name" : "dashboard.PuestosRH"
