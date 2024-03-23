@@ -98,13 +98,13 @@ import FarmaciaI from '../views/FarmaciaIntraHospitalaria/farmaciaintrahospitala
 import Pediatria from '../views/Pediatria/pediatria.vue'
 import ProgramacionQ from '../views/ProgramacionQuirurgica/programacionquirurgica.vue'
 import RadiologiaI from '../views/RadiologiaImagen/radiologiaimagen.vue'
-import RecursosH from '../views/RecursosHumanos/recursoshumanos.vue'
+import AsignarHorarioPersonal from '../views/RecursosHumanos/AsignarHorarioPersonal.vue'
 import RegistrosM from '../views/RegistrosMedicos/registrosmedicos.vue'
 
 // rutas del area de recursos humanos
 
 import RHDashboard from '../views/RecursosHumanos/DashboardsRH.vue'
-
+import PuestosRH from '../views/RecursosHumanos/PuestosRH.vue'
 
 const childRoutes = (prop, mode) => [
   {
@@ -168,10 +168,17 @@ const childRoutes = (prop, mode) => [
     component: RadiologiaI
   },
   {
-    path: 'recursosh',
-    name: prop + '.recursosh',
+    path: 'AsignarHorarioPersonal',
+    name: prop + '.AsignarHorarioPersonal',
     meta: { dark: mode, auth: true, name: 'Recursos humanos' },
-    component: RecursosH
+    component: AsignarHorarioPersonal
+  },
+  // Ruta para la vista de horarios
+  {
+    path: 'PuestosRH',
+    name: prop + '.PuestosRH',
+    meta: { dark: mode, auth: true, name: 'Puestos Horarios' },
+    component: PuestosRH
   },
 // Ruta para los dashboards de recursos humanos
   {
