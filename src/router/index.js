@@ -101,6 +101,11 @@ import RadiologiaI from '../views/RadiologiaImagen/radiologiaimagen.vue'
 import RecursosH from '../views/RecursosHumanos/recursoshumanos.vue'
 import RegistrosM from '../views/RegistrosMedicos/registrosmedicos.vue'
 
+// rutas del area de recursos humanos
+
+import RHDashboard from '../views/RecursosHumanos/DashboardsRH.vue'
+
+
 const childRoutes = (prop, mode) => [
   {
     path: 'home-1',
@@ -168,6 +173,15 @@ const childRoutes = (prop, mode) => [
     meta: { dark: mode, auth: true, name: 'Recursos humanos' },
     component: RecursosH
   },
+// Ruta para los dashboards de recursos humanos
+  {
+    path: 'RHDashboard',
+    name: prop + '.RHDashboard',
+    meta: { dark: mode, auth: true, name: 'Dashboard Recursos Humanos' },
+    component: RHDashboard
+  },
+
+
   {
     path: 'registrosm',
     name: prop + '.registrosm',

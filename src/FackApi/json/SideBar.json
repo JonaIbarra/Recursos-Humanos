@@ -92,13 +92,24 @@
     "name": "Recursos Humanos",
     "is_heading": false,
     "is_active": false,
-    "link": {
-      "name": "dashboard.recursosh"
-    },
+    "link": "",
     "class_name": "",
     "is_icon_class": true,
-    "icon": "ri-home-8-fill",
-    "badge" : false
+    "icon": "fa fa-users",
+    "badge" : false,
+    "children": [
+      {
+        "title": "Dashboard",
+        "name": "Dashboard",
+        "is_active": false,
+        "link": {
+          "name" : "dashboard.RHDashboard"
+        },
+        "class_name": "",
+        "is_icon_class": true,
+        "icon": "fa fa-area-chart"
+      }
+    ]
   },
   {
     "title": "Registros Médicos",
