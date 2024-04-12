@@ -46,39 +46,62 @@
                             <b-row>
                               <div class="col-md-12">
                                 <div class="form-group">
-                                  <b-form-group label="CURP " label-for="exampleInputText1">
-                                 <b-form-input id="exampleInputText1" type="text" placeholder="Enter Name" value="Mark Jets"></b-form-input>
+                                  <b-form-group label="CURP" label-for="curpInput">
+                                 <b-form-input id="curpInput" type="text"  v-model="curp" placeholder="Inserta el curp"></b-form-input>
                                  </b-form-group>
+                                </div>
+                                  <a href="#personal" class="btn btn-primary next action-button float-end" @click="buscarPersona"
+                                  value="Buscar">Buscar Por CURP</a>
+
+                                <div v-if="persona">
+                                  
+                                </div>
+                                <div v-else>
+                                  <h4 class="text-danger">Persona no encontrada</h4>
+                                  <p>No se encontró información para el CURP ingresado.</p>
                                 </div>
                               </div>
                             
                               <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="fname" class="mb-2">Nombre(s): *</label>
-                                  <input type="text" class="form-control" id="fname" name="fname"
-                                    placeholder="First Name" spellcheck="false" data-ms-editor="true" />
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Nombre(s): *</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="persona.nombre">
+                                  </div>
                                 </div>
                               </div>
                               <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="lname" class="mb-2">Apellido paterno: *</label>
-                                  <input type="text" class="form-control" id="lname" name="lname"
-                                    placeholder="Last Name" spellcheck="false" data-ms-editor="true" />
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Apelldo Paterno: </label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="persona.primer_apellido">
+                                  </div>
                                 </div>
                               </div>
                               <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="lname" class="mb-2">Apellido materno: *</label>
-                                  <input type="text" class="form-control" id="lname" name="lname"
-                                    placeholder="Last Name" spellcheck="false" data-ms-editor="true" />
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Apellido Materno</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="persona.segundo_apellido">
+                                  </div>
                                 </div>
                               </div>
                               <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="lname" class="mb-2">Puesto: *</label>
-                                  <input type="text" class="form-control" id="lname" name="lname"
-                                    placeholder="Last Name" spellcheck="false" data-ms-editor="true" />
-                                </div>
+                                <b-form-group>
+                                  <label class="mb-2">Puestos: *</label>
+                                  <b-form-select plain v-model="selectedPuesto" :options="optionsPuestos" size="sm"
+                                    class="mb-2">
+                                    <template v-slot:first>
+                                      <b-form-select-option :value="null">-- Seleccionar Puesto --</b-form-select-option>
+                                    </template>
+                                  </b-form-select>
+                                </b-form-group>
                               </div>
   
                             </b-row>
@@ -202,6 +225,8 @@
 </template>
 
 <script>
+
+import axios from 'axios';
 import { xray } from "../../config/pluginInit";
 import iqCard from "../../components/xray/cards/iq-card";
 
@@ -210,6 +235,15 @@ export default {
   components: { iqCard },
   data() {
     return {
+
+      isDisabled:true,
+      // 
+      curp: "",
+      persona: {},
+       selectedPuesto: null, // Selected puesto value
+      optionsPuestos: [], // Array to hold puesto options
+
+      // 
       modalOpen: false,
       currentindex: 1,
       selectedDiasSemana: null,
@@ -305,6 +339,43 @@ export default {
     xray.index();
   },
   methods: {
+
+    // 
+    buscarPersona() {
+      const url = `http://127.0.0.1:8000/hospital/api/v1Personas/${this.curp}/`;
+
+      axios.get(url)
+        .then(response => {
+          this.persona = response.data;
+          
+          console.log(this.persona.nombre);
+          console.log(this.persona.primer_apellido);
+
+        })
+        .catch(error => {
+          console.error(error);
+          this.persona = null;
+        });
+    },
+
+ 
+    fetchPuestos() {
+      const url = 'http://127.0.0.1:8000/hospital/api/v1Puesto/';
+
+      axios.get(url)
+        .then(response => {
+          this.optionsPuestos = response.data.map(puesto => ({
+            value: puesto.id, // Assuming 'id' is the unique identifier
+            text: puesto.nombre, // Assuming 'nombre' is the display name
+          }));
+        })
+        .catch(error => {
+          console.error(error);
+          // Handle errors appropriately, e.g., display an error message
+        });
+    },
+  
+    // 
     add() {
       let obj = this.default();
       this.rows.push(obj);
@@ -336,5 +407,12 @@ export default {
       this.currentindex = val;
     },
   },
+
+  created() {
+    this.fetchPuestos(); // Fetch puestos on component creation
+  },
+
+
 };
 </script>
+
