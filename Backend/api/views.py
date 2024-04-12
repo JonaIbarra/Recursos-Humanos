@@ -19,6 +19,7 @@ class HorarioPersonalViewSet(viewsets.ModelViewSet):
 class PersonalViewSet(viewsets.ModelViewSet):
 	queryset = Personal.objects.all()
 	serializer_class = PersonalSerializer
+	lookup_field = 'persona'  # Set lookup field to 'curp'
 
 
 class PersonasViewSet(viewsets.ModelViewSet):
