@@ -60,6 +60,15 @@
                                   <h4 class="text-danger">Persona no encontrada</h4>
                                   <p>No se encontró información para el CURP ingresado.</p>
                                 </div>
+
+                                <div v-if="personalData">
+                              
+                                </div>
+                                <div v-else>
+                                  <h4 class="text-danger">La persona no es un trabajador</h4>
+                                  <p>No se enc.</p>
+                                </div>
+
                               </div>
                             
                               <div class="col-md-12">
@@ -87,23 +96,22 @@
                                   <div class="form-group">
                                     <label for="fname" class="mb-2">Apellido Materno</label>
                                     <input type="text" class="form-control" id="fname" name="fname"
-                                          placeholder="" spellcheck="false" data-ms-editor="true"
-                                          :disabled="isDisabled" v-model="persona.segundo_apellido">
+                                    placeholder="" spellcheck="false" data-ms-editor="true"
+                                    :disabled="isDisabled" v-model="persona.segundo_apellido">
                                   </div>
                                 </div>
                               </div>
                               <div class="col-md-12">
-                                <b-form-group>
-                                  <label class="mb-2">Puestos: *</label>
-                                  <b-form-select plain v-model="selectedPuesto" :options="optionsPuestos" size="sm"
-                                    class="mb-2">
-                                    <template v-slot:first>
-                                      <b-form-select-option :value="null">-- Seleccionar Puesto --</b-form-select-option>
-                                    </template>
-                                  </b-form-select>
-                                </b-form-group>
+                                <div v-if="personalData">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Empleo</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="Puesto.nombre">
+                                  </div>
+                                </div>
                               </div>
-  
+                              
                             </b-row>
                           </div>
                           <a href="#personal" class="btn btn-primary next action-button float-end" @click="changeTab(2)"
@@ -240,8 +248,9 @@ export default {
       // 
       curp: "",
       persona: {},
-       selectedPuesto: null, // Selected puesto value
-      optionsPuestos: [], // Array to hold puesto options
+      personalData: {},
+      Puesto: {},
+      
 
       // 
       modalOpen: false,
@@ -341,37 +350,127 @@ export default {
   methods: {
 
     // 
-    buscarPersona() {
-      const url = `http://127.0.0.1:8000/hospital/api/v1Personas/${this.curp}/`;
+    // buscarPersona() {
+    //   const url = `http://127.0.0.1:8000/hospital/api/v1Personas/${this.curp}/`;
 
-      axios.get(url)
-        .then(response => {
-          this.persona = response.data;
+    //   axios.get(url)
+    //     .then(response => {
+    //       this.persona = response.data;
           
-          console.log(this.persona.nombre);
-          console.log(this.persona.primer_apellido);
+    //       console.log(this.persona.id);
+    //       console.log(this.persona.primer_apellido);
 
+
+    //     //Guardo los datos que llegan de la api para usarlos despues 
+   
+
+
+    //     })
+    //     .catch(error => {
+    //       console.error(error);
+    //       this.persona = null;
+    //     });
+    // },
+
+
+
+    buscarPersona() {
+  // Construct URL for person data based on CURP
+  const personDataURL = `http://127.0.0.1:8000/hospital/api/v1Personas/${this.curp}/`;
+
+  // Fetch person data using Axios
+  axios.get(personDataURL)
+    .then(response => {
+      // Check if person data is found
+      if (response.data) {
+        // Store person data in 'persona' property
+        this.persona = response.data;
+
+        console.log('Person Data:', this.persona);
+
+        // Get person ID from the response
+        const personID = this.persona.id;
+
+        // Construct URL for personal data based on person ID
+        const personalDataURL = `http://127.0.0.1:8000/hospital/api/v1Personal/${personID}/`;
+        console.log('Personal Data URL:', personalDataURL); // Added for debugging
+
+        // Fetch personal data using Axios
+        axios.get(personalDataURL)
+          .then(response => {
+            if (response.data) {
+            // Store personal data in 'personalData' property (assuming you have this property)
+            this.personalData = response.data;
+
+            // Log person ID and first name from the person data
+            console.log('Personal Data:', this.personalData);
+
+
+            const id = this.personalData.puesto;
+            const PuestoDataURL = `http://127.0.0.1:8000/hospital/api/v1Puesto/${id}/`;
+
+            axios.get(PuestoDataURL)
+            .then(response => {
+
+              this.Puesto = response.data;
+
+              // Log person ID and first name from the person data
+              console.log('Personal Puesto:', this.Puesto);
+
+            })
+            
+            
+            // Use the person and personal data as needed in your application
+         }
+         else {
+        // Handle the case where person data is not found
+        console.warn('Persona no encontrada.');
+        this.personalData = null;
+        }
         })
-        .catch(error => {
-          console.error(error);
-          this.persona = null;
-        });
-    },
+          .catch(error => {
+            console.error('Error fetching personal data:', error);
+            this.personalData = null;
+          });
+      } else {
+        // Handle the case where person data is not found
+        console.warn('Persona no encontrada.');
+        this.persona = null;
+        this.personalData= " "
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching person data:', error);
+      this.persona = null;
+    });
+},
 
- 
-    fetchPuestos() {
-      const url = 'http://127.0.0.1:8000/hospital/api/v1Puesto/';
+    
 
-      axios.get(url)
+
+  // Metodo para insertar en la base de datos informacion del formulario
+    sendDataToBackend() {
+      // Collect form data
+      const formData = {
+        curp: this.curp, // Assuming CURP is from step 1
+        persona: this.persona, // Assuming persona details are retrieved
+        // ... other form data from step 2
+        fechaInicio: document.getElementById('dob').value, // Get date from input
+        diasSemana: this.selectedDiasSemana, // Selected days
+        turno: this.selecteTurno, // Selected turn
+        horarioEntrada: document.getElementById('exampleInputtime').value, // Get time from input
+        horarioSalida: document.getElementById('exampleInputtime').value, // Get time from input
+      };
+
+      // Send data to backend using Axios
+      axios.post('http://127.0.0.1:8000/api/endpoint', formData)
         .then(response => {
-          this.optionsPuestos = response.data.map(puesto => ({
-            value: puesto.id, // Assuming 'id' is the unique identifier
-            text: puesto.nombre, // Assuming 'nombre' is the display name
-          }));
+          // Handle successful response (e.g., show success message)
+          console.log('Data sent successfully:', response.data);
         })
         .catch(error => {
-          console.error(error);
-          // Handle errors appropriately, e.g., display an error message
+          // Handle errors (e.g., show error message)
+          console.error('Error sending data:', error);
         });
     },
   
@@ -406,10 +505,6 @@ export default {
     changeTab(val) {
       this.currentindex = val;
     },
-  },
-
-  created() {
-    this.fetchPuestos(); // Fetch puestos on component creation
   },
 
 
