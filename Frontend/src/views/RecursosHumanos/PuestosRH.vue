@@ -1,4 +1,4 @@
-<template>
+  <template>
     <b-container fluid>
       <b-row>
         <b-col md="12">
@@ -18,15 +18,17 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="items in rows" :key="items">
-                      <td>{{ items.name }}</td>
-                      <td>{{ items.position }}</td>
-                      <td>{{ items.office }}</td>
-                      <td>{{ items.age }}</td>
-                      <td>{{ items.start_date }}</td>
-                      <td>{{ items.salary }}</td>
-                    </tr>
-                  </tbody>
+                  <tr v-for="puesto in puestos" :key="puesto">
+                      <td>{{ puesto.ID }}</td>
+                      <td>{{ puesto.Nombre }}</td>
+                      <td>{{ puesto.Descripcion }}</td>
+                      <td>{{ puesto.Requisitos }}</td>
+                      <td>{{ puesto.Salario_Maximo }}</td>
+                      <td>{{ puesto.Salario_Minimo }}</td>
+                      <td>{{ puesto.Estatus }}</td>
+      
+                  </tr>
+                </tbody>
                   <tfoot>
                     <tr>
                       <th v-for="data in columns" :key="data">
@@ -50,201 +52,38 @@
     components: { iqCard },
     mounted() {
       xray.index()
+      // Call your function to fetch data from the API
+      this.fetchPuestos();
     },
+
+    methods: {
+      async fetchPuestos() {
+        try {
+          const response = await fetch('http://127.0.0.1:8000/hospital/api/v1Puesto/');
+          const puestos = await response.json();
+          this.puestos = puestos;
+          console.log(puestos);
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    },
+
     data() {
       return {
+        // Replace with actual column labels from your API respons
         columns: [
-          { label: 'Name', field: 'name', headerClass: 'text-left' },
-          { label: 'Position', field: 'position', headerClass: 'text-left' },
-          { label: 'Office', field: 'office', headerClass: 'text-left' },
-          { label: 'Age', field: 'age', headerClass: 'text-left' },
-          { label: 'Start date', field: 'start_date', headerClass: 'text-left' },
-          { label: 'Salary', field: 'salary', headerClass: 'text-left' }
+          { label: 'ID', field: 'ID', headerClass: 'text-left' },
+          { label: 'Nombre', field: 'Nombre', headerClass: 'text-left' },
+          { label: 'Descripcion', field: 'Descripcion', headerClass: 'text-left' },
+          { label: 'Requisitos', field: 'Requisitos', headerClass: 'text-left' },
+          { label: 'Salario_Maximo', field: 'Salario_Maximo', headerClass: 'text-left' },
+          { label: 'Salario_Minimo', field: 'Salario_Minimo', headerClass: 'text-left' },
+          { label: 'Estatus', field: 'Estatus', headerClass: 'text-left' }
         ],
-        rows: [
-          {
-            id: 1,
-            name: 'Tiger Nixon',
-            position: 'System Architect',
-            office: 'Edinburgh',
-            age: '61',
-            start_date: '2011/04/25',
-            salary: '$320,800'
-          },
-          {
-            id: 2,
-            name: 'Garrett Winters',
-            position: 'Accountant',
-            office: 'Tokyo',
-            age: '63',
-            start_date: '2011/06/19',
-            salary: '$200,600'
-          },
-          {
-            id: 3,
-            name: 'Ashton Cox',
-            position: 'Junior Technical Author',
-            office: 'San Francisco',
-            age: '69',
-            start_date: '2011/01/20',
-            salary: '$140,500'
-          },
-          {
-            id: 4,
-            name: 'Cedric Kelly',
-            position: 'Senior Javascript Developer',
-            office: 'Edinburgh',
-            age: '42',
-            start_date: '2011/02/02',
-            salary: '$360,500'
-          },
-          {
-            id: 5,
-            name: 'Airi Satou',
-            position: 'Accountant',
-            office: 'Tokyo',
-            age: '39',
-            start_date: '2011/08/11',
-            salary: '$170,800'
-          },
-          {
-            id: 1,
-            name: 'Tiger Nixon',
-            position: 'System Architect',
-            office: 'Edinburgh',
-            age: '61',
-            start_date: '2011/04/25',
-            salary: '$320,800'
-          },
-          {
-            id: 2,
-            name: 'Garrett Winters',
-            position: 'Accountant',
-            office: 'Tokyo',
-            age: '63',
-            start_date: '2011/06/19',
-            salary: '$200,600'
-          },
-          {
-            id: 3,
-            name: 'Ashton Cox',
-            position: 'Junior Technical Author',
-            office: 'San Francisco',
-            age: '69',
-            start_date: '2011/01/20',
-            salary: '$140,500'
-          },
-          {
-            id: 4,
-            name: 'Cedric Kelly',
-            position: 'Senior Javascript Developer',
-            office: 'Edinburgh',
-            age: '42',
-            start_date: '2011/02/02',
-            salary: '$360,500'
-          },
-          {
-            id: 5,
-            name: 'Airi Satou',
-            position: 'Accountant',
-            office: 'Tokyo',
-            age: '39',
-            start_date: '2011/08/11',
-            salary: '$170,800'
-          },
-          {
-            id: 1,
-            name: 'Tiger Nixon',
-            position: 'System Architect',
-            office: 'Edinburgh',
-            age: '61',
-            start_date: '2011/04/25',
-            salary: '$320,800'
-          },
-          {
-            id: 2,
-            name: 'Garrett Winters',
-            position: 'Accountant',
-            office: 'Tokyo',
-            age: '63',
-            start_date: '2011/06/19',
-            salary: '$200,600'
-          },
-          {
-            id: 3,
-            name: 'Ashton Cox',
-            position: 'Junior Technical Author',
-            office: 'San Francisco',
-            age: '69',
-            start_date: '2011/01/20',
-            salary: '$140,500'
-          },
-          {
-            id: 4,
-            name: 'Cedric Kelly',
-            position: 'Senior Javascript Developer',
-            office: 'Edinburgh',
-            age: '42',
-            start_date: '2011/02/02',
-            salary: '$360,500'
-          },
-          {
-            id: 5,
-            name: 'Airi Satou',
-            position: 'Accountant',
-            office: 'Tokyo',
-            age: '39',
-            start_date: '2011/08/11',
-            salary: '$170,800'
-          },
-          {
-            id: 1,
-            name: 'Tiger Nixon',
-            position: 'System Architect',
-            office: 'Edinburgh',
-            age: '61',
-            start_date: '2011/04/25',
-            salary: '$320,800'
-          },
-          {
-            id: 2,
-            name: 'Garrett Winters',
-            position: 'Accountant',
-            office: 'Tokyo',
-            age: '63',
-            start_date: '2011/06/19',
-            salary: '$200,600'
-          },
-          {
-            id: 3,
-            name: 'Ashton Cox',
-            position: 'Junior Technical Author',
-            office: 'San Francisco',
-            age: '69',
-            start_date: '2011/01/20',
-            salary: '$140,500'
-          },
-          {
-            id: 4,
-            name: 'Cedric Kelly',
-            position: 'Senior Javascript Developer',
-            office: 'Edinburgh',
-            age: '42',
-            start_date: '2011/02/02',
-            salary: '$360,500'
-          },
-          {
-            id: 5,
-            name: 'Airi Satou',
-            position: 'Accountant',
-            office: 'Tokyo',
-            age: '39',
-            start_date: '2011/08/11',
-            salary: '$170,800'
-          }
-        ]
-      }
+        puestos: [], // Array to store fetched puestos data
+      };
     }
+    
   }
   </script>
-  
