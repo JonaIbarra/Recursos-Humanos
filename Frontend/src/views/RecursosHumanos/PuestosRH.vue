@@ -19,13 +19,14 @@
                   </thead>
                   <tbody>
                   <tr v-for="puesto in puestos" :key="puesto">
-                      <td>{{ puesto.ID }}</td>
-                      <td>{{ puesto.Nombre }}</td>
-                      <td>{{ puesto.Descripcion }}</td>
-                      <td>{{ puesto.Requisitos }}</td>
-                      <td>{{ puesto.Salario_Maximo }}</td>
-                      <td>{{ puesto.Salario_Minimo }}</td>
-                      <td>{{ puesto.Estatus }}</td>
+                      <td>{{ puesto.id }}</td>
+                      <td>{{ puesto.nombre }}</td>
+                      <td>{{ puesto.descripcion }}</td>
+                      <td>{{ puesto.requisitos }}</td>
+                      <td>{{ puesto.tipo_contrato }}</td>
+                      <td>{{ puesto.salario_maximo }}</td>
+                      <td>{{ puesto.salario_minimo }}</td>
+                      <td>{{ puesto.estatus }}</td>
       
                   </tr>
                 </tbody>
@@ -77,6 +78,7 @@
           { label: 'Nombre', field: 'Nombre', headerClass: 'text-left' },
           { label: 'Descripcion', field: 'Descripcion', headerClass: 'text-left' },
           { label: 'Requisitos', field: 'Requisitos', headerClass: 'text-left' },
+          { label: 'Tipo Contrato', field: 'Tipo Contrato', headerClass: 'text-left' },
           { label: 'Salario_Maximo', field: 'Salario_Maximo', headerClass: 'text-left' },
           { label: 'Salario_Minimo', field: 'Salario_Minimo', headerClass: 'text-left' },
           { label: 'Estatus', field: 'Estatus', headerClass: 'text-left' }
