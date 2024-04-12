@@ -20,19 +20,14 @@
                       <li class="active" :class="`${currentindex == 1 ? 'active' : ''} ${currentindex > 1 ? 'done active' : ''
                   } `" id="personal">
                         <a href="#">
-                          <i class="ri-lock-unlock-line text-primary"></i><span>Personal</span>
+                          <i class="fa fa-id-card text-primary"></i><span>Personal</span>
                         </a>
                       </li>
-                      <li id="contact" :class="`${currentindex == 2 ? 'active' : ''} ${currentindex > 2 ? 'done active' : ''
+       
+                      <li id="official" :class="`${currentindex == 2 ? 'active' : ''} ${currentindex > 2 ? 'done active' : ''
                   }`">
                         <a href="#">
-                          <i class="ri-user-fill text-danger"></i><span>Contact</span>
-                        </a>
-                      </li>
-                      <li id="official" :class="`${currentindex == 3 ? 'active' : ''} ${currentindex > 3 ? 'done active' : ''
-                  }`">
-                        <a href="#">
-                          <i class="ri-camera-fill text-success"></i><span><br>Official</span>
+                          <i class="ri-calendar-event-fill text-success"></i><span><br>Asgignar Horario</span>
                         </a>
                       </li>
                     </ul>
@@ -49,6 +44,14 @@
                               </b-col>
                             </b-row>
                             <b-row>
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <b-form-group label="CURP " label-for="exampleInputText1">
+                                 <b-form-input id="exampleInputText1" type="text" placeholder="Enter Name" value="Mark Jets"></b-form-input>
+                                 </b-form-group>
+                                </div>
+                              </div>
+                            
                               <div class="col-md-12">
                                 <div class="form-group">
                                   <label for="fname" class="mb-2">Nombre(s): *</label>
@@ -72,29 +75,12 @@
                               </div>
                               <div class="col-md-12">
                                 <div class="form-group">
-                                  <label class="my-2">Género: *</label>
-                                  <div class="form-check d-flex ps-0">
-                                    <div class="custom-control custom-radio custom-control-inline me-4">
-                                      <input type="radio" id="customRadio1" name="customRadio"
-                                        class="custom-control-input" />
-                                      <label class="custom-control-label" for="customRadio1">
-                                        Masculino</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                      <input type="radio" id="customRadio2" name="customRadio"
-                                        class="custom-control-input" />
-                                      <label class="custom-control-label" for="customRadio2">
-                                        Femenino</label>
-                                    </div>
-                                  </div>
+                                  <label for="lname" class="mb-2">Puesto: *</label>
+                                  <input type="text" class="form-control" id="lname" name="lname"
+                                    placeholder="Last Name" spellcheck="false" data-ms-editor="true" />
                                 </div>
                               </div>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="dob" class="mb-2">Fecha de Nacimiento: *</label>
-                                  <input type="date" class="form-control" id="dob" name="dob" />
-                                </div>
-                              </div>
+  
                             </b-row>
                           </div>
                           <a href="#personal" class="btn btn-primary next action-button float-end" @click="changeTab(2)"
@@ -104,39 +90,6 @@
                       <div :class="`${currentindex == 2 ? 'show' : 'd-none'}`">
                         <fieldset>
                           <div class="form-card text-start">
-                            <b-row>
-                              <b-col>
-                                <h3 class="mb-4">Informacion del contacto:</h3>
-                              </b-col>
-                            </b-row>
-                            <b-row>
-                              <b-col md="12">
-                                <b-form-group label=" Correo Electronico : *">
-                                  <!-- <label for="email">Email Id: *</label> -->
-                                  <b-form-input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Correo Electronico" />
-                                </b-form-group>
-                              </b-col>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="ccno">Numero de Contacto: *</label>
-                                  <input type="text" class="form-control" id="ccno" name="ccno"
-                                    placeholder="Ingresa tu numero de contacto" spellcheck="false"
-                                    data-ms-editor="true" />
-                                </div>
-                              </div>
-                            </b-row>
-                          </div>
-                          <a href="#payment" @click="changeTab(3)" class="btn btn-primary next action-button float-end"
-                            value="Next">Next</a>
-                          <a href="#account" @click="changeTab(1)"
-                            class="btn btn-dark previous action-button-previous float-end me-1"
-                            value="Previous">Previous</a>
-                        </fieldset>
-                      </div>
-                      <div :class="`${currentindex == 3 ? 'show' : 'd-none'}`">
-                        <fieldset>
-                          <div class="form-card text-start">
                             <div class="row">
                               <div class="col-12">
                                 <h3 class="mb-4">Información del Puesto:</h3>
@@ -144,65 +97,53 @@
                             </div>
                             <div class="row">
                               <div class="col-md-12">
-                                <b-form-group>
-                                  <label for="accname">Seleccione el Puesto: *</label>
-                                  <b-form-select plain v-model="selectedPuesto" :options="optionsPuesto" size="sm"
-                                    class="mb-3">
-                                    <template v-slot:first>
-                                      <b-form-select-option :value="null">-- Seleccionar Puesto --</b-form-select-option>
-                                    </template>
-                                  </b-form-select>
-                                </b-form-group>
-                              </div>
-
-
-                              <div class="col-md-12">
-                                <b-form-group>
-                                  <label for="accname">Seleccione el Horario: *</label>
-                                  <b-form-select plain v-model="selectedHorario" :options="optionsHorario" size="sm"
-                                    class="mb-3">
-                                    <template v-slot:first>
-                                      <b-form-select-option :value="null">-- Seleccionar Horario --</b-form-select-option>
-                                    </template>
-                                  </b-form-select>
-                                </b-form-group>
-                              </div>
-                              <div class="col-md-12">
                                 <div class="form-group">
-                                  <label class="my-2">Estatus: *</label>
-                                  <div class="form-check d-flex ps-0">
-                                    <div class="custom-control custom-radio custom-control-inline me-4">
-                                      <input type="radio" id="customRadio3" name="customRadio2"
-                                        class="custom-control-input" />
-                                      <label class="custom-control-label" for="customRadio3">
-                                        Activo</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                      <input type="radio" id="customRadio4" name="customRadio2"
-                                        class="custom-control-input" />
-                                      <label class="custom-control-label" for="customRadio4">
-                                        Inactivo</label>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="dob" class="mb-2">Selciona la fecha de Inicio: *</label>
+                                  <label for="dob" class="mb-2">Fecha de Inicio: *</label>
                                   <input type="date" class="form-control" id="dob" name="dob" />
                                 </div>
                               </div>
+                              <div class="col-md-12">
+                                <b-form-group>
+                                  <label class="mb-2">Dias de la semana: *</label>
+                                  <b-form-select plain v-model="selectedDiasSemana" :options="optionsDias" size="sm"
+                                    class="mb-2">
+                                    <template v-slot:first>
+                                      <b-form-select-option :value="null">-- Seleccionar Dias --</b-form-select-option>
+                                    </template>
+                                  </b-form-select>
+                                </b-form-group>
+                              </div>
+                              <div class="col-md-12">
+                                <b-form-group >
+                                  <label class="mb-2">Dias de la semana: *</label>
+                                  <b-form-select plain v-model="selecteTurno" :options="optionsTurnos" size="sm"
+                                    class="mb-2">
+                                    <template v-slot:first>
+                                      <b-form-select-option :value="null">-- Seleccionar Turno --</b-form-select-option>
+                                    </template>
+                                  </b-form-select>
+                                </b-form-group>
+                              </div>                          
+                            </div>
+                            <div class="col-md-12">
+                            <b-form-group label="Horario de Entrada" label-for="exampleInputtime">
+                              <b-form-input id="exampleInputtime" type="time" value="13:45"></b-form-input>
+                             </b-form-group>
+                            </div>
+                            <div class="col-md-12">
+                            <b-form-group label="Horario de Salida" label-for="exampleInputtime">
+                              <b-form-input id="exampleInputtime" type="time" value="13:45"></b-form-input>
+                             </b-form-group>
                             </div>
                           </div>
                           <a href="#payment" @click="changeTab(1)" class="btn btn-primary next action-button float-end"
                             value="Next">Guardar</a>
 
-                          <a href="#account" @click="changeTab(2)"
+                          <a href="#account" @click="changeTab(1)"
                             class="btn btn-dark previous action-button-previous float-end me-1"
                             value="Previous">Previous</a>
                         </fieldset>
                       </div>
-                      <div :class="`${currentindex == 4 ? 'show' : 'd-none'}`"></div>
                     </b-form>
                   </b-col>
                 </b-row>
@@ -271,38 +212,34 @@ export default {
     return {
       modalOpen: false,
       currentindex: 1,
-      selectedPuesto: null,
-      selectedHorario: null,   
-      optionsPuesto: [
-  { value: null, text: 'Por favor selecciona una opción' },
-  { value: 'Encargado de Mantenimiento', text: 'Encargado de Mantenimiento' },
-  { value: 'Recepcionista', text: 'Recepcionista' },
-  { value: 'Auxiliar Administrativo', text: 'Auxiliar Administrativo' },
-  { value: 'Técnico de Rayos X', text: 'Técnico de Rayos X' },
-  { value: 'Técnico de Laboratorio', text: 'Técnico de Laboratorio' },
-  { value: 'Enfermero/a', text: 'Enfermero/a' },
-  { value: 'Médico Residente', text: 'Médico Residente' },
-  { value: 'Médico de Guardia', text: 'Médico de Guardia' },
-  { value: 'Especialista en Neurología', text: 'Especialista en Neurología' },
-  { value: 'Especialista en Cardiología', text: 'Especialista en Cardiología' },
-  { value: 'Especialista en Oncología', text: 'Especialista en Oncología' },
-  { value: 'Especialista en Gastroenterología', text: 'Especialista en Gastroenterología' },
-  { value: 'Especialista en Pediatría', text: 'Especialista en Pediatría' },
-  { value: 'Especialista en Ginecología', text: 'Especialista en Ginecología' },
-  { value: 'Especialista en Cirugía General', text: 'Especialista en Cirugía General' }
+      selectedDiasSemana: null,
+      selecteTurno: null,
+
+    optionsDias: [
+    { value: 'Lunes a Domingo, excepto Lunes', text: 'Lunes a Domingo, excepto Lunes' },
+    { value: 'Lunes a Domingo, excepto Martes', text: 'Lunes a Domingo, excepto Martes' },
+    { value: 'Lunes a Domingo, excepto Miércoles', text: 'Lunes a Domingo, excepto Miércoles' },
+    { value: 'Lunes a Domingo, excepto Jueves', text: 'Lunes a Domingo, excepto Jueves' },
+    { value: 'Lunes a Domingo, excepto Viernes', text: 'Lunes a Domingo, excepto Viernes' },
+    { value: 'Lunes a Domingo, excepto Sábado', text: 'Lunes a Domingo, excepto Sábado' },
+    { value: 'Lunes a Sabado', text: 'Lunes a Sadodo' }
+    ],
+
+    optionsTurnos: [
+    { 
+        value: 'Mañana', 
+        text: 'Mañana' 
+    },
+    { 
+        value: 'Tarde', 
+        text: 'Tarde' 
+    },
+    { 
+        value: 'Noche', 
+        text: 'Noche' 
+    }
 ],
-optionsHorario: [
-    { value: 'Horario Matutino', text: 'Horario Matutino' },
-    { value: 'Horario Vespertino', text: 'Horario Vespertino' },
-    { value: 'Horario Nocturno', text: 'Horario Nocturno' },
-    { value: 'Horario de Fin de Semana', text: 'Horario de Fin de Semana' },
-    { value: 'Horario Rotativo A', text: 'Horario Rotativo A' },
-    { value: 'Horario Rotativo B', text: 'Horario Rotativo B' },
-    { value: 'Horario Flexible', text: 'Horario Flexible' },
-    { value: 'Horario de Turnos Cortos', text: 'Horario de Turnos Cortos' },
-    { value: 'Horario de Turnos Largos', text: 'Horario de Turnos Largos' },
-    { value: 'Horario de Guardia Diurna', text: 'Horario de Guardia Diurna' }
-],
+
 
 
       columns: [
