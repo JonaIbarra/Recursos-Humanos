@@ -397,23 +397,33 @@ export default {
 
     extractFormData() {
   // Access form data using Vue's $refs
-  // const form = this.$refs.FormHorario; // Replace "yourFormName" with the actual ref of your form
+  const form = this.$refs.FormHorario;
 
+  // Create an object to hold form data
+  const puestoInformation = {
+    fecha_inicio: form.dob.value,
+    dias_semana: form.selectedDiasSemana.value,
+    turno: form.selecteTurno.value,
+    horario_entrada: form.exampleInputtime.value,
+    horario_salida: form.exampleInputtime.value,
+    personal: this.personalData.id,
+  };
 
-  const form = this.$refs.FormHorario;  // Access the form using the ref
-// Create an object to hold form data
-const puestoInformation = {
-  fechaInicio: form.dob.value,
-  diasSemana: form.selectedDiasSemana.value,
-  turno: form.selecteTurno.value,
-  horarioEntrada: form.exampleInputtime.value,
-  horarioSalida: form.exampleInputtime.value,
-  personal_Id: this.personalData.id
-};
-  console.log(puestoInformation);
+  console.log(puestoInformation);  // Log for debugging
 
+  // Send HTTP POST request to the API
+  const apiUrl = 'http://127.0.0.1:8000/hospital/api/v1HorarioPersonal/';
+
+  axios.post(apiUrl, puestoInformation)
+    .then(response => {
+      // Handle successful response (e.g., show success message)
+      console.log("Datos enviados a la base:", response.data); // Log response data for debugging
+    })
+    .catch(error => {
+      // Handle API request errors (e.g., show error message)
+      console.error('Error sending data:', error);
+    });
 },
-
 
 
     buscarPersona() {
