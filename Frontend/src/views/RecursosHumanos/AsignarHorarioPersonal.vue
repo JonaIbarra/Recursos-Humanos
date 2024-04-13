@@ -119,7 +119,8 @@
                         </fieldset>
                       </div>
                       <div :class="`${currentindex == 2 ? 'show' : 'd-none'}`">
-                        <fieldset>
+                        <form ref="FormHorario">
+                          <fieldset>
                           <div class="form-card text-start">
                             <div class="row">
                               <div class="col-12">
@@ -136,7 +137,7 @@
                               <div class="col-md-12">
                                 <b-form-group>
                                   <label class="mb-2">Dias de la semana: *</label>
-                                  <b-form-select plain v-model="selectedDiasSemana" :options="optionsDias" size="sm"
+                                  <b-form-select  id="selectedDiasSemana" plain v-model="selectedDiasSemana" :options="optionsDias" size="sm"
                                     class="mb-2">
                                     <template v-slot:first>
                                       <b-form-select-option :value="null">-- Seleccionar Dias --</b-form-select-option>
@@ -147,7 +148,7 @@
                               <div class="col-md-12">
                                 <b-form-group >
                                   <label class="mb-2">Dias de la semana: *</label>
-                                  <b-form-select plain v-model="selecteTurno" :options="optionsTurnos" size="sm"
+                                  <b-form-select id="selecteTurno" plain v-model="selecteTurno" :options="optionsTurnos" size="sm"
                                     class="mb-2">
                                     <template v-slot:first>
                                       <b-form-select-option :value="null">-- Seleccionar Turno --</b-form-select-option>
@@ -163,17 +164,22 @@
                             </div>
                             <div class="col-md-12">
                             <b-form-group label="Horario de Salida" label-for="exampleInputtime">
-                              <b-form-input id="exampleInputtime" type="time" value="13:45"></b-form-input>
+                              <b-form-input id="exampleInputtime2" type="time" value="13:45"></b-form-input>
                              </b-form-group>
                             </div>
                           </div>
-                          <a href="#payment" @click="changeTab(1)" class="btn btn-primary next action-button float-end"
-                            value="Next">Guardar</a>
+
+                            <a href="#payment" id="saveButton" class="btn btn-primary next action-button float-end"
+                             value="Guardar" @click="extractFormData()">Guardar (Save)</a>
+
+                             <!-- <button type="button" id="saveButton" class="btn btn-primary next action-button float-end">Guardar (Save)</button> -->
+
 
                           <a href="#account" @click="changeTab(1)"
                             class="btn btn-dark previous action-button-previous float-end me-1"
                             value="Previous">Previous</a>
                         </fieldset>
+                        </form>
                       </div>
                     </b-form>
                   </b-col>
@@ -238,6 +244,13 @@ import axios from 'axios';
 import { xray } from "../../config/pluginInit";
 import iqCard from "../../components/xray/cards/iq-card";
 
+
+
+
+
+
+
+
 export default {
   name: "CombinedComponent",
   components: { iqCard },
@@ -250,6 +263,7 @@ export default {
       persona: {},
       personalData: {},
       Puesto: {},
+  
       
 
       // 
@@ -347,6 +361,8 @@ export default {
   mounted() {
     xray.index();
   },
+
+
   methods: {
 
     // 
@@ -371,6 +387,32 @@ export default {
     //       this.persona = null;
     //     });
     // },
+
+
+
+
+
+    
+
+
+    extractFormData() {
+  // Access form data using Vue's $refs
+  // const form = this.$refs.FormHorario; // Replace "yourFormName" with the actual ref of your form
+
+
+  const form = this.$refs.FormHorario;  // Access the form using the ref
+// Create an object to hold form data
+const puestoInformation = {
+  fechaInicio: form.dob.value,
+  diasSemana: form.selectedDiasSemana.value,
+  turno: form.selecteTurno.value,
+  horarioEntrada: form.exampleInputtime.value,
+  horarioSalida: form.exampleInputtime.value,
+  personal_Id: this.personalData.id
+};
+  console.log(puestoInformation);
+
+},
 
 
 
