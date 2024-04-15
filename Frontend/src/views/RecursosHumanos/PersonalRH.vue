@@ -9,7 +9,7 @@
           <template v-slot:body>
             <b-row>
               <div class="table-ad mb-3 me-2">
-                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">Asignar Horario</b-button>
+                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">Asignar Personal</b-button>
               </div>
 
 
@@ -37,87 +37,95 @@
                     <b-form id="form-wizard3" class="text-center">
                       <!-- fieldsets -->
                       <div :class="`${currentindex == 1 ? 'show' : 'd-none'}`">
-                        <fieldset>
-                          <div class="form-card text-start">
-                            <b-row>
-                              <b-col>
-                                <h3 class="mb-4">Agregar Personal</h3>
-                              </b-col>
-                            </b-row>
-                            <b-row>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <b-form-group label="CURP" label-for="curpInput">
-                                 <b-form-input id="curpInput" type="text"  v-model="curp" placeholder="Inserta el curp"></b-form-input>
-                                 </b-form-group>
-                                </div>
-                                  <a href="#personal" class="btn btn-primary next action-button float-end" @click="buscarPersona"
-                                  value="Buscar">Buscar Por CURP</a>
-
-                                <div v-if="persona">
-                                  
-                                </div>
-                                <div v-else>
-                                  <h4 class="text-danger">Persona no encontrada</h4>
-                                  <p>No se encontró información para el CURP ingresado.</p>
-                                </div>
-
-                                <div v-if="personalData">
+                        <form ref="FormPersona">
+                          <fieldset>
+                            <div class="form-card text-start">
+                              <b-row>
+                                <b-col>
+                                  <h3 class="mb-4">Agregar Personal</h3>
+                                </b-col>
+                              </b-row>
+                              <b-row>
                               
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label for="nombre" class="mb-2">Nombre(s): *</label>
+                                      <input type="text" class="form-control" id="nombre" name="nombre"
+                                            placeholder="" spellcheck="false" data-ms-editor="true">
+                                  </div>
                                 </div>
-                                <div v-else>
-                                  <h4 class="text-danger">La persona no es un trabajador</h4>
-                                  <p>No se enc.</p>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label for="primerApellido" class="mb-2">Primer Paterno: *</label>
+                                      <input type="text" class="form-control" id="primerApellido" name="primerApellido"
+                                            placeholder="" spellcheck="false" data-ms-editor="true">
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label for="segundoApellido" class="mb-2">Apellido Materno(s): *</label>
+                                      <input type="text" class="form-control" id="segundoApellido" name="segundoApellido"
+                                            placeholder="" spellcheck="false" data-ms-editor="true">
+                                  </div>
+                                </div>                            
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label for="curp" class="mb-2">CURP*</label>
+                                      <input type="text" class="form-control" id="curp" name="curp"
+                                            placeholder="" spellcheck="false" data-ms-editor="true">
+                                  </div>
                                 </div>
 
-                              </div>
-                            
-                              <div class="col-md-12">
-                                <div v-if="persona">
+                                <div class="col-md-12">
+                                  <b-form-group >
+                                    <label class="mb-2">Género: *</label>
+                                    <b-form-select id="selectedGenero" plain v-model="selectedGenero" :options="optionsGenero" size="sm"
+                                      class="mb-2">
+                                      <template v-slot:first>
+                                        <b-form-select-option :value="null">-- Seleccionar Género --</b-form-select-option>
+                                      </template>
+                                    </b-form-select>
+                                  </b-form-group>
+                                </div>                             
+ 
+ 
+
+
+                                <div class="col-md-12">
+                                  <b-form-group >
+                                    <label class="mb-2">Grupo Sanguineo: *</label>
+                                    <b-form-select id="selectedGrupoSanguineo" plain v-model="selectedGrupoSanguineo" :options="optionsGrupoSanguineo" size="sm"
+                                      class="mb-2">
+                                      <template v-slot:first>
+                                        <b-form-select-option :value="null">-- Seleccionar Grupo Sanguineo --</b-form-select-option>
+                                      </template>
+                                    </b-form-select>
+                                  </b-form-group>
+                                </div>  
+                                <div class="col-md-12">
+                                  <b-form-group >
+                                    <label class="mb-2">Tipo Sanguineo: *</label>
+                                    <b-form-select id="selectedTipoSanguineo" plain v-model="selectedTipoSanguineo" :options="optionsTipoSanguineo" size="sm"
+                                      class="mb-2">
+                                      <template v-slot:first>
+                                        <b-form-select-option :value="null">-- Seleccionar Tipo Sanguineo --</b-form-select-option>
+                                      </template>
+                                    </b-form-select>
+                                  </b-form-group>
+                                </div> 
+                                <div class="col-md-12">
                                   <div class="form-group">
-                                    <label for="fname" class="mb-2">Nombre(s): *</label>
-                                    <input type="text" class="form-control" id="fname" name="fname"
-                                          placeholder="" spellcheck="false" data-ms-editor="true"
-                                          :disabled="isDisabled" v-model="persona.nombre">
+                                    <label for="fechaNacimiento" class="mb-2">Fecha de Inicio: *</label>
+                                    <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" />
                                   </div>
                                 </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div v-if="persona">
-                                  <div class="form-group">
-                                    <label for="fname" class="mb-2">Apelldo Paterno: </label>
-                                    <input type="text" class="form-control" id="fname" name="fname"
-                                          placeholder="" spellcheck="false" data-ms-editor="true"
-                                          :disabled="isDisabled" v-model="persona.primer_apellido">
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div v-if="persona">
-                                  <div class="form-group">
-                                    <label for="fname" class="mb-2">Apellido Materno</label>
-                                    <input type="text" class="form-control" id="fname" name="fname"
-                                    placeholder="" spellcheck="false" data-ms-editor="true"
-                                    :disabled="isDisabled" v-model="persona.segundo_apellido">
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div v-if="personalData">
-                                  <div class="form-group">
-                                    <label for="fname" class="mb-2">Empleo</label>
-                                    <input type="text" class="form-control" id="fname" name="fname"
-                                          placeholder="" spellcheck="false" data-ms-editor="true"
-                                          :disabled="isDisabled" v-model="Puesto.nombre">
-                                  </div>
-                                </div>
-                              </div>
-                              
-                            </b-row>
-                          </div>
-                          <a href="#personal" class="btn btn-primary next action-button float-end" @click="changeTab(2)"
-                            value="Next">Next</a>
-                        </fieldset>
+
+                              </b-row>
+                            </div>
+                            <a href="#personal" class="btn btn-primary next action-button float-end" @click="extractFormData()"
+                              value="Next">Next</a>
+                          </fieldset>
+                        </form>
                       </div>
                       <div :class="`${currentindex == 2 ? 'show' : 'd-none'}`">
                         <form ref="FormHorario">
@@ -266,14 +274,16 @@ export default {
       persona: {},
       personalData: {},
       Puesto: {},
-  
-      
+     
+ 
 
       // 
       modalOpen: false,
       currentindex: 1,
       selectedDiasSemana: null,
-      selecteTurno: null,
+      selectedGenero: null,
+      selectedGrupoSanguineo: null,
+      selectedTipoSanguineo: null,
 
     optionsDias: [
     { value: 'Lunes a Domingo, excepto Lunes', text: 'Lunes a Domingo, excepto Lunes' },
@@ -285,18 +295,44 @@ export default {
     { value: 'Lunes a Sabado', text: 'Lunes a Sadodo' }
     ],
 
-    optionsTurnos: [
+    optionsGrupoSanguineo: [
     { 
-        value: 'Mañana', 
-        text: 'Mañana' 
+        value: 'A', 
+        text: 'A' 
     },
     { 
-        value: 'Tarde', 
-        text: 'Tarde' 
+        value: 'B', 
+        text: 'B' 
     },
     { 
-        value: 'Noche', 
-        text: 'Noche' 
+        value: 'AB', 
+        text: 'AB' 
+    },
+    { 
+        value: 'O', 
+        text: 'O' 
+    }
+],
+
+optionsGenero: [
+    { 
+        value: 'M', 
+        text: 'Masculino' 
+    },
+    { 
+        value: 'F', 
+        text: 'Femenino' 
+    }
+],
+
+optionsTipoSanguineo: [
+    { 
+        value: '+', 
+        text: 'Positivo' 
+    },
+    { 
+        value: '-', 
+        text: 'Negativo' 
     }
 ],
 
@@ -400,24 +436,36 @@ export default {
 
     extractFormData() {
   // Access form data using Vue's $refs
-  const form = this.$refs.FormHorario;
+  const form = this.$refs.FormPersona;
+
+
+
 
   // Create an object to hold form data
-  const puestoInformation = {
-    fecha_inicio: form.dob.value,
-    dias_semana: form.selectedDiasSemana.value,
-    turno: form.selecteTurno.value,
-    horario_entrada: form.exampleInputtime.value,
-    horario_salida: form.exampleInputtime.value,
-    personal: this.personalData.id,
+  const personaInformacion = {
+    nombre:  form.nombre.value,
+    primer_apellido: form.primerApellido.value,
+    segundo_apellido: form.segundoApellido.value,
+    curp: form.curp.value,
+    genero: form.selectedGenero.value,
+    grupo_sanguineo: form.selectedGrupoSanguineo.value,
+    tipo_sanguineo: form.selectedTipoSanguineo.value,
+    fecha_nacimiento: form.fechaNacimiento.value,
+    estatus: 1,
+    fecha_registro: this.getFormattedDateTime()
+    
   };
+  
 
-  console.log(puestoInformation);  // Log for debugging
+
+  console.log(personaInformacion); // This will log the updated object
+
+
 
   // Send HTTP POST request to the API
-  const apiUrl = 'http://127.0.0.1:8000/hospital/api/v1HorarioPersonal/';
+  const apiUrl = 'http://127.0.0.1:8000/hospital/api/v1Personas/';
 
-  axios.post(apiUrl, puestoInformation)
+  axios.post(apiUrl, personaInformacion)
     .then(response => {
       // Handle successful response (e.g., show success message)
       console.log("Datos enviados a la base:", response.data); // Log response data for debugging
@@ -429,6 +477,18 @@ export default {
     });
 },
 
+
+getFormattedDateTime() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Add leading zero for single-digit months
+  const day = String(now.getDate()).padStart(2, '0'); // Add leading zero for single-digit days
+  const hour = String(now.getHours()).padStart(2, '0'); // Add leading zero for single-digit hours
+  const minute = String(now.getMinutes()).padStart(2, '0'); // Add leading zero for single-digit minutes
+  const second = String(now.getSeconds()).padStart(2, '0'); // Add leading zero for single-digit seconds
+
+  return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
+},
 
     buscarPersona() {
   // Construct URL for person data based on CURP

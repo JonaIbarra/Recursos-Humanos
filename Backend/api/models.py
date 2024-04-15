@@ -289,14 +289,15 @@ class Personas(models.Model):
     grupo_sanguineo = models.CharField(db_column='Grupo_Sanguineo', max_length=2)  # Field name made lowercase.
     tipo_sanguineo = models.CharField(db_column='Tipo_Sanguineo', max_length=1)  # Field name made lowercase.
     fecha_nacimiento = models.DateField(db_column='Fecha_Nacimiento')  # Field name made lowercase.
-    estatus = models.TextField(db_column='Estatus')  # Field name made lowercase. This field type is a guess.
-    fecha_registro = models.DateTimeField(db_column='Fecha_Registro')  # Field name made lowercase.
+    estatus = models.BooleanField(db_column='Estatus', default=True)
+    fecha_registro = models.DateTimeField(db_column='Fecha_Registro', auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(db_column='Fecha_Actualizacion', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'personas'
         db_table_comment = 'La tabla persona guarda datos de toda aquella persona que tenga interaccion con el hpspital'
+
 
 
 class Puesto(models.Model):
