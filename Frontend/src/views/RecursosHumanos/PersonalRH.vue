@@ -463,76 +463,7 @@ getFormattedDateTime() {
   return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
 },
 
-    buscarPersona() {
-  // Construct URL for person data based on CURP
-  const personDataURL = `http://127.0.0.1:8000/hospital/api/v1Personas/${this.curp}/`;
 
-  // Fetch person data using Axios
-  axios.get(personDataURL)
-    .then(response => {
-      // Check if person data is found
-      if (response.data) {
-        // Store person data in 'persona' property
-        this.persona = response.data;
-
-        console.log('Person Data:', this.persona);
-
-        // Get person ID from the response
-        const personID = this.persona.id;
-
-        // Construct URL for personal data based on person ID
-        const personalDataURL = `http://127.0.0.1:8000/hospital/api/v1Personal/${personID}/`;
-        console.log('Personal Data URL:', personalDataURL); // Added for debugging
-
-        // Fetch personal data using Axios
-        axios.get(personalDataURL)
-          .then(response => {
-            if (response.data) {
-            // Store personal data in 'personalData' property (assuming you have this property)
-            this.personalData = response.data;
-
-            // Log person ID and first name from the person data
-            console.log('Personal Data:', this.personalData);
-
-
-            const id = this.personalData.puesto;
-            const PuestoDataURL = `http://127.0.0.1:8000/hospital/api/v1Puesto/${id}/`;
-
-            axios.get(PuestoDataURL)
-            .then(response => {
-
-              this.Puesto = response.data;
-
-              // Log person ID and first name from the person data
-              console.log('Personal Puesto:', this.Puesto);
-
-            })
-            
-            
-            // Use the person and personal data as needed in your application
-         }
-         else {
-        // Handle the case where person data is not found
-        console.warn('Persona no encontrada.');
-        this.personalData = null;
-        }
-        })
-          .catch(error => {
-            console.error('Error fetching personal data:', error);
-            this.personalData = null;
-          });
-      } else {
-        // Handle the case where person data is not found
-        console.warn('Persona no encontrada.');
-        this.persona = null;
-        this.personalData= " "
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching person data:', error);
-      this.persona = null;
-    });
-},
 
     
 

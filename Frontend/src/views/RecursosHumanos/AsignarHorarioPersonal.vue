@@ -34,10 +34,10 @@
                     </ul>
                   </b-col>
                   <b-col md="9">
-                    <b-form id="form-wizard3" class="text-center">
                       <!-- fieldsets -->
                       <div :class="`${currentindex == 1 ? 'show' : 'd-none'}`">
-                        <fieldset>
+                        <form ref="FormPersona">
+                          <fieldset>
                           <div class="form-card text-start">
                             <b-row>
                               <b-col>
@@ -117,7 +117,8 @@
                           </div>
                           <a href="#personal" class="btn btn-primary next action-button float-end" @click="changeTab(2)"
                             value="Next">Next</a>
-                        </fieldset>
+                        </fieldset>                          
+                        </form>
                       </div>
                       <div :class="`${currentindex == 2 ? 'show' : 'd-none'}`">
                         <form ref="FormHorario">
@@ -182,7 +183,7 @@
                         </fieldset>
                         </form>
                       </div>
-                    </b-form>
+                   
                   </b-col>
                 </b-row>
                 <template #footer>
@@ -422,6 +423,7 @@ export default {
       // Handle successful response (e.g., show success message)
       console.log("Datos enviados a la base:", response.data); // Log response data for debugging
       this.$refs.FormHorario.reset();
+      this.$refs.FormPersona.reset();
       this.modalOpen = false;
     })
     .catch(error => {
