@@ -192,6 +192,13 @@
                                 </b-col>
                                 <b-col md="6">
                                   <div class="form-group">
+                                      <label for="calle" class="mb-2">Calle:*</label>
+                                      <input type="text" class="form-control" id="calle" name="calle"
+                                            placeholder="" spellcheck="false" data-ms-editor="true">
+                                  </div>
+                                </b-col>
+                                <b-col md="6">
+                                  <div class="form-group">
                                       <label for="email" class="mb-2">Correo:*</label>
                                       <input type="text" class="form-control" id="email" name="email"
                                             placeholder="" spellcheck="false" data-ms-editor="true">
@@ -209,10 +216,21 @@
                                 <b-col md="6">
                                 <b-form-group>
                                   <label class="mb-2">Puesto: *</label>
-                                    <b-form-select id="selectedGrupoSanguineo" plain v-model="selectedPuesto" :options="optionsPuesto" size="sm"
+                                    <b-form-select id="selectedPuesto" plain v-model="selectedPuesto" :options="optionsPuesto" size="sm"
                                       class="mb-2">
                                       <template v-slot:first>
                                         <b-form-select-option :value="null">-- Seleccionar Puesto --</b-form-select-option>
+                                      </template>
+                                    </b-form-select>
+                                  </b-form-group>
+                                </b-col>
+                                <b-col md="6">
+                                <b-form-group>
+                                  <label class="mb-2">Estatus: *</label>
+                                    <b-form-select id="selectedEstatus" plain v-model="selectedEstatus" :options="optionsEstatus" size="sm"
+                                      class="mb-2">
+                                      <template v-slot:first>
+                                        <b-form-select-option :value="null">-- Seleccionar Estatus --</b-form-select-option>
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
@@ -311,12 +329,14 @@ export default {
       Domicilio: [],
       personalData: {},
       Puesto: {},
-     
+      newlyCreatedUserId: "",
+      datosDomicilio: "",
  
 
       // 
       modalOpen: false,
       currentindex: 1,
+      selectedEstatus: null,
       selectedDiasSemana: null,
       selectedPuesto: null,
       selectedGenero: null,
@@ -387,6 +407,15 @@ optionsPuesto: [
   { value: 6, text: "Farmacéutico" },
   { value: 7, text: "Asistente médico" },
   { value: 8, text: "Recepcionista" }
+],
+
+optionsEstatus: [
+    { 
+        value: '1', text: 'Activo' 
+    },
+    { 
+        value: '0', text: 'Inactivo' 
+    }
 ],
 
 
@@ -473,6 +502,9 @@ obtenerDomicilio(){
                 this.municipio = domicilio.response.municipio;
               }
 
+              this.datosDomicilio =  this.municipio+ ", " + this.estado + ", " + this.pais ;
+              
+
               this.optionsColonia = this.Domicilio.map(response => response.response.asentamiento);
               console.log("colonias", this.optionsColonia);
 
@@ -524,9 +556,9 @@ obtenerDomicilio(){
   axios.post(apiUrl, personaInformacion)
     .then(response => {
     
-      const newlyCreatedUserId = response.data.id; // Assuming "id" is the property name
+      this.newlyCreatedUserId = response.data.id; // Assuming "id" is the property name
       console.log("Datos enviados a la base:", response.data);
-      console.log("Newly created user ID:", newlyCreatedUserId);
+      console.log("Newly created user ID:", this.newlyCreatedUserId);
     })
     .catch(error => {
       // Handle API request errors (e.g., show error message)
@@ -550,41 +582,38 @@ getFormattedDateTime() {
 extractFormPersonal() {
 
 // Access form data using Vue's $refs
-const form = this.$refs.FormPersonal;
+const formulario = this.$refs.FormPersonal;
 
 
 
 
 // Create an object to hold form data
-const personaInformacion = {
-nombre:  form.nombre.value,
-primer_apellido: form.primerApellido.value,
-segundo_apellido: form.segundoApellido.value,
-curp: form.curp.value,
-genero: form.selectedGenero.value,
-grupo_sanguineo: form.selectedGrupoSanguineo.value,
-tipo_sanguineo: form.selectedTipoSanguineo.value,
-fecha_nacimiento: form.fechaNacimiento.value,
-estatus: 1,
-fecha_registro: this.getFormattedDateTime()
-
+const personalInformacion = {
+persona:  this.newlyCreatedUserId,
+direccion: formulario.calle.value + ","+ this.datosDomicilio,
+email: formulario.email.value,
+telefono: formulario.telefono.value,
+puesto: formulario.selectedPuesto.value,
+estatus: formulario.selectedEstatus.value
 };
 
 
 
-console.log(personaInformacion); // This will log the updated object
+console.log(personalInformacion); // This will log the updated object
 
 
 
 // Send HTTP POST request to the API
-const apiUrl = 'http://127.0.0.1:8000/hospital/api/v1Personas/';
+const apiUrl = 'http://127.0.0.1:8000/hospital/api/v1Personal/';
 
-axios.post(apiUrl, personaInformacion)
+axios.post(apiUrl, personalInformacion)
 .then(response => {
 
-const newlyCreatedUserId = response.data.id; // Assuming "id" is the property name
+  this.$refs.FormPersona.reset();
+      this.$refs.FormPersonal.reset();
+      this.modalOpen = false;
 console.log("Datos enviados a la base:", response.data);
-console.log("Newly created user ID:", newlyCreatedUserId);
+
 })
 .catch(error => {
 // Handle API request errors (e.g., show error message)
@@ -601,6 +630,7 @@ console.error('Error sending data:', error);
       let obj = this.default();
       this.rows.push(obj);
       this.modalOpen = true;
+      this.currentindex = 1;
     },
     default() {
       return {
