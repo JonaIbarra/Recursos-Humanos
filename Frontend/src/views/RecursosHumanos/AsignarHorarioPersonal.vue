@@ -433,7 +433,7 @@ export default {
 },
 
 
-    buscarPersona() {
+  buscarPersona() {
   // Construct URL for person data based on CURP
   const personDataURL = `http://127.0.0.1:8000/hospital/api/v1Personas/${this.curp}/`;
 
@@ -512,6 +512,7 @@ export default {
       let obj = this.default();
       this.rows.push(obj);
       this.modalOpen = true;
+      this.currentindex = 1;
     },
     default() {
       return {

@@ -9,7 +9,7 @@
           <template v-slot:body>
             <b-row>
               <div class="table-ad mb-3 me-2">
-                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">Asignar Personal</b-button>
+                <b-button variant="btn btn-sm iq-bg-success float-end" @click="obtenerDomicilio()">Asignar Personal</b-button>
               </div>
 
 
@@ -403,6 +403,28 @@ optionsTipoSanguineo: [
 
 
   methods: {
+
+
+obtenerDomicilio(){
+  const apiDomicilio = 'https://api.copomex.com/query/info_cp/73060?token=c8b0908c-0ce2-4e8e-87f6-4db734093caa'
+        axios.get(apiDomicilio)
+            .then(response => {
+
+              this.Domicilio = response.data;
+
+              // Log person ID and first name from the person data
+              console.log('Domiciolio:', this.Domicilio);
+
+            })
+     
+           .catch(error => {
+            console.error('Error fetching personal data:', error);
+            
+          });
+
+},
+
+
 
 
 
