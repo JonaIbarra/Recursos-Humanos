@@ -2,6 +2,6 @@
 ## PROYECTO INTEGRADOR RECURSOS HUMANOS
 ### INGENIERIA EN DESARROLLO Y GESTIÓN DE SOFTWARE 
 # "MEDUSA"
-### ![Logo de la empresa](documentation/LogoAzul.png)
+
 
 
