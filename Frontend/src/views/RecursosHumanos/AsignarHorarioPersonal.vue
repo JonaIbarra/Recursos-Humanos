@@ -9,39 +9,35 @@
           <template v-slot:body>
             <b-row>
               <div class="table-ad mb-3 me-2">
-                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">+ Add New</b-button>
+                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">Asignar Horario</b-button>
               </div>
 
-              <b-modal id="modal-4" size="lg" v-model="modalOpen" title="Modal title" ok-title="Save Changes"
-                cancel-title="Close">
+
+
+              <b-modal id="modal" size="lg" v-model="modalOpen" title="">
                 <b-row>
                   <b-col md="3">
                     <ul id="top-tabbar-vertical" class="p-0">
                       <li class="active" :class="`${currentindex == 1 ? 'active' : ''} ${currentindex > 1 ? 'done active' : ''
                   } `" id="personal">
                         <a href="#">
-                          <i class="ri-lock-unlock-line text-primary"></i><span>Personal</span>
+                          <i class="fa fa-id-card text-primary"></i><span>Personal</span>
                         </a>
                       </li>
-                      <li id="contact" :class="`${currentindex == 2 ? 'active' : ''} ${currentindex > 2 ? 'done active' : ''
+       
+                      <li id="official" :class="`${currentindex == 2 ? 'active' : ''} ${currentindex > 2 ? 'done active' : ''
                   }`">
                         <a href="#">
-                          <i class="ri-user-fill text-danger"></i><span>Contact</span>
-                        </a>
-                      </li>
-                      <li id="official" :class="`${currentindex == 3 ? 'active' : ''} ${currentindex > 3 ? 'done active' : ''
-                  }`">
-                        <a href="#">
-                          <i class="ri-camera-fill text-success"></i><span><br>Official</span>
+                          <i class="ri-calendar-event-fill text-success"></i><span><br>Asgignar Horario</span>
                         </a>
                       </li>
                     </ul>
                   </b-col>
                   <b-col md="9">
-                    <b-form id="form-wizard3" class="text-center">
                       <!-- fieldsets -->
                       <div :class="`${currentindex == 1 ? 'show' : 'd-none'}`">
-                        <fieldset>
+                        <form ref="FormPersona">
+                          <fieldset>
                           <div class="form-card text-start">
                             <b-row>
                               <b-col>
@@ -51,91 +47,82 @@
                             <b-row>
                               <div class="col-md-12">
                                 <div class="form-group">
-                                  <label for="fname" class="mb-2">Nombre(s): *</label>
-                                  <input type="text" class="form-control" id="fname" name="fname"
-                                    placeholder="First Name" spellcheck="false" data-ms-editor="true" />
+                                  <b-form-group label="CURP" label-for="curpInput">
+                                 <b-form-input id="curpInput" type="text"  v-model="curp" placeholder="Inserta el curp"></b-form-input>
+                                 </b-form-group>
                                 </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="lname" class="mb-2">Apellido paterno: *</label>
-                                  <input type="text" class="form-control" id="lname" name="lname"
-                                    placeholder="Last Name" spellcheck="false" data-ms-editor="true" />
+                                  <a href="#personal" class="btn btn-primary next action-button float-end" @click="buscarPersona"
+                                  value="Buscar">Buscar Por CURP</a>
+
+                                <div v-if="persona">
+                                  
                                 </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="lname" class="mb-2">Apellido materno: *</label>
-                                  <input type="text" class="form-control" id="lname" name="lname"
-                                    placeholder="Last Name" spellcheck="false" data-ms-editor="true" />
+                                <div v-else>
+                                  <h4 class="text-danger">Persona no encontrada</h4>
+                                  <p>No se encontró información para el CURP ingresado.</p>
                                 </div>
+
+                                <div v-if="personalData">
+                              
+                                </div>
+                                <div v-else>
+                                  <h4 class="text-danger">La persona no es un trabajador</h4>
+                                  <p>No se enc.</p>
+                                </div>
+
                               </div>
+                            
                               <div class="col-md-12">
-                                <div class="form-group">
-                                  <label class="my-2">Género: *</label>
-                                  <div class="form-check d-flex ps-0">
-                                    <div class="custom-control custom-radio custom-control-inline me-4">
-                                      <input type="radio" id="customRadio1" name="customRadio"
-                                        class="custom-control-input" />
-                                      <label class="custom-control-label" for="customRadio1">
-                                        Masculino</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                      <input type="radio" id="customRadio2" name="customRadio"
-                                        class="custom-control-input" />
-                                      <label class="custom-control-label" for="customRadio2">
-                                        Femenino</label>
-                                    </div>
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Nombre(s): *</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="persona.nombre">
                                   </div>
                                 </div>
                               </div>
                               <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="dob" class="mb-2">Fecha de Nacimiento: *</label>
-                                  <input type="date" class="form-control" id="dob" name="dob" />
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Apelldo Paterno: </label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="persona.primer_apellido">
+                                  </div>
                                 </div>
                               </div>
+                              <div class="col-md-12">
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Apellido Materno</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                    placeholder="" spellcheck="false" data-ms-editor="true"
+                                    :disabled="isDisabled" v-model="persona.segundo_apellido">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div v-if="personalData">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Empleo</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="Puesto.nombre">
+                                  </div>
+                                </div>
+                              </div>
+                              
                             </b-row>
                           </div>
                           <a href="#personal" class="btn btn-primary next action-button float-end" @click="changeTab(2)"
                             value="Next">Next</a>
-                        </fieldset>
+                        </fieldset>                          
+                        </form>
                       </div>
                       <div :class="`${currentindex == 2 ? 'show' : 'd-none'}`">
-                        <fieldset>
-                          <div class="form-card text-start">
-                            <b-row>
-                              <b-col>
-                                <h3 class="mb-4">Informacion del contacto:</h3>
-                              </b-col>
-                            </b-row>
-                            <b-row>
-                              <b-col md="12">
-                                <b-form-group label=" Correo Electronico : *">
-                                  <!-- <label for="email">Email Id: *</label> -->
-                                  <b-form-input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Correo Electronico" />
-                                </b-form-group>
-                              </b-col>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="ccno">Numero de Contacto: *</label>
-                                  <input type="text" class="form-control" id="ccno" name="ccno"
-                                    placeholder="Ingresa tu numero de contacto" spellcheck="false"
-                                    data-ms-editor="true" />
-                                </div>
-                              </div>
-                            </b-row>
-                          </div>
-                          <a href="#payment" @click="changeTab(3)" class="btn btn-primary next action-button float-end"
-                            value="Next">Next</a>
-                          <a href="#account" @click="changeTab(1)"
-                            class="btn btn-dark previous action-button-previous float-end me-1"
-                            value="Previous">Previous</a>
-                        </fieldset>
-                      </div>
-                      <div :class="`${currentindex == 3 ? 'show' : 'd-none'}`">
-                        <fieldset>
+                        <form ref="FormHorario">
+                          <fieldset>
                           <div class="form-card text-start">
                             <div class="row">
                               <div class="col-12">
@@ -144,68 +131,63 @@
                             </div>
                             <div class="row">
                               <div class="col-md-12">
-                                <b-form-group>
-                                  <label for="accname">Seleccione el Puesto: *</label>
-                                  <b-form-select plain v-model="selectedPuesto" :options="optionsPuesto" size="sm"
-                                    class="mb-3">
-                                    <template v-slot:first>
-                                      <b-form-select-option :value="null">-- Seleccionar Puesto --</b-form-select-option>
-                                    </template>
-                                  </b-form-select>
-                                </b-form-group>
-                              </div>
-
-
-                              <div class="col-md-12">
-                                <b-form-group>
-                                  <label for="accname">Seleccione el Horario: *</label>
-                                  <b-form-select plain v-model="selectedHorario" :options="optionsHorario" size="sm"
-                                    class="mb-3">
-                                    <template v-slot:first>
-                                      <b-form-select-option :value="null">-- Seleccionar Horario --</b-form-select-option>
-                                    </template>
-                                  </b-form-select>
-                                </b-form-group>
-                              </div>
-                              <div class="col-md-12">
                                 <div class="form-group">
-                                  <label class="my-2">Estatus: *</label>
-                                  <div class="form-check d-flex ps-0">
-                                    <div class="custom-control custom-radio custom-control-inline me-4">
-                                      <input type="radio" id="customRadio3" name="customRadio2"
-                                        class="custom-control-input" />
-                                      <label class="custom-control-label" for="customRadio3">
-                                        Activo</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                      <input type="radio" id="customRadio4" name="customRadio2"
-                                        class="custom-control-input" />
-                                      <label class="custom-control-label" for="customRadio4">
-                                        Inactivo</label>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="dob" class="mb-2">Selciona la fecha de Inicio: *</label>
+                                  <label for="dob" class="mb-2">Fecha de Inicio: *</label>
                                   <input type="date" class="form-control" id="dob" name="dob" />
                                 </div>
                               </div>
+                              <div class="col-md-12">
+                                <b-form-group>
+                                  <label class="mb-2">Dias de la semana: *</label>
+                                  <b-form-select  id="selectedDiasSemana" plain v-model="selectedDiasSemana" :options="optionsDias" size="sm"
+                                    class="mb-2">
+                                    <template v-slot:first>
+                                      <b-form-select-option :value="null">-- Seleccionar Dias --</b-form-select-option>
+                                    </template>
+                                  </b-form-select>
+                                </b-form-group>
+                              </div>
+                              <div class="col-md-12">
+                                <b-form-group >
+                                  <label class="mb-2">Dias de la semana: *</label>
+                                  <b-form-select id="selecteTurno" plain v-model="selecteTurno" :options="optionsTurnos" size="sm"
+                                    class="mb-2">
+                                    <template v-slot:first>
+                                      <b-form-select-option :value="null">-- Seleccionar Turno --</b-form-select-option>
+                                    </template>
+                                  </b-form-select>
+                                </b-form-group>
+                              </div>                          
+                            </div>
+                            <div class="col-md-12">
+                            <b-form-group label="Horario de Entrada" label-for="exampleInputtime">
+                              <b-form-input id="exampleInputtime" type="time" value="13:45"></b-form-input>
+                             </b-form-group>
+                            </div>
+                            <div class="col-md-12">
+                            <b-form-group label="Horario de Salida" label-for="exampleInputtime">
+                              <b-form-input id="exampleInputtime2" type="time" value="13:45"></b-form-input>
+                             </b-form-group>
                             </div>
                           </div>
-                          <a href="#payment" @click="changeTab(1)" class="btn btn-primary next action-button float-end"
-                            value="Next">Guardar</a>
 
-                          <a href="#account" @click="changeTab(2)"
+                            <a href="#payment" id="saveButton" class="btn btn-primary next action-button float-end"
+                             value="Guardar" @click="extractFormData()">Guardar (Save)</a>
+
+                             <!-- <button type="button" id="saveButton" class="btn btn-primary next action-button float-end">Guardar (Save)</button> -->
+
+
+                          <a href="#account" @click="changeTab(1)"
                             class="btn btn-dark previous action-button-previous float-end me-1"
                             value="Previous">Previous</a>
                         </fieldset>
+                        </form>
                       </div>
-                      <div :class="`${currentindex == 4 ? 'show' : 'd-none'}`"></div>
-                    </b-form>
+                   
                   </b-col>
                 </b-row>
+                <template #footer>
+                </template>
               </b-modal>
 
               <b-col md="12" class="table-responsive w-100">
@@ -261,48 +243,64 @@
 </template>
 
 <script>
+
+import axios from 'axios';
 import { xray } from "../../config/pluginInit";
 import iqCard from "../../components/xray/cards/iq-card";
+
+
+
+
+
+
+
 
 export default {
   name: "CombinedComponent",
   components: { iqCard },
   data() {
     return {
+
+      isDisabled:true,
+      // 
+      curp: "",
+      persona: {},
+      personalData: {},
+      Puesto: {},
+  
+      
+
+      // 
       modalOpen: false,
       currentindex: 1,
-      selectedPuesto: null,
-      selectedHorario: null,   
-      optionsPuesto: [
-  { value: null, text: 'Por favor selecciona una opción' },
-  { value: 'Encargado de Mantenimiento', text: 'Encargado de Mantenimiento' },
-  { value: 'Recepcionista', text: 'Recepcionista' },
-  { value: 'Auxiliar Administrativo', text: 'Auxiliar Administrativo' },
-  { value: 'Técnico de Rayos X', text: 'Técnico de Rayos X' },
-  { value: 'Técnico de Laboratorio', text: 'Técnico de Laboratorio' },
-  { value: 'Enfermero/a', text: 'Enfermero/a' },
-  { value: 'Médico Residente', text: 'Médico Residente' },
-  { value: 'Médico de Guardia', text: 'Médico de Guardia' },
-  { value: 'Especialista en Neurología', text: 'Especialista en Neurología' },
-  { value: 'Especialista en Cardiología', text: 'Especialista en Cardiología' },
-  { value: 'Especialista en Oncología', text: 'Especialista en Oncología' },
-  { value: 'Especialista en Gastroenterología', text: 'Especialista en Gastroenterología' },
-  { value: 'Especialista en Pediatría', text: 'Especialista en Pediatría' },
-  { value: 'Especialista en Ginecología', text: 'Especialista en Ginecología' },
-  { value: 'Especialista en Cirugía General', text: 'Especialista en Cirugía General' }
+      selectedDiasSemana: null,
+      selecteTurno: null,
+
+    optionsDias: [
+    { value: 'Lunes a Domingo, excepto Lunes', text: 'Lunes a Domingo, excepto Lunes' },
+    { value: 'Lunes a Domingo, excepto Martes', text: 'Lunes a Domingo, excepto Martes' },
+    { value: 'Lunes a Domingo, excepto Miércoles', text: 'Lunes a Domingo, excepto Miércoles' },
+    { value: 'Lunes a Domingo, excepto Jueves', text: 'Lunes a Domingo, excepto Jueves' },
+    { value: 'Lunes a Domingo, excepto Viernes', text: 'Lunes a Domingo, excepto Viernes' },
+    { value: 'Lunes a Domingo, excepto Sábado', text: 'Lunes a Domingo, excepto Sábado' },
+    { value: 'Lunes a Sabado', text: 'Lunes a Sadodo' }
+    ],
+
+    optionsTurnos: [
+    { 
+        value: 'Mañana', 
+        text: 'Mañana' 
+    },
+    { 
+        value: 'Tarde', 
+        text: 'Tarde' 
+    },
+    { 
+        value: 'Noche', 
+        text: 'Noche' 
+    }
 ],
-optionsHorario: [
-    { value: 'Horario Matutino', text: 'Horario Matutino' },
-    { value: 'Horario Vespertino', text: 'Horario Vespertino' },
-    { value: 'Horario Nocturno', text: 'Horario Nocturno' },
-    { value: 'Horario de Fin de Semana', text: 'Horario de Fin de Semana' },
-    { value: 'Horario Rotativo A', text: 'Horario Rotativo A' },
-    { value: 'Horario Rotativo B', text: 'Horario Rotativo B' },
-    { value: 'Horario Flexible', text: 'Horario Flexible' },
-    { value: 'Horario de Turnos Cortos', text: 'Horario de Turnos Cortos' },
-    { value: 'Horario de Turnos Largos', text: 'Horario de Turnos Largos' },
-    { value: 'Horario de Guardia Diurna', text: 'Horario de Guardia Diurna' }
-],
+
 
 
       columns: [
@@ -367,11 +365,154 @@ optionsHorario: [
   mounted() {
     xray.index();
   },
+
+
   methods: {
+
+    // 
+    // buscarPersona() {
+    //   const url = `http://127.0.0.1:8000/hospital/api/v1Personas/${this.curp}/`;
+
+    //   axios.get(url)
+    //     .then(response => {
+    //       this.persona = response.data;
+          
+    //       console.log(this.persona.id);
+    //       console.log(this.persona.primer_apellido);
+
+
+    //     //Guardo los datos que llegan de la api para usarlos despues 
+   
+
+
+    //     })
+    //     .catch(error => {
+    //       console.error(error);
+    //       this.persona = null;
+    //     });
+    // },
+
+
+
+
+
+    
+
+
+    extractFormData() {
+  // Access form data using Vue's $refs
+  const form = this.$refs.FormHorario;
+
+  // Create an object to hold form data
+  const puestoInformation = {
+    fecha_inicio: form.dob.value,
+    dias_semana: form.selectedDiasSemana.value,
+    turno: form.selecteTurno.value,
+    horario_entrada: form.exampleInputtime.value,
+    horario_salida: form.exampleInputtime.value,
+    personal: this.personalData.id,
+  };
+
+  console.log(puestoInformation);  // Log for debugging
+
+  // Send HTTP POST request to the API
+  const apiUrl = 'http://127.0.0.1:8000/hospital/api/v1HorarioPersonal/';
+
+  axios.post(apiUrl, puestoInformation)
+    .then(response => {
+      // Handle successful response (e.g., show success message)
+      console.log("Datos enviados a la base:", response.data); // Log response data for debugging
+      this.$refs.FormHorario.reset();
+      this.$refs.FormPersona.reset();
+      this.modalOpen = false;
+    })
+    .catch(error => {
+      // Handle API request errors (e.g., show error message)
+      console.error('Error sending data:', error);
+    });
+},
+
+
+  buscarPersona() {
+  // Construct URL for person data based on CURP
+  const personDataURL = `http://127.0.0.1:8000/hospital/api/v1Personas/${this.curp}/`;
+
+  // Fetch person data using Axios
+  axios.get(personDataURL)
+    .then(response => {
+      // Check if person data is found
+      if (response.data) {
+        // Store person data in 'persona' property
+        this.persona = response.data;
+
+        console.log('Person Data:', this.persona);
+
+        // Get person ID from the response
+        const personID = this.persona.id;
+
+        // Construct URL for personal data based on person ID
+        const personalDataURL = `http://127.0.0.1:8000/hospital/api/v1Personal/${personID}/`;
+        console.log('Personal Data URL:', personalDataURL); // Added for debugging
+
+        // Fetch personal data using Axios
+        axios.get(personalDataURL)
+          .then(response => {
+            if (response.data) {
+            // Store personal data in 'personalData' property (assuming you have this property)
+            this.personalData = response.data;
+
+            // Log person ID and first name from the person data
+            console.log('Personal Data:', this.personalData);
+
+
+            const id = this.personalData.puesto;
+            const PuestoDataURL = `http://127.0.0.1:8000/hospital/api/v1Puesto/${id}/`;
+
+            axios.get(PuestoDataURL)
+            .then(response => {
+
+              this.Puesto = response.data;
+
+              // Log person ID and first name from the person data
+              console.log('Personal Puesto:', this.Puesto);
+
+            })
+            
+            
+            // Use the person and personal data as needed in your application
+         }
+         else {
+        // Handle the case where person data is not found
+        console.warn('Persona no encontrada.');
+        this.personalData = null;
+        }
+        })
+          .catch(error => {
+            console.error('Error fetching personal data:', error);
+            this.personalData = null;
+          });
+      } else {
+        // Handle the case where person data is not found
+        console.warn('Persona no encontrada.');
+        this.persona = null;
+        this.personalData= " "
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching person data:', error);
+      this.persona = null;
+    });
+},
+
+    
+
+
+    // 
     add() {
       let obj = this.default();
       this.rows.push(obj);
       this.modalOpen = true;
+      this.currentindex = 1;
     },
     default() {
       return {
@@ -399,5 +540,8 @@ optionsHorario: [
       this.currentindex = val;
     },
   },
+
+
 };
 </script>
+
