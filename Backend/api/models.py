@@ -256,6 +256,7 @@ class Personal(models.Model):
     telefono = models.CharField(db_column='Telefono', max_length=15, blank=True, null=True)  # Field name made lowercase.
     puesto = models.ForeignKey('Puesto', models.DO_NOTHING, db_column='Puesto_ID', blank=True, null=True)  # Field name made lowercase.
     estatus = models.CharField(db_column='Estatus', max_length=8)  # Field name made lowercase.
+    email = models.CharField(db_column='Email', max_length=100, blank=True, null=True) 
 
     class Meta:
         managed = False

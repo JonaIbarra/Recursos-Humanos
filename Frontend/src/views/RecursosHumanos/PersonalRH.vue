@@ -9,7 +9,7 @@
           <template v-slot:body>
             <b-row>
               <div class="table-ad mb-3 me-2">
-                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">Asignar Personal</b-button>
+                <b-button variant="btn btn-sm iq-bg-success float-end" @click="obtenerDomicilio()">Asignar Personal</b-button>
               </div>
 
 
@@ -128,66 +128,88 @@
                         </form>
                       </div>
                       <div :class="`${currentindex == 2 ? 'show' : 'd-none'}`">
-                        <form ref="FormHorario">
+                        <form ref="FormPersonal">
                           <fieldset>
                           <div class="form-card text-start">
-                            <div class="row">
-                              <div class="col-12">
-                                <h3 class="mb-4">Información del Puesto:</h3>
-                              </div>
-                            </div>
-                            <div class="row">
+                            <b-row>
+                              <b-col>
+                                <h3 class="mb-4">Datos Laborales</h3>
+                              </b-col>
+                            </b-row>
+                            <b-row>
                               <div class="col-md-12">
                                 <div class="form-group">
-                                  <label for="dob" class="mb-2">Fecha de Inicio: *</label>
-                                  <input type="date" class="form-control" id="dob" name="dob" />
+                                  <b-form-group label="CURP" label-for="curpInput">
+                                 <b-form-input id="curpInput" type="text"  v-model="curp" placeholder="Inserta el curp"></b-form-input>
+                                 </b-form-group>
+                                </div>
+                                  <a href="#personal" class="btn btn-primary next action-button float-end" @click="buscarPersona"
+                                  value="Buscar">Buscar Por CURP</a>
+
+                                <div v-if="persona">
+                                  
+                                </div>
+                                <div v-else>
+                                  <h4 class="text-danger">Persona no encontrada</h4>
+                                  <p>No se encontró información para el CURP ingresado.</p>
+                                </div>
+
+                                <div v-if="personalData">
+                              
+                                </div>
+                                <div v-else>
+                                  <h4 class="text-danger">La persona no es un trabajador</h4>
+                                  <p>No se enc.</p>
+                                </div>
+
+                              </div>
+                            
+                              <div class="col-md-12">
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Nombre(s): *</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="persona.nombre">
+                                  </div>
                                 </div>
                               </div>
                               <div class="col-md-12">
-                                <b-form-group>
-                                  <label class="mb-2">Dias de la semana: *</label>
-                                  <b-form-select  id="selectedDiasSemana" plain v-model="selectedDiasSemana" :options="optionsDias" size="sm"
-                                    class="mb-2">
-                                    <template v-slot:first>
-                                      <b-form-select-option :value="null">-- Seleccionar Dias --</b-form-select-option>
-                                    </template>
-                                  </b-form-select>
-                                </b-form-group>
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Apelldo Paterno: </label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="persona.primer_apellido">
+                                  </div>
+                                </div>
                               </div>
                               <div class="col-md-12">
-                                <b-form-group >
-                                  <label class="mb-2">Dias de la semana: *</label>
-                                  <b-form-select id="selecteTurno" plain v-model="selecteTurno" :options="optionsTurnos" size="sm"
-                                    class="mb-2">
-                                    <template v-slot:first>
-                                      <b-form-select-option :value="null">-- Seleccionar Turno --</b-form-select-option>
-                                    </template>
-                                  </b-form-select>
-                                </b-form-group>
-                              </div>                          
-                            </div>
-                            <div class="col-md-12">
-                            <b-form-group label="Horario de Entrada" label-for="exampleInputtime">
-                              <b-form-input id="exampleInputtime" type="time" value="13:45"></b-form-input>
-                             </b-form-group>
-                            </div>
-                            <div class="col-md-12">
-                            <b-form-group label="Horario de Salida" label-for="exampleInputtime">
-                              <b-form-input id="exampleInputtime2" type="time" value="13:45"></b-form-input>
-                             </b-form-group>
-                            </div>
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Apellido Materno</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                    placeholder="" spellcheck="false" data-ms-editor="true"
+                                    :disabled="isDisabled" v-model="persona.segundo_apellido">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div v-if="personalData">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Empleo</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="Puesto.nombre">
+                                  </div>
+                                </div>
+                              </div>
+                              
+                            </b-row>
                           </div>
-
-                            <a href="#payment" id="saveButton" class="btn btn-primary next action-button float-end"
-                             value="Guardar" @click="extractFormData()">Guardar (Save)</a>
-
-                             <!-- <button type="button" id="saveButton" class="btn btn-primary next action-button float-end">Guardar (Save)</button> -->
-
-
-                          <a href="#account" @click="changeTab(1)"
-                            class="btn btn-dark previous action-button-previous float-end me-1"
-                            value="Previous">Previous</a>
-                        </fieldset>
+                          <a href="#personal" class="btn btn-primary next action-button float-end" @click="changeTab(2)"
+                            value="Next">Next</a>
+                        </fieldset>                          
                         </form>
                       </div>
                     </b-form>
@@ -405,6 +427,29 @@ optionsTipoSanguineo: [
   methods: {
 
 
+obtenerDomicilio(){
+  const apiDomicilio = 'https://api.copomex.com/query/info_cp/73060?token=c8b0908c-0ce2-4e8e-87f6-4db734093caa'
+        axios.get(apiDomicilio)
+            .then(response => {
+
+              this.Domicilio = response.data;
+
+              // Log person ID and first name from the person data
+              console.log('Domiciolio:', this.Domicilio);
+              const settlementNames = this.Domicilio.map(response => response.response.asentamiento);
+              console.log(settlementNames);
+
+            })
+     
+           .catch(error => {
+            console.error('Error fetching personal data:', error);
+            
+          });
+
+},
+
+
+
 
     extractFormData() {
   // Access form data using Vue's $refs
@@ -463,76 +508,7 @@ getFormattedDateTime() {
   return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
 },
 
-    buscarPersona() {
-  // Construct URL for person data based on CURP
-  const personDataURL = `http://127.0.0.1:8000/hospital/api/v1Personas/${this.curp}/`;
 
-  // Fetch person data using Axios
-  axios.get(personDataURL)
-    .then(response => {
-      // Check if person data is found
-      if (response.data) {
-        // Store person data in 'persona' property
-        this.persona = response.data;
-
-        console.log('Person Data:', this.persona);
-
-        // Get person ID from the response
-        const personID = this.persona.id;
-
-        // Construct URL for personal data based on person ID
-        const personalDataURL = `http://127.0.0.1:8000/hospital/api/v1Personal/${personID}/`;
-        console.log('Personal Data URL:', personalDataURL); // Added for debugging
-
-        // Fetch personal data using Axios
-        axios.get(personalDataURL)
-          .then(response => {
-            if (response.data) {
-            // Store personal data in 'personalData' property (assuming you have this property)
-            this.personalData = response.data;
-
-            // Log person ID and first name from the person data
-            console.log('Personal Data:', this.personalData);
-
-
-            const id = this.personalData.puesto;
-            const PuestoDataURL = `http://127.0.0.1:8000/hospital/api/v1Puesto/${id}/`;
-
-            axios.get(PuestoDataURL)
-            .then(response => {
-
-              this.Puesto = response.data;
-
-              // Log person ID and first name from the person data
-              console.log('Personal Puesto:', this.Puesto);
-
-            })
-            
-            
-            // Use the person and personal data as needed in your application
-         }
-         else {
-        // Handle the case where person data is not found
-        console.warn('Persona no encontrada.');
-        this.personalData = null;
-        }
-        })
-          .catch(error => {
-            console.error('Error fetching personal data:', error);
-            this.personalData = null;
-          });
-      } else {
-        // Handle the case where person data is not found
-        console.warn('Persona no encontrada.');
-        this.persona = null;
-        this.personalData= " "
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching person data:', error);
-      this.persona = null;
-    });
-},
 
     
 
