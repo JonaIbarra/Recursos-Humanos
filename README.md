@@ -2,7 +2,6 @@
 ## PROYECTO INTEGRADOR RECURSOS HUMANOS
 ### INGENIERIA EN DESARROLLO Y GESTIÓN DE SOFTWARE 
 # "EQUIPO MEDUSA"
-# "EQUIPO MEDUSA"
 
 | Nombre y Apellido       | Cargo                      |
 | ----------------------- | -------------------------- |
