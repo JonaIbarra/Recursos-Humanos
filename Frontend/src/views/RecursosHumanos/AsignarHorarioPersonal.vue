@@ -421,6 +421,7 @@ export default {
     .then(response => {
       // Handle successful response (e.g., show success message)
       console.log("Datos enviados a la base:", response.data); // Log response data for debugging
+      this.$refs.FormHorario.reset();
       this.modalOpen = false;
     })
     .catch(error => {
@@ -504,7 +505,6 @@ export default {
     
 
 
-  
     // 
     add() {
       let obj = this.default();

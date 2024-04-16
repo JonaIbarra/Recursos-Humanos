@@ -404,34 +404,6 @@ optionsTipoSanguineo: [
 
   methods: {
 
-    // 
-    // buscarPersona() {
-    //   const url = `http://127.0.0.1:8000/hospital/api/v1Personas/${this.curp}/`;
-
-    //   axios.get(url)
-    //     .then(response => {
-    //       this.persona = response.data;
-          
-    //       console.log(this.persona.id);
-    //       console.log(this.persona.primer_apellido);
-
-
-    //     //Guardo los datos que llegan de la api para usarlos despues 
-   
-
-
-    //     })
-    //     .catch(error => {
-    //       console.error(error);
-    //       this.persona = null;
-    //     });
-    // },
-
-
-
-
-
-    
 
 
     extractFormData() {
@@ -467,9 +439,10 @@ optionsTipoSanguineo: [
 
   axios.post(apiUrl, personaInformacion)
     .then(response => {
-      // Handle successful response (e.g., show success message)
-      console.log("Datos enviados a la base:", response.data); // Log response data for debugging
-      this.modalOpen = false;
+    
+      const newlyCreatedUserId = response.data.id; // Assuming "id" is the property name
+      console.log("Datos enviados a la base:", response.data);
+      console.log("Newly created user ID:", newlyCreatedUserId);
     })
     .catch(error => {
       // Handle API request errors (e.g., show error message)
