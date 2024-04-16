@@ -8,7 +8,7 @@
 | ----------------------- | -------------------------- |
 | América Yaely Estudillo Licona | Documentador        |
 | Jesús Ríos Gómez        | Líder, Fronted                      |
-| Jonathan Enrique        | Administrador de Base de Datos |
+| Jonathan Enrique Ibarra Canales        | Administrador de Base de Datos |
 
 
 
