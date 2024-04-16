@@ -119,107 +119,20 @@
                             <a href="#personal" class="btn btn-primary next action-button float-end" @click="extractFormData()"
                               value="Next">Next</a>
                          </fieldset>
-                  
-                            <div class="form-card text-start">
-                              <b-row>
-                                <b-col>
-                                  <h3 class="mb-4">Agregar Personal</h3>
-                                </b-col>
-                              </b-row>
-                              <b-row>
-                              
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                      <label for="nombre" class="mb-2">Nombre(s): *</label>
-                                      <input type="text" class="form-control" id="nombre" name="nombre"
-                                            placeholder="" spellcheck="false" data-ms-editor="true">
-                                  </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                      <label for="primerApellido" class="mb-2">Primer Paterno: *</label>
-                                      <input type="text" class="form-control" id="primerApellido" name="primerApellido"
-                                            placeholder="" spellcheck="false" data-ms-editor="true">
-                                  </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                      <label for="segundoApellido" class="mb-2">Apellido Materno(s): *</label>
-                                      <input type="text" class="form-control" id="segundoApellido" name="segundoApellido"
-                                            placeholder="" spellcheck="false" data-ms-editor="true">
-                                  </div>
-                                </div>                            
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                      <label for="curp" class="mb-2">CURP*</label>
-                                      <input type="text" class="form-control" id="curp" name="curp"
-                                            placeholder="" spellcheck="false" data-ms-editor="true">
-                                  </div>
-                                </div>
-
-                                <div class="col-md-12">
-                                  <b-form-group >
-                                    <label class="mb-2">Género: *</label>
-                                    <b-form-select id="selectedGenero" plain v-model="selectedGenero" :options="optionsGenero" size="sm"
-                                      class="mb-2">
-                                      <template v-slot:first>
-                                        <b-form-select-option :value="null">-- Seleccionar Género --</b-form-select-option>
-                                      </template>
-                                    </b-form-select>
-                                  </b-form-group>
-                                </div>                             
- 
- 
-
-
-                                <div class="col-md-12">
-                                  <b-form-group >
-                                    <label class="mb-2">Grupo Sanguineo: *</label>
-                                    <b-form-select id="selectedGrupoSanguineo" plain v-model="selectedGrupoSanguineo" :options="optionsGrupoSanguineo" size="sm"
-                                      class="mb-2">
-                                      <template v-slot:first>
-                                        <b-form-select-option :value="null">-- Seleccionar Grupo Sanguineo --</b-form-select-option>
-                                      </template>
-                                    </b-form-select>
-                                  </b-form-group>
-                                </div>  
-                                <div class="col-md-12">
-                                  <b-form-group >
-                                    <label class="mb-2">Tipo Sanguineo: *</label>
-                                    <b-form-select id="selectedTipoSanguineo" plain v-model="selectedTipoSanguineo" :options="optionsTipoSanguineo" size="sm"
-                                      class="mb-2">
-                                      <template v-slot:first>
-                                        <b-form-select-option :value="null">-- Seleccionar Tipo Sanguineo --</b-form-select-option>
-                                      </template>
-                                    </b-form-select>
-                                  </b-form-group>
-                                </div> 
-                                <div class="col-md-12">
-                                  <div class="form-group">
-                                    <label for="fechaNacimiento" class="mb-2">Fecha de Inicio: *</label>
-                                    <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" />
-                                  </div>
-                                </div>
-
-                              </b-row>
-                            </div>
-                            <a href="#personal" class="btn btn-primary next action-button float-end" @click="extractFormData()"
-                              value="Next">Next</a>
-                          </fieldset> -->
                         </form>
                       </div>
                       <div :class="`${currentindex == 2 ? 'show' : 'd-none'}`">
                         <form ref="FormPersonal">
                           <fieldset>
-                          <div class="form-card text-start">
-                            <b-row>
-                              <b-col>
-                                <h3 class="mb-4">Datos Laborales</h3>
-                              </b-col>
-                            </b-row>
-                            <b-row>
-                              <div class="col-md-12">
-                                <div class="form-group">
+                            <div class="form-card text-start">
+                              <b-row>
+                                <div class="col-7">
+                                  <h3 class="mb-4">User Information:</h3>
+                                </div>
+                              </b-row>
+                              <b-row>
+                                <b-col md="6">
+                                  <div class="form-group">
                                   <b-form-group label="Ingresa codigo Postal" label-for="buscarCP">
                                  <b-form-input id="buscarCP" type="text"  v-model="codigoPostal" placeholder="Inserta CodigoPostal"></b-form-input>
                                  </b-form-group>
@@ -234,10 +147,9 @@
                                   <h4 class="text-danger">Codigo Postal no existe</h4>
                                   <p>No se encontró información del Codigo Postal ingresado.</p>
                                 </div>
-                              </div>
-                            
-                              <div class="col-md-12">
-                                <div v-if="pais">
+                                </b-col>
+                                <b-col md="6">
+                                  <div v-if="pais">
                                   <div class="form-group">
                                     <label for="fname" class="mb-2">Pais</label>
                                     <input type="text" class="form-control" id="fname" name="fname"
@@ -245,9 +157,9 @@
                                           :disabled="isDisabled" v-model="pais">
                                   </div>
                                 </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div v-if="estado">
+                                </b-col>
+                                <b-col md="6">
+                                  <div v-if="estado">
                                   <div class="form-group">
                                     <label for="fname" class="mb-2">Estado: </label>
                                     <input type="text" class="form-control" id="fname" name="fname"
@@ -255,9 +167,10 @@
                                           :disabled="isDisabled" v-model="estado">
                                   </div>
                                 </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div v-if="municipio">
+                                </b-col>
+
+                                <b-col md="6">
+                                  <div v-if="municipio">
                                   <div class="form-group">
                                     <label for="fname" class="mb-2">Municipio</label>
                                     <input type="text" class="form-control" id="fname" name="fname"
@@ -265,8 +178,8 @@
                                     :disabled="isDisabled" v-model="municipio">
                                   </div>
                                 </div>
-                              </div>
-                              <div class="col-md-12">
+                                </b-col>
+                                <b-col md="6">
                                   <b-form-group >
                                     <label class="mb-2">Colonia: *</label>
                                     <b-form-select id="selectedGrupoSanguineo" plain v-model="selectedColonia" :options="optionsColonia" size="sm"
@@ -276,13 +189,22 @@
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
-                                </div>  
-
-                            </b-row>
-                          </div>
-                          <a href="#personal" class="btn btn-primary next action-button float-end" @click="changeTab(2)"
-                            value="Next">Next</a>
-                        </fieldset>                          
+                                </b-col>
+                                <b-col md="6">
+                    
+                                </b-col>
+                                <b-col md="6">
+                         
+                                </b-col>
+                                <b-col md="6">
+                             
+                                </b-col>
+                              </b-row>
+                            </div>
+                            <a href="#personal" class="btn btn-primary next action-button float-end" @click="extractFormData()"
+                              value="Next">Next</a>
+                         </fieldset>
+                          
                         </form>
                       </div>
                     </b-form>
