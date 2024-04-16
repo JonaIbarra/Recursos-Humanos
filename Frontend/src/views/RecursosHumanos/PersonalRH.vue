@@ -128,66 +128,88 @@
                         </form>
                       </div>
                       <div :class="`${currentindex == 2 ? 'show' : 'd-none'}`">
-                        <form ref="FormHorario">
+                        <form ref="FormPersonal">
                           <fieldset>
                           <div class="form-card text-start">
-                            <div class="row">
-                              <div class="col-12">
-                                <h3 class="mb-4">Información del Puesto:</h3>
-                              </div>
-                            </div>
-                            <div class="row">
+                            <b-row>
+                              <b-col>
+                                <h3 class="mb-4">Datos Laborales</h3>
+                              </b-col>
+                            </b-row>
+                            <b-row>
                               <div class="col-md-12">
                                 <div class="form-group">
-                                  <label for="dob" class="mb-2">Fecha de Inicio: *</label>
-                                  <input type="date" class="form-control" id="dob" name="dob" />
+                                  <b-form-group label="CURP" label-for="curpInput">
+                                 <b-form-input id="curpInput" type="text"  v-model="curp" placeholder="Inserta el curp"></b-form-input>
+                                 </b-form-group>
+                                </div>
+                                  <a href="#personal" class="btn btn-primary next action-button float-end" @click="buscarPersona"
+                                  value="Buscar">Buscar Por CURP</a>
+
+                                <div v-if="persona">
+                                  
+                                </div>
+                                <div v-else>
+                                  <h4 class="text-danger">Persona no encontrada</h4>
+                                  <p>No se encontró información para el CURP ingresado.</p>
+                                </div>
+
+                                <div v-if="personalData">
+                              
+                                </div>
+                                <div v-else>
+                                  <h4 class="text-danger">La persona no es un trabajador</h4>
+                                  <p>No se enc.</p>
+                                </div>
+
+                              </div>
+                            
+                              <div class="col-md-12">
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Nombre(s): *</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="persona.nombre">
+                                  </div>
                                 </div>
                               </div>
                               <div class="col-md-12">
-                                <b-form-group>
-                                  <label class="mb-2">Dias de la semana: *</label>
-                                  <b-form-select  id="selectedDiasSemana" plain v-model="selectedDiasSemana" :options="optionsDias" size="sm"
-                                    class="mb-2">
-                                    <template v-slot:first>
-                                      <b-form-select-option :value="null">-- Seleccionar Dias --</b-form-select-option>
-                                    </template>
-                                  </b-form-select>
-                                </b-form-group>
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Apelldo Paterno: </label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="persona.primer_apellido">
+                                  </div>
+                                </div>
                               </div>
                               <div class="col-md-12">
-                                <b-form-group >
-                                  <label class="mb-2">Dias de la semana: *</label>
-                                  <b-form-select id="selecteTurno" plain v-model="selecteTurno" :options="optionsTurnos" size="sm"
-                                    class="mb-2">
-                                    <template v-slot:first>
-                                      <b-form-select-option :value="null">-- Seleccionar Turno --</b-form-select-option>
-                                    </template>
-                                  </b-form-select>
-                                </b-form-group>
-                              </div>                          
-                            </div>
-                            <div class="col-md-12">
-                            <b-form-group label="Horario de Entrada" label-for="exampleInputtime">
-                              <b-form-input id="exampleInputtime" type="time" value="13:45"></b-form-input>
-                             </b-form-group>
-                            </div>
-                            <div class="col-md-12">
-                            <b-form-group label="Horario de Salida" label-for="exampleInputtime">
-                              <b-form-input id="exampleInputtime2" type="time" value="13:45"></b-form-input>
-                             </b-form-group>
-                            </div>
+                                <div v-if="persona">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Apellido Materno</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                    placeholder="" spellcheck="false" data-ms-editor="true"
+                                    :disabled="isDisabled" v-model="persona.segundo_apellido">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div v-if="personalData">
+                                  <div class="form-group">
+                                    <label for="fname" class="mb-2">Empleo</label>
+                                    <input type="text" class="form-control" id="fname" name="fname"
+                                          placeholder="" spellcheck="false" data-ms-editor="true"
+                                          :disabled="isDisabled" v-model="Puesto.nombre">
+                                  </div>
+                                </div>
+                              </div>
+                              
+                            </b-row>
                           </div>
-
-                            <a href="#payment" id="saveButton" class="btn btn-primary next action-button float-end"
-                             value="Guardar" @click="extractFormData()">Guardar (Save)</a>
-
-                             <!-- <button type="button" id="saveButton" class="btn btn-primary next action-button float-end">Guardar (Save)</button> -->
-
-
-                          <a href="#account" @click="changeTab(1)"
-                            class="btn btn-dark previous action-button-previous float-end me-1"
-                            value="Previous">Previous</a>
-                        </fieldset>
+                          <a href="#personal" class="btn btn-primary next action-button float-end" @click="changeTab(2)"
+                            value="Next">Next</a>
+                        </fieldset>                          
                         </form>
                       </div>
                     </b-form>
@@ -414,6 +436,8 @@ obtenerDomicilio(){
 
               // Log person ID and first name from the person data
               console.log('Domiciolio:', this.Domicilio);
+              const settlementNames = this.Domicilio.map(response => response.response.asentamiento);
+              console.log(settlementNames);
 
             })
      
@@ -423,7 +447,6 @@ obtenerDomicilio(){
           });
 
 },
-
 
 
 
