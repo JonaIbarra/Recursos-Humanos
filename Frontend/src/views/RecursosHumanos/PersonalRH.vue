@@ -9,12 +9,12 @@
           <template v-slot:body>
             <b-row>
               <div class="table-ad mb-3 me-2">
-                <b-button variant="btn btn-sm iq-bg-success float-end" @click="obtenerDomicilio()">Asignar Personal</b-button>
+                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">Asignar Personal</b-button>
               </div>
 
 
 
-              <b-modal id="modal" size="lg" v-model="modalOpen" title="">
+              <b-modal id="modal" size="xl" v-model="modalOpen" title="">
                 <b-row>
                   <b-col md="3">
                     <ul id="top-tabbar-vertical" class="p-0">
@@ -41,42 +41,41 @@
                           <fieldset>
                             <div class="form-card text-start">
                               <b-row>
-                                <b-col>
-                                  <h3 class="mb-4">Agregar Personal</h3>
-                                </b-col>
+                                <div class="col-7">
+                                  <h3 class="mb-4">User Information:</h3>
+                                </div>
                               </b-row>
                               <b-row>
-                              
-                                <div class="col-md-12">
-                                    <div class="form-group">
+                                <b-col md="6">
+                                  <div class="form-group">
                                       <label for="nombre" class="mb-2">Nombre(s): *</label>
                                       <input type="text" class="form-control" id="nombre" name="nombre"
                                             placeholder="" spellcheck="false" data-ms-editor="true">
                                   </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
+                                </b-col>
+                                <b-col md="6">
+                                  <div class="form-group">
                                       <label for="primerApellido" class="mb-2">Primer Paterno: *</label>
                                       <input type="text" class="form-control" id="primerApellido" name="primerApellido"
                                             placeholder="" spellcheck="false" data-ms-editor="true">
                                   </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
+                                </b-col>
+                                <b-col md="6">
+                                  <div class="form-group">
                                       <label for="segundoApellido" class="mb-2">Apellido Materno(s): *</label>
                                       <input type="text" class="form-control" id="segundoApellido" name="segundoApellido"
                                             placeholder="" spellcheck="false" data-ms-editor="true">
                                   </div>
-                                </div>                            
-                                <div class="col-md-12">
-                                    <div class="form-group">
+                                </b-col>
+
+                                <b-col md="6">
+                                  <div class="form-group">
                                       <label for="curp" class="mb-2">CURP*</label>
                                       <input type="text" class="form-control" id="curp" name="curp"
                                             placeholder="" spellcheck="false" data-ms-editor="true">
                                   </div>
-                                </div>
-
-                                <div class="col-md-12">
+                                </b-col>
+                                <b-col md="6">
                                   <b-form-group >
                                     <label class="mb-2">Género: *</label>
                                     <b-form-select id="selectedGenero" plain v-model="selectedGenero" :options="optionsGenero" size="sm"
@@ -86,12 +85,8 @@
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
-                                </div>                             
- 
- 
-
-
-                                <div class="col-md-12">
+                                </b-col>
+                                <b-col md="6">
                                   <b-form-group >
                                     <label class="mb-2">Grupo Sanguineo: *</label>
                                     <b-form-select id="selectedGrupoSanguineo" plain v-model="selectedGrupoSanguineo" :options="optionsGrupoSanguineo" size="sm"
@@ -101,8 +96,8 @@
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
-                                </div>  
-                                <div class="col-md-12">
+                                </b-col>
+                                <b-col md="6">
                                   <b-form-group >
                                     <label class="mb-2">Tipo Sanguineo: *</label>
                                     <b-form-select id="selectedTipoSanguineo" plain v-model="selectedTipoSanguineo" :options="optionsTipoSanguineo" size="sm"
@@ -112,104 +107,104 @@
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
-                                </div> 
-                                <div class="col-md-12">
+                                </b-col>
+                                <b-col md="6">
                                   <div class="form-group">
                                     <label for="fechaNacimiento" class="mb-2">Fecha de Inicio: *</label>
                                     <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" />
                                   </div>
-                                </div>
-
+                                </b-col>
                               </b-row>
                             </div>
                             <a href="#personal" class="btn btn-primary next action-button float-end" @click="extractFormData()"
                               value="Next">Next</a>
-                          </fieldset>
+                         </fieldset>
                         </form>
                       </div>
                       <div :class="`${currentindex == 2 ? 'show' : 'd-none'}`">
                         <form ref="FormPersonal">
                           <fieldset>
-                          <div class="form-card text-start">
-                            <b-row>
-                              <b-col>
-                                <h3 class="mb-4">Datos Laborales</h3>
-                              </b-col>
-                            </b-row>
-                            <b-row>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <b-form-group label="CURP" label-for="curpInput">
-                                 <b-form-input id="curpInput" type="text"  v-model="curp" placeholder="Inserta el curp"></b-form-input>
+                            <div class="form-card text-start">
+                              <b-row>
+                                <div class="col-7">
+                                  <h3 class="mb-4">User Information:</h3>
+                                </div>
+                              </b-row>
+                              <b-row>
+                                <b-col md="6">
+                                  <div class="form-group">
+                                  <b-form-group label="Ingresa codigo Postal" label-for="buscarCP">
+                                 <b-form-input id="buscarCP" type="text"  v-model="codigoPostal" placeholder="Inserta CodigoPostal"></b-form-input>
                                  </b-form-group>
                                 </div>
-                                  <a href="#personal" class="btn btn-primary next action-button float-end" @click="buscarPersona"
-                                  value="Buscar">Buscar Por CURP</a>
+                                  <a href="#" class="btn btn-primary next action-button float-end" @click="obtenerDomicilio()"
+                                  value="Buscar">Buscar</a>
 
-                                <div v-if="persona">
+                                <div v-if="Domicilio">
                                   
                                 </div>
                                 <div v-else>
-                                  <h4 class="text-danger">Persona no encontrada</h4>
-                                  <p>No se encontró información para el CURP ingresado.</p>
+                                  <h4 class="text-danger">Codigo Postal no existe</h4>
+                                  <p>No se encontró información del Codigo Postal ingresado.</p>
                                 </div>
-
-                                <div v-if="personalData">
-                              
-                                </div>
-                                <div v-else>
-                                  <h4 class="text-danger">La persona no es un trabajador</h4>
-                                  <p>No se enc.</p>
-                                </div>
-
-                              </div>
-                            
-                              <div class="col-md-12">
-                                <div v-if="persona">
+                                </b-col>
+                                <b-col md="6">
+                                  <div v-if="pais">
                                   <div class="form-group">
-                                    <label for="fname" class="mb-2">Nombre(s): *</label>
+                                    <label for="fname" class="mb-2">Pais</label>
                                     <input type="text" class="form-control" id="fname" name="fname"
                                           placeholder="" spellcheck="false" data-ms-editor="true"
-                                          :disabled="isDisabled" v-model="persona.nombre">
+                                          :disabled="isDisabled" v-model="pais">
                                   </div>
                                 </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div v-if="persona">
+                                </b-col>
+                                <b-col md="6">
+                                  <div v-if="estado">
                                   <div class="form-group">
-                                    <label for="fname" class="mb-2">Apelldo Paterno: </label>
+                                    <label for="fname" class="mb-2">Estado: </label>
                                     <input type="text" class="form-control" id="fname" name="fname"
                                           placeholder="" spellcheck="false" data-ms-editor="true"
-                                          :disabled="isDisabled" v-model="persona.primer_apellido">
+                                          :disabled="isDisabled" v-model="estado">
                                   </div>
                                 </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div v-if="persona">
+                                </b-col>
+
+                                <b-col md="6">
+                                  <div v-if="municipio">
                                   <div class="form-group">
-                                    <label for="fname" class="mb-2">Apellido Materno</label>
+                                    <label for="fname" class="mb-2">Municipio</label>
                                     <input type="text" class="form-control" id="fname" name="fname"
                                     placeholder="" spellcheck="false" data-ms-editor="true"
-                                    :disabled="isDisabled" v-model="persona.segundo_apellido">
+                                    :disabled="isDisabled" v-model="municipio">
                                   </div>
                                 </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div v-if="personalData">
-                                  <div class="form-group">
-                                    <label for="fname" class="mb-2">Empleo</label>
-                                    <input type="text" class="form-control" id="fname" name="fname"
-                                          placeholder="" spellcheck="false" data-ms-editor="true"
-                                          :disabled="isDisabled" v-model="Puesto.nombre">
-                                  </div>
-                                </div>
-                              </div>
-                              
-                            </b-row>
-                          </div>
-                          <a href="#personal" class="btn btn-primary next action-button float-end" @click="changeTab(2)"
-                            value="Next">Next</a>
-                        </fieldset>                          
+                                </b-col>
+                                <b-col md="6">
+                                  <b-form-group >
+                                    <label class="mb-2">Colonia: *</label>
+                                    <b-form-select id="selectedGrupoSanguineo" plain v-model="selectedColonia" :options="optionsColonia" size="sm"
+                                      class="mb-2">
+                                      <template v-slot:first>
+                                        <b-form-select-option :value="null">-- Seleccionar Colonia --</b-form-select-option>
+                                      </template>
+                                    </b-form-select>
+                                  </b-form-group>
+                                </b-col>
+                                <b-col md="6">
+                    
+                                </b-col>
+                                <b-col md="6">
+                         
+                                </b-col>
+                                <b-col md="6">
+                             
+                                </b-col>
+                              </b-row>
+                            </div>
+                            <a href="#personal" class="btn btn-primary next action-button float-end" @click="extractFormData()"
+                              value="Next">Next</a>
+                         </fieldset>
+                          
                         </form>
                       </div>
                     </b-form>
@@ -289,11 +284,13 @@ export default {
   components: { iqCard },
   data() {
     return {
-
+      pais: "",
+      estado: "",
+      municipio: "",
       isDisabled:true,
       // 
-      curp: "",
-      persona: {},
+      codigoPostal: "",
+      Domicilio: [],
       personalData: {},
       Puesto: {},
      
@@ -304,8 +301,13 @@ export default {
       currentindex: 1,
       selectedDiasSemana: null,
       selectedGenero: null,
+      selectedColonia: null,
       selectedGrupoSanguineo: null,
       selectedTipoSanguineo: null,
+
+
+
+    optionsColonia: [],
 
     optionsDias: [
     { value: 'Lunes a Domingo, excepto Lunes', text: 'Lunes a Domingo, excepto Lunes' },
@@ -428,16 +430,23 @@ optionsTipoSanguineo: [
 
 
 obtenerDomicilio(){
-  const apiDomicilio = 'https://api.copomex.com/query/info_cp/73060?token=c8b0908c-0ce2-4e8e-87f6-4db734093caa'
+
+  const apiDomicilio = `https://api.copomex.com/query/info_cp/${this.codigoPostal}?token=c8b0908c-0ce2-4e8e-87f6-4db734093caa`
         axios.get(apiDomicilio)
             .then(response => {
 
               this.Domicilio = response.data;
 
-              // Log person ID and first name from the person data
-              console.log('Domiciolio:', this.Domicilio);
-              const settlementNames = this.Domicilio.map(response => response.response.asentamiento);
-              console.log(settlementNames);
+                    // Access and display the 'pais' property for each object
+              for (const domicilio of this.Domicilio) {
+              
+                this.pais = domicilio.response.pais;
+                this.estado = domicilio.response.estado;
+                this.municipio = domicilio.response.municipio;
+              }
+
+              this.optionsColonia = this.Domicilio.map(response => response.response.asentamiento);
+              console.log("colonias", this.optionsColonia);
 
             })
      
@@ -452,6 +461,8 @@ obtenerDomicilio(){
 
 
     extractFormData() {
+
+      this.currentindex = 2;
   // Access form data using Vue's $refs
   const form = this.$refs.FormPersona;
 
