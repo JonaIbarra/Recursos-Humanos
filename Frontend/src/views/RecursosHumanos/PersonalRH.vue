@@ -191,17 +191,35 @@
                                   </b-form-group>
                                 </b-col>
                                 <b-col md="6">
-                    
+                                  <div class="form-group">
+                                      <label for="email" class="mb-2">Correo:*</label>
+                                      <input type="text" class="form-control" id="email" name="email"
+                                            placeholder="" spellcheck="false" data-ms-editor="true">
+                                  </div>
                                 </b-col>
                                 <b-col md="6">
-                         
+                                
+                                  <div class="form-group">
+                                      <label for="telefono" class="mb-2">Telefono:*</label>
+                                      <input type="text" class="form-control" id="telefono" name="telefono"
+                                            placeholder="" spellcheck="false" data-ms-editor="true">
+                                  </div>
+                               
                                 </b-col>
                                 <b-col md="6">
-                             
+                                <b-form-group>
+                                  <label class="mb-2">Puesto: *</label>
+                                    <b-form-select id="selectedGrupoSanguineo" plain v-model="selectedPuesto" :options="optionsPuesto" size="sm"
+                                      class="mb-2">
+                                      <template v-slot:first>
+                                        <b-form-select-option :value="null">-- Seleccionar Puesto --</b-form-select-option>
+                                      </template>
+                                    </b-form-select>
+                                  </b-form-group>
                                 </b-col>
                               </b-row>
                             </div>
-                            <a href="#personal" class="btn btn-primary next action-button float-end" @click="extractFormData()"
+                            <a href="#personal" class="btn btn-primary next action-button float-end" @click="extractFormPersonal()"
                               value="Next">Next</a>
                          </fieldset>
                           
@@ -300,6 +318,7 @@ export default {
       modalOpen: false,
       currentindex: 1,
       selectedDiasSemana: null,
+      selectedPuesto: null,
       selectedGenero: null,
       selectedColonia: null,
       selectedGrupoSanguineo: null,
@@ -351,15 +370,24 @@ optionsGenero: [
 
 optionsTipoSanguineo: [
     { 
-        value: '+', 
-        text: 'Positivo' 
+        value: '+', text: 'Positivo' 
     },
     { 
-        value: '-', 
-        text: 'Negativo' 
+        value: '-', text: 'Negativo' 
     }
 ],
 
+
+optionsPuesto: [
+  { value: 1, text: "Doctor" },
+  { value: 2, text: "Enfermera" },
+  { value: 3, text: "Auxiliar de enfermería" },
+  { value: 4, text: "Técnico de laboratorio" },
+  { value: 5, text: "Técnico de radiografías" },
+  { value: 6, text: "Farmacéutico" },
+  { value: 7, text: "Asistente médico" },
+  { value: 8, text: "Recepcionista" }
+],
 
 
       columns: [
@@ -519,7 +547,50 @@ getFormattedDateTime() {
   return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
 },
 
+extractFormPersonal() {
 
+// Access form data using Vue's $refs
+const form = this.$refs.FormPersonal;
+
+
+
+
+// Create an object to hold form data
+const personaInformacion = {
+nombre:  form.nombre.value,
+primer_apellido: form.primerApellido.value,
+segundo_apellido: form.segundoApellido.value,
+curp: form.curp.value,
+genero: form.selectedGenero.value,
+grupo_sanguineo: form.selectedGrupoSanguineo.value,
+tipo_sanguineo: form.selectedTipoSanguineo.value,
+fecha_nacimiento: form.fechaNacimiento.value,
+estatus: 1,
+fecha_registro: this.getFormattedDateTime()
+
+};
+
+
+
+console.log(personaInformacion); // This will log the updated object
+
+
+
+// Send HTTP POST request to the API
+const apiUrl = 'http://127.0.0.1:8000/hospital/api/v1Personas/';
+
+axios.post(apiUrl, personaInformacion)
+.then(response => {
+
+const newlyCreatedUserId = response.data.id; // Assuming "id" is the property name
+console.log("Datos enviados a la base:", response.data);
+console.log("Newly created user ID:", newlyCreatedUserId);
+})
+.catch(error => {
+// Handle API request errors (e.g., show error message)
+console.error('Error sending data:', error);
+});
+},
 
     
 
