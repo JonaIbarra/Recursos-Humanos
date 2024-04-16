@@ -2,6 +2,7 @@
 ## PROYECTO INTEGRADOR RECURSOS HUMANOS
 ### INGENIERIA EN DESARROLLO Y GESTIÓN DE SOFTWARE 
 # "EQUIPO MEDUSA"
+### ![Logo de la empresa](https://github.com/JonaIbarra/Recursos-Humanos/blob/America/Documentation/LogoAzul.png)
 
 | Nombre y Apellido       | Cargo                      |
 | ----------------------- | -------------------------- |
