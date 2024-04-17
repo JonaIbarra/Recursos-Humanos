@@ -11,12 +11,6 @@
           <template v-slot:responsiveRight>
             <ul class="navbar-nav ms-auto navbar-list align-items-center">
               <li class="nav-item">
-                <a class="search-toggle iq-waves-effect language-title" href="#"><img :src="selectedLang.image" alt="img-flaf" class="img-fluid me-1" style="height: 16px; width: 16px" /> {{ selectedLang.title }} <i class="ri-arrow-down-s-line"></i></a>
-                <div class="iq-sub-dropdown">
-                  <a class="iq-sub-card" href="javascript:void(0)" v-for="(lang, i) in langsOptions" :key="`Lang${i}`" @click="langChange(lang)"> <img :src="lang.image" alt="img-flaf" class="img-fluid me-2" />{{ lang.title }} </a>
-                </div>
-              </li>
-              <li class="nav-item">
                 <a href="javascript:void(0)" class="rtl-switch-toogle">
                   <span class="form-check form-switch">
                     <input class="form-check-input rtl-switch" type="checkbox" role="switch" id="rtl-switch" @click="store.switchDirection(false)" />
