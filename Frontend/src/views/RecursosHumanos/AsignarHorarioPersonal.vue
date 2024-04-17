@@ -159,16 +159,6 @@
                                 </b-form-group>
                               </div>                          
                             </div>
-                            <div class="col-md-12">
-                            <b-form-group label="Horario de Entrada" label-for="exampleInputtime">
-                              <b-form-input id="exampleInputtime" type="time" value="13:45"></b-form-input>
-                             </b-form-group>
-                            </div>
-                            <div class="col-md-12">
-                            <b-form-group label="Horario de Salida" label-for="exampleInputtime">
-                              <b-form-input id="exampleInputtime2" type="time" value="13:45"></b-form-input>
-                             </b-form-group>
-                            </div>
                           </div>
 
                             <a href="#payment" id="saveButton" class="btn btn-primary next action-button float-end"
@@ -290,15 +280,15 @@ export default {
     optionsTurnos: [
     { 
         value: 'Mañana', 
-        text: 'Mañana' 
+        text: 'Mañana (7:00 - 15:00)' 
     },
     { 
         value: 'Tarde', 
-        text: 'Tarde' 
+        text: 'Tarde (13:00- 23:00)' 
     },
     { 
         value: 'Noche', 
-        text: 'Noche' 
+        text: 'Noche (23:00 - 7:00)' 
     }
 ],
 
@@ -409,8 +399,6 @@ export default {
     fecha_inicio: form.dob.value,
     dia_descanso: form.selectedDiasSemana.value,
     turno: form.selecteTurno.value,
-    horario_entrada: form.exampleInputtime.value,
-    horario_salida: form.exampleInputtime.value,
     personal: this.personalData.id,
   };
 

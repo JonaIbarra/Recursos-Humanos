@@ -211,8 +211,7 @@ class HorarioPersonal(models.Model):
     fecha_inicio = models.DateField(db_column='Fecha_inicio')  # Field name made lowercase.
     dia_descanso = models.CharField(db_column='Dia_descanso', max_length=50, blank=True, null=True)  # Field name made lowercase.
     turno = models.CharField(db_column='Turno', max_length=6)  # Field name made lowercase.
-    horario_entrada = models.CharField(db_column='Horario_entrada', max_length=20)  # Field name made lowercase.
-    horario_salida = models.CharField(db_column='Horario_salida', max_length=20)  # Field name made lowercase.
+
 
     class Meta:
         managed = False
