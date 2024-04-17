@@ -399,8 +399,6 @@ export default {
     fecha_inicio: form.dob.value,
     dia_descanso: form.selectedDiasSemana.value,
     turno: form.selecteTurno.value,
-    horario_entrada: form.exampleInputtime.value,
-    horario_salida: form.exampleInputtime.value,
     personal: this.personalData.id,
   };
 

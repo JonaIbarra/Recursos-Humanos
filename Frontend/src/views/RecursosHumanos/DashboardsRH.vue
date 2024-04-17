@@ -167,7 +167,7 @@ export default {
 
  
 
-    return { LineChartData, BarChartData, PieChartData,
+    return { LineChartData, BarChartData,
     
       
 
