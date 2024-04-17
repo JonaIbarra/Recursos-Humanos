@@ -28,7 +28,7 @@
                       <li id="official" :class="`${currentindex == 2 ? 'active' : ''} ${currentindex > 2 ? 'done active' : ''
                   }`">
                         <a href="#">
-                          <i class="ri-calendar-event-fill text-success"></i><span><br>Asgignar Horario</span>
+                          <i class="ri-calendar-event-fill text-success"></i><span><br>Asignar Horario</span>
                         </a>
                       </li>
                     </ul>
@@ -41,13 +41,13 @@
                           <div class="form-card text-start">
                             <b-row>
                               <b-col>
-                                <h3 class="mb-4">Agregar Personal</h3>
+                                <h4 class="mb-4">ASIGNAR HORARIO A PERSONAL</h4>
                               </b-col>
                             </b-row>
                             <b-row>
                               <div class="col-md-12">
                                 <div class="form-group">
-                                  <b-form-group label="CURP" label-for="curpInput">
+                                  <b-form-group label="Buscar personal por CURP" label-for="curpInput">
                                  <b-form-input id="curpInput" type="text"  v-model="curp" placeholder="Inserta el curp"></b-form-input>
                                  </b-form-group>
                                 </div>

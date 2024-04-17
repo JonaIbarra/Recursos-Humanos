@@ -4,7 +4,7 @@
       <b-col md="12">
         <iq-card>
           <template v-slot:headerTitle>
-            <h4 class="card-title">Personal del hospital</h4>
+            <h4 class="card-title text-center">ACTUALIZAR INFORMACIÓN DEL PERSONAL</h4>
           </template>
           <template v-slot:body>
             <b-row>
@@ -47,12 +47,13 @@
                               <b-row>
                                 <div class="col-7">
                                   <h4 class="mb-4 text-primary"> Editar datos del empleado <h4>{{ nombreCompletoPersonal }}</h4> </h4>
+                                  <br>
+                                  <p>Domicilio: {{ listPersonal.direccion }}. Si editara datos del domicio ingrese código postal, colonia y calle. </p>
                                 </div>
                               </b-row>
                               <b-row>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <p> Si editara datos de su domicio ingrese <br> codigo postal, colonia y calle. </p>
                                     <b-form-group label="Ingresa codigo Postal" label-for="buscarCP">
                                       <b-form-input id="buscarCP" type="text" v-model="codigoPostal"
                                         placeholder="Inserta CodigoPostal"></b-form-input>
@@ -197,7 +198,7 @@
       <b-col md="12">
         <iq-card>
           <template v-slot:headerTitle>
-            <h4 class="card-title">Personal del hospital</h4>
+            <h4 class="card-title text-center">PERSONAL DEL HOSPITAL</h4>
           </template>
           <template v-slot:body>
             <b-row>
@@ -212,14 +213,14 @@
                       <li class="active" :class="`${currentindex == 1 ? 'active' : ''} ${currentindex > 1 ? 'done active' : ''
                       } `" id="personal">
                         <a href="#">
-                          <i class="fa fa-id-card text-primary"></i><span>Personal</span>
+                          <i class="fa fa-id-card text-primary"></i><span>Datos personales</span>
                         </a>
                       </li>
 
                       <li id="official" :class="`${currentindex == 2 ? 'active' : ''} ${currentindex > 2 ? 'done active' : ''
                       }`">
                         <a href="#">
-                          <i class="ri-calendar-event-fill text-success"></i><span><br />Asgignar Horario</span>
+                          <i class="ri-calendar-event-fill text-success"></i><span><br />Datos laborales</span>
                         </a>
                       </li>
                     </ul>
@@ -233,7 +234,7 @@
                             <div class="form-card text-start">
                               <b-row>
                                 <div class="col-7">
-                                  <h3 class="mb-4">User Information:</h3>
+                                  <h4 class="mb-4"> REGISTRO DE PERSONAL:</h4>
                                 </div>
                               </b-row>
                               <b-row>
@@ -452,7 +453,7 @@
               <b-col md="12" class="table-responsive w-100">
                 <iq-card>
                   <template v-slot:headerTitle>
-                    <h4 class="card-title">Tabla para todos los puestos</h4>
+                    <h4 class="card-title">Tabla de personal del hospital</h4>
                   </template>
                   <template v-slot:body>
                     <div class="table-responsive" v-if="filas.length > 0">
@@ -645,7 +646,7 @@ export default {
         { label: "Nombre Completo", key: "name", class: "text-left" },
         { label: "CURP", key: "curp", class: "text-left text-primary" },
         { label: "Direccion", key: "direccion", class: "text-left" },
-        { label: "Telefono", key: "telefono", class: "text-left" },
+        { label: "TelÉfono", key: "telefono", class: "text-left" },
         { label: "Correo", key: "email", class: "text-left" },
         { label: "Puesto", key: "puesto", class: "text-left" },
         { label: "Estatus", key: "estatus", class: "text-left" },
@@ -657,8 +658,8 @@ export default {
       columna: [
         { label: 'ID del Empleado', field: 'id', headerClass: 'text-left' },
         { label: 'Dirección del empleado', field: 'direccion', headerClass: 'text-left' },
-        { label: 'Correo electronico', field: 'email', headerClass: 'text-left' },
-        { label: 'Telefono', field: 'telefono', headerClass: 'text-left' },
+        { label: 'Correo electrónico', field: 'email', headerClass: 'text-left' },
+        { label: 'TelÉfono', field: 'telefono', headerClass: 'text-left' },
         { label: 'Id de la Persona', field: 'persona', headerClass: 'text-left' },
         { label: 'Id del puesto', field: 'puesto', headerClass: 'text-left' },
       ],
