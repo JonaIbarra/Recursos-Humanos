@@ -138,31 +138,31 @@ export default {
     //   }
     // }
 
-    const PieChartData = {
-      type: 'pie',
-      labels: ['January', 'February', 'March', 'April', 'May'],
-      datasets: [
-        {
-          label: 'Pie Chart',
-          data: [10, 20, 15, 30, 25],
-          backgroundColor: ['rgba(8, 155, 171, 1)', 'rgba(252, 159, 91, 1)', 'rgba(242, 99, 97, 1)', 'rgba(87, 222, 83, 1)', 'rgba(97, 226, 252, 1)'],
-          hoverOffset: 4,
-          borderSkipped: false
-        }
-      ],
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top'
-          },
-          title: {
-            display: true,
-            text: 'Chart.js Doughnut Chart'
-          }
-        }
-      }
-    }
+    // const PieChartData = {
+    //   type: 'pie',
+    //   labels: ['January', 'February', 'March', 'April', 'May'],
+    //   datasets: [
+    //     {
+    //       label: 'Pie Chart',
+    //       data: [10, 20, 15, 30, 25],
+    //       backgroundColor: ['rgba(8, 155, 171, 1)', 'rgba(252, 159, 91, 1)', 'rgba(242, 99, 97, 1)', 'rgba(87, 222, 83, 1)', 'rgba(97, 226, 252, 1)'],
+    //       hoverOffset: 4,
+    //       borderSkipped: false
+    //     }
+    //   ],
+    //   options: {
+    //     responsive: true,
+    //     plugins: {
+    //       legend: {
+    //         position: 'top'
+    //       },
+    //       title: {
+    //         display: true,
+    //         text: 'Chart.js Doughnut Chart'
+    //       }
+    //     }
+    //   }
+    // }
 
 
  
@@ -200,8 +200,32 @@ export default {
       }
     },
 
+    PieChartData : {
+      type: 'pie',
+      labels: ['January', 'February', 'March', 'April', 'May'],
+      datasets: [
+        {
+          label: 'Pie Chart',
+          data: [10, 20, 15, 30, 25],
+          backgroundColor: ['rgba(8, 155, 171, 1)', 'rgba(252, 159, 91, 1)', 'rgba(242, 99, 97, 1)', 'rgba(87, 222, 83, 1)', 'rgba(97, 226, 252, 1)'],
+          hoverOffset: 4,
+          borderSkipped: false
+        }
+      ],
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Doughnut Chart'
+          }
+        }
+      }
+    }
 
-     
 
     }
   },
@@ -219,30 +243,26 @@ export default {
         
                 // Lista de días de la semana
             const DIAS_SEMANA = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-
               // Contar los días de descanso
               const diasDescanso = DIAS_SEMANA.reduce((obj, dia) => ({ ...obj, [dia]: 0 }), {});
               for (const registro of response.data) {
                 const diaDescanso = registro["dia_descanso"];
                 diasDescanso[diaDescanso] += 1;
               }
-
-
-              
               // Extraer las frecuencias y almacenar en un arreglo
                const frecuenciasDias = Object.values(diasDescanso);
-
-              
-
                this.DoughnutChartData.datasets[0].data = frecuenciasDias
-
             // Mostrar el resultado
             console.log("datos", frecuenciasDias);
-   
-          
-
             // Handle successful response (e.g., show success message)
             console.log("Datos recibidos", response.data); // Log response data for debugging
+
+
+
+            
+
+
+
           })
           .catch(error => {
             // Handle API request errors (e.g., show error message)
