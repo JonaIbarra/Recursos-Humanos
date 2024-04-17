@@ -8,9 +8,9 @@
           </template>
           <template v-slot:body>
             <b-row>
-              <div class="col-md-6">
+              <div class="col-md-6 mb-3">
                 <div class="form-group">
-                  <b-form-group label="CURP" label-for="curpInput">
+                  <b-form-group label="Para buscar personal ingrese el CURP de la persona" label-for="curpInput">
                     <b-form-input id="curpInput" type="text" v-model="curp"
                       placeholder="Inserta el curp"></b-form-input>
                   </b-form-group>
@@ -41,7 +41,7 @@
                     <b-form id="form-wizard3" class="text-center">
                       <!-- fieldsets -->
                       <div :class="`${currentindex == 1 ? 'show' : 'd-none'}`">
-                        <form ref="FormPersonal">
+                        <form ref="FormUpdatePersonal">
                           <fieldset>
                             <div class="form-card text-start">
                               <b-row>
@@ -52,6 +52,7 @@
                               <b-row>
                                 <b-col md="6">
                                   <div class="form-group">
+                                    <p> Si editara datos de su domicio ingrese <br> codigo postal, colonia y calle. </p>
                                     <b-form-group label="Ingresa codigo Postal" label-for="buscarCP">
                                       <b-form-input id="buscarCP" type="text" v-model="codigoPostal"
                                         placeholder="Inserta CodigoPostal"></b-form-input>
@@ -136,31 +137,16 @@
                                       spellcheck="false" data-ms-editor="true" v-model="personalInformacionEditar.telefono" />
                                   </div>
                                 </b-col>
-                                <b-col md="6">
-                                  <b-form-group v-if="personalInformacionEditar">
-                                    <label class="mb-2">Puesto: *</label>
-                                    <b-form-select id="selectedPuesto" plain v-model="selectedPuesto"
-                                      :options="optionsPuesto" size="sm" class="mb-2">
-                                      <template v-slot:first>
-                                        <b-form-select-option :value="null">-- Seleccionar Puesto
-                                          --</b-form-select-option>
-                                      </template>
-                                      <b-form-select-option :value="personalInformacionEditar.puesto" v-if="personalInformacionEditar.puesto">
-                                        {{ personalInformacionEditar.puesto }}
-                                      </b-form-select-option>
-                                    </b-form-select>
-                                  </b-form-group>
-                                </b-col>
                             
-
                                 <b-col md="6">
-                                  <b-form-group>
+                                  <b-form-group  v-if="personalInformacionEditar">
                                     <label class="mb-2">Estatus: *</label>
                                     <b-form-select id="selectedEstatus" plain v-model="selectedEstatus"
-                                      :options="optionsEstatus" size="sm" class="mb-2">
+                                                  :options="optionsEstatus" size="sm" class="mb-2">
                                       <template v-slot:first>
-                                        <b-form-select-option :value="null">-- Seleccionar Estatus
-                                          --</b-form-select-option>
+                                        <b-form-select-option :value="null">
+                                          {{listPersonal.estatus}}
+                                        </b-form-select-option>
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
@@ -168,7 +154,7 @@
                               </b-row>
                             </div>
                             <a href="#personal" class="btn btn-primary next action-button float-end"
-                              @click="extractFormPersonal()" value="Next">Next</a>
+                              @click="updatePersonal()" value="Next">Guardar</a>
                           </fieldset>
                         </form>
                       </div>
@@ -181,6 +167,17 @@
               <b-col md="12" class="table-responsive w-100">
                 <b-table striped bordered hover :items="rows" :fields="columns">
                 </b-table>
+                <div v-if="mensajePersonalNoEliminado">
+                  <h4 class="text-danger">Personal no eliminado</h4>
+                  <p>No se puedo eliminar al personal porque este tiene un horario asignado</p>
+                </div>
+                <div v-if= "mensajePersonalEliminado">
+                  <h4 class="text-success">Personal eliminado</h4>
+                </div>
+                <div v-if="personaRegistrada">
+                  <h4 class="text-danger">Personal no encontrado</h4>
+                  <p>Es probable que la persona no se encuentra registrada como personal</p>
+                </div>
                 <div class="table-ad mb-3 me-2 mt-3">
                   <b-button variant="btn btn-sm iq-bg-success float-end mb-3 me-3" @click="editarPersonal()">
                     <i class="las la-edit"></i> Editar</b-button>
@@ -535,7 +532,11 @@ export default {
 
       personalInformacionEditar: {},
 
-   
+      // Controla mensajes de validacion
+      personaRegistrada: "",
+      mensajePersonalNoEliminado: "",
+      mensajePersonalEliminado: "",
+
       modalOpen: false,
       modalEditar: false,
       currentindex: 1,
@@ -631,11 +632,11 @@ export default {
 
       optionsEstatus: [
         {
-          value: "1",
+          value: "activo",
           text: "Activo",
         },
         {
-          value: "0",
+          value: "inactivo",
           text: "Inactivo",
         },
       ],
@@ -782,6 +783,42 @@ export default {
         });
     },
 
+
+    updatePersonal() {
+
+      const persona = this.listPersonal.id
+      
+      // Access form data using Vue's $refs
+      const constFormUpdate = this.$refs.FormUpdatePersonal;
+
+        const personalUpdateInformacion = {
+              direccion: constFormUpdate.calle.value === ""
+              ? this.personalInformacionEditar.direccion
+              : constFormUpdate.calle.value + "," + this.datosDomicilio,
+              email: constFormUpdate.email.value,
+              telefono: constFormUpdate.telefono.value,
+              estatus: constFormUpdate.selectedEstatus.value
+        };
+
+      console.log("datos del formulario actualizar", personalUpdateInformacion); // This will log the updated object
+
+      // Send HTTP POST request to the API
+      const apiUrl = `http://127.0.0.1:8000/hospital/api/v1Personal/${persona}/`;
+
+      axios
+        .put(apiUrl, personalUpdateInformacion)
+        .then((response) => {
+          console.log("Datos enviados a la base:", response.data);
+          this.personalInformacionEditar = {};
+          this.listPersonal = {};
+        })
+        .catch((error) => {
+          // Handle API request errors (e.g., show error message)
+          console.error("Error sending data:", error);
+        });
+    },
+
+
     getFormattedDateTime() {
       const now = new Date();
       const year = now.getFullYear();
@@ -884,10 +921,13 @@ export default {
                       estatus: this.personalData.estatus,
                     };
 
+                    this.rows = [];
+
                     this.rows.push(this.listPersonal);
 
                     
                     this.personalInformacionEditar = {
+  
                       ...this.listPersonal,
                       ...this.curp
                     }
@@ -901,15 +941,19 @@ export default {
                     console.log("Personal Puesto:", this.Puesto);
                   });
 
+                  // Restable la persona encontrada
+                  this.personaRegistrada = "";
                   // Use the person and personal data as needed in your application
                 } else {
                   // Handle the case where person data is not found
                   console.warn("Persona no encontrada.");
                   this.personalData = null;
+                  
                 }
               })
               .catch((error) => {
                 console.error("Error fetching personal data:", error);
+                this.personaRegistrada = "false";
                 this.personalData = null;
               });
           } else {
@@ -921,13 +965,14 @@ export default {
         })
         .catch((error) => {
           console.error("Error fetching person data:", error);
+          
           this.persona = null;
         });
     },
 
+
+
     editarPersonal() {
-      let obj = this.default();
-      this.rows.push(obj);
       this.modalEditar = true;
       this.currentindex = 1;
     },
@@ -948,16 +993,21 @@ export default {
       if (response.status === 200 || response.status === 204) {
         // Successful deletion (assuming success codes are 200 or 204)
         console.log("Elemento eliminado:", persona);
+        this.mensajePersonalEliminado = "a";
+        this.rows = [];
         // Update UI or perform other actions after successful deletion
         // (e.g., remove element from list, show success message)
       } else {
         console.error("Unexpected status code:", response.status);
+        
         // Handle unexpected response status codes
         // (e.g., show error message to user)
       }
     })
     .catch((error) => {
       console.error("Error eliminando persona:", error);
+      this.mensajePersonalNoEliminado = "a";
+      this.rows = [];
       // Handle errors during request (e.g., network issues, server errors)
       // (e.g., show error message to user)
     });
