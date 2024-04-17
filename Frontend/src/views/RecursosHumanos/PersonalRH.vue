@@ -203,7 +203,7 @@
           <template v-slot:body>
             <b-row>
               <div class="table-ad mb-3 me-2">
-                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">Asignar Personal</b-button>
+                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">Agregar Personal</b-button>
               </div>
 
               <b-modal id="modal" size="xl" v-model="modalOpen" title="">
@@ -313,7 +313,7 @@
                               </b-row>
                             </div>
                             <a href="#personal" class="btn btn-primary next action-button float-end"
-                              @click="extractFormData()" value="Next">Next</a>
+                              @click="extractFormData()" value="Next">Guardar</a>
                           </fieldset>
                         </form>
                       </div>
@@ -323,7 +323,7 @@
                             <div class="form-card text-start">
                               <b-row>
                                 <div class="col-7">
-                                  <h3 class="mb-4">User Information:</h3>
+                                  <h4 class="mb-4">REGISTRO DE PERSONAL:</h4>
                                 </div>
                               </b-row>
                               <b-row>
@@ -795,7 +795,7 @@ export default {
         const personalUpdateInformacion = {
               direccion: constFormUpdate.calle.value === ""
               ? this.personalInformacionEditar.direccion
-              : constFormUpdate.calle.value + "," + this.datosDomicilio,
+              : constFormUpdate.calle.value + ", " + this.datosDomicilio,
               email: constFormUpdate.email.value,
               telefono: constFormUpdate.telefono.value,
               estatus: constFormUpdate.selectedEstatus.value
@@ -810,6 +810,8 @@ export default {
         .put(apiUrl, personalUpdateInformacion)
         .then((response) => {
           console.log("Datos enviados a la base:", response.data);
+          this.$refs.FormPersonal.reset();
+          this.modalEditar = false;
           this.personalInformacionEditar = {};
           this.listPersonal = {};
         })
