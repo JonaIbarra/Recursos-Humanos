@@ -209,7 +209,7 @@ class HorarioPersonal(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     personal = models.ForeignKey('Personal', models.DO_NOTHING, db_column='Personal_ID', blank=True, null=True)  # Field name made lowercase.
     fecha_inicio = models.DateField(db_column='Fecha_inicio')  # Field name made lowercase.
-    dias_semana = models.CharField(db_column='Dias_semana', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    dia_descanso = models.CharField(db_column='Dia_descanso', max_length=50, blank=True, null=True)  # Field name made lowercase.
     turno = models.CharField(db_column='Turno', max_length=6)  # Field name made lowercase.
     horario_entrada = models.CharField(db_column='Horario_entrada', max_length=20)  # Field name made lowercase.
     horario_salida = models.CharField(db_column='Horario_salida', max_length=20)  # Field name made lowercase.
