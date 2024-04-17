@@ -11,21 +11,12 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <b-form-group label="CURP" label-for="curpInput">
-                    <b-form-input
-                      id="curpInput"
-                      type="text"
-                      v-model="curp"
-                      placeholder="Inserta el curp"
-                    ></b-form-input>
+                    <b-form-input id="curpInput" type="text" v-model="curp"
+                      placeholder="Inserta el curp"></b-form-input>
                   </b-form-group>
                 </div>
-                <a
-                  href="#personal"
-                  class="btn btn-primary next action-button float-end"
-                  @click="buscarPersonal"
-                  value="Buscar"
-                  >Buscar Por CURP</a
-                >
+                <a href="#personal" class="btn btn-primary next action-button float-end" @click="buscarPersonal"
+                  value="Buscar">Buscar Por CURP</a>
 
                 <div v-if="persona"></div>
                 <div v-else>
@@ -34,32 +25,14 @@
                 </div>
               </div>
 
-              <b-modal id="modal" size="xl" v-model="modalOpen" title="">
+              <b-modal id="modal" size="xl" v-model="modalEditar" title="">
                 <b-row>
                   <b-col md="3">
                     <ul id="top-tabbar-vertical" class="p-0">
-                      <li
-                        class="active"
-                        :class="`${currentindex == 1 ? 'active' : ''} ${
-                          currentindex > 1 ? 'done active' : ''
-                        } `"
-                        id="personal"
-                      >
+                      <li class="active" :class="`${currentindex == 1 ? 'active' : ''} ${currentindex > 1 ? 'done active' : ''
+                      } `" id="personal">
                         <a href="#">
-                          <i class="fa fa-id-card text-primary"></i
-                          ><span>Personal</span>
-                        </a>
-                      </li>
-
-                      <li
-                        id="official"
-                        :class="`${currentindex == 2 ? 'active' : ''} ${
-                          currentindex > 2 ? 'done active' : ''
-                        }`"
-                      >
-                        <a href="#">
-                          <i class="ri-calendar-event-fill text-success"></i
-                          ><span><br />Asgignar Horario</span>
+                          <i class="fa fa-id-card text-primary"></i><span>Editar datos <br> del Personal</span>
                         </a>
                       </li>
                     </ul>
@@ -68,198 +41,24 @@
                     <b-form id="form-wizard3" class="text-center">
                       <!-- fieldsets -->
                       <div :class="`${currentindex == 1 ? 'show' : 'd-none'}`">
-                        <form ref="FormPersona">
-                          <fieldset>
-                            <div class="form-card text-start">
-                              <b-row>
-                                <div class="col-7">
-                                  <h3 class="mb-4">User Information:</h3>
-                                </div>
-                              </b-row>
-                              <b-row>
-                                <b-col md="6">
-                                  <div class="form-group">
-                                    <label for="nombre" class="mb-2"
-                                      >Nombre(s): *</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="nombre"
-                                      name="nombre"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
-                                  </div>
-                                </b-col>
-                                <b-col md="6">
-                                  <div class="form-group">
-                                    <label for="primerApellido" class="mb-2"
-                                      >Primer Paterno: *</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="primerApellido"
-                                      name="primerApellido"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
-                                  </div>
-                                </b-col>
-                                <b-col md="6">
-                                  <div class="form-group">
-                                    <label for="segundoApellido" class="mb-2"
-                                      >Apellido Materno(s): *</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="segundoApellido"
-                                      name="segundoApellido"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
-                                  </div>
-                                </b-col>
-
-                                <b-col md="6">
-                                  <div class="form-group">
-                                    <label for="curp" class="mb-2">CURP*</label>
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="curp"
-                                      name="curp"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
-                                  </div>
-                                </b-col>
-                                <b-col md="6">
-                                  <b-form-group>
-                                    <label class="mb-2">Género: *</label>
-                                    <b-form-select
-                                      id="selectedGenero"
-                                      plain
-                                      v-model="selectedGenero"
-                                      :options="optionsGenero"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
-                                      <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Género
-                                          --</b-form-select-option
-                                        >
-                                      </template>
-                                    </b-form-select>
-                                  </b-form-group>
-                                </b-col>
-                                <b-col md="6">
-                                  <b-form-group>
-                                    <label class="mb-2"
-                                      >Grupo Sanguineo: *</label
-                                    >
-                                    <b-form-select
-                                      id="selectedGrupoSanguineo"
-                                      plain
-                                      v-model="selectedGrupoSanguineo"
-                                      :options="optionsGrupoSanguineo"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
-                                      <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Grupo Sanguineo
-                                          --</b-form-select-option
-                                        >
-                                      </template>
-                                    </b-form-select>
-                                  </b-form-group>
-                                </b-col>
-                                <b-col md="6">
-                                  <b-form-group>
-                                    <label class="mb-2"
-                                      >Tipo Sanguineo: *</label
-                                    >
-                                    <b-form-select
-                                      id="selectedTipoSanguineo"
-                                      plain
-                                      v-model="selectedTipoSanguineo"
-                                      :options="optionsTipoSanguineo"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
-                                      <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Tipo Sanguineo
-                                          --</b-form-select-option
-                                        >
-                                      </template>
-                                    </b-form-select>
-                                  </b-form-group>
-                                </b-col>
-                                <b-col md="6">
-                                  <div class="form-group">
-                                    <label for="fechaNacimiento" class="mb-2"
-                                      >Fecha de Inicio: *</label
-                                    >
-                                    <input
-                                      type="date"
-                                      class="form-control"
-                                      id="fechaNacimiento"
-                                      name="fechaNacimiento"
-                                    />
-                                  </div>
-                                </b-col>
-                              </b-row>
-                            </div>
-                            <a
-                              href="#personal"
-                              class="btn btn-primary next action-button float-end"
-                              @click="extractFormData()"
-                              value="Next"
-                              >Next</a
-                            >
-                          </fieldset>
-                        </form>
-                      </div>
-                      <div :class="`${currentindex == 2 ? 'show' : 'd-none'}`">
                         <form ref="FormPersonal">
                           <fieldset>
                             <div class="form-card text-start">
                               <b-row>
                                 <div class="col-7">
-                                  <h3 class="mb-4">User Information:</h3>
+                                  <h4 class="mb-4 text-primary"> Editar datos del empleado <h4>{{ nombreCompletoPersonal }}</h4> </h4>
                                 </div>
                               </b-row>
                               <b-row>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <b-form-group
-                                      label="Ingresa codigo Postal"
-                                      label-for="buscarCP"
-                                    >
-                                      <b-form-input
-                                        id="buscarCP"
-                                        type="text"
-                                        v-model="codigoPostal"
-                                        placeholder="Inserta CodigoPostal"
-                                      ></b-form-input>
+                                    <b-form-group label="Ingresa codigo Postal" label-for="buscarCP">
+                                      <b-form-input id="buscarCP" type="text" v-model="codigoPostal"
+                                        placeholder="Inserta CodigoPostal"></b-form-input>
                                     </b-form-group>
                                   </div>
-                                  <a
-                                    href="#"
-                                    class="btn btn-primary next action-button float-end"
-                                    @click="obtenerDomicilio()"
-                                    value="Buscar"
-                                    >Buscar</a
-                                  >
+                                  <a href="#" class="btn btn-primary next action-button float-end"
+                                    @click="obtenerDomicilio()" value="Buscar">Buscar</a>
 
                                   <div v-if="Domicilio"></div>
                                   <div v-else>
@@ -275,40 +74,21 @@
                                 <b-col md="6">
                                   <div v-if="pais">
                                     <div class="form-group">
-                                      <label for="fname" class="mb-2"
-                                        >Pais</label
-                                      >
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        id="fname"
-                                        name="fname"
-                                        placeholder=""
-                                        spellcheck="false"
-                                        data-ms-editor="true"
-                                        :disabled="isDisabled"
-                                        v-model="pais"
-                                      />
+                                      <label for="fname" class="mb-2">Pais</label>
+                                      <input type="text" class="form-control" id="fname" name="fname" placeholder=""
+                                        spellcheck="false" data-ms-editor="true" :disabled="isDisabled"
+                                        v-model="pais" />
                                     </div>
                                   </div>
                                 </b-col>
                                 <b-col md="6">
                                   <div v-if="estado">
                                     <div class="form-group">
-                                      <label for="fname" class="mb-2"
-                                        >Estado:
+                                      <label for="fname" class="mb-2">Estado:
                                       </label>
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        id="fname"
-                                        name="fname"
-                                        placeholder=""
-                                        spellcheck="false"
-                                        data-ms-editor="true"
-                                        :disabled="isDisabled"
-                                        v-model="estado"
-                                      />
+                                      <input type="text" class="form-control" id="fname" name="fname" placeholder=""
+                                        spellcheck="false" data-ms-editor="true" :disabled="isDisabled"
+                                        v-model="estado" />
                                     </div>
                                   </div>
                                 </b-col>
@@ -316,140 +96,79 @@
                                 <b-col md="6">
                                   <div v-if="municipio">
                                     <div class="form-group">
-                                      <label for="fname" class="mb-2"
-                                        >Municipio</label
-                                      >
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        id="fname"
-                                        name="fname"
-                                        placeholder=""
-                                        spellcheck="false"
-                                        data-ms-editor="true"
-                                        :disabled="isDisabled"
-                                        v-model="municipio"
-                                      />
+                                      <label for="fname" class="mb-2">Municipio</label>
+                                      <input type="text" class="form-control" id="fname" name="fname" placeholder=""
+                                        spellcheck="false" data-ms-editor="true" :disabled="isDisabled"
+                                        v-model="municipio" />
                                     </div>
                                   </div>
                                 </b-col>
                                 <b-col md="6">
                                   <b-form-group>
                                     <label class="mb-2">Colonia: *</label>
-                                    <b-form-select
-                                      id="selectedGrupoSanguineo"
-                                      plain
-                                      v-model="selectedColonia"
-                                      :options="optionsColonia"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
+                                    <b-form-select id="selectedGrupoSanguineo" plain v-model="selectedColonia"
+                                      :options="optionsColonia" size="sm" class="mb-2">
                                       <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Colonia
-                                          --</b-form-select-option
-                                        >
+                                        <b-form-select-option :value="null">-- Seleccionar Colonia
+                                          --</b-form-select-option>
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
                                 </b-col>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <label for="calle" class="mb-2"
-                                      >Calle:*</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="calle"
-                                      name="calle"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
+                                    <label for="calle" class="mb-2">Calle:*</label>
+                                    <input type="text" class="form-control" id="calle" name="calle" placeholder=""
+                                      spellcheck="false" data-ms-editor="true" />
                                   </div>
                                 </b-col>
                                 <b-col md="6">
-                                  <div class="form-group">
-                                    <label for="email" class="mb-2"
-                                      >Correo:*</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="email"
-                                      name="email"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
+                                  <div v-if="personalInformacionEditar" class="form-group">
+                                    <label for="email" class="mb-2">Correo:*</label>
+                                    <input type="text" class="form-control" id="email" name="email" placeholder=""
+                                      spellcheck="false" data-ms-editor="true" v-model="personalInformacionEditar.email" />
                                   </div>
                                 </b-col>
                                 <b-col md="6">
-                                  <div class="form-group">
-                                    <label for="telefono" class="mb-2"
-                                      >Telefono:*</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="telefono"
-                                      name="telefono"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
+                                  <div v-if="personalInformacionEditar" class="form-group">
+                                    <label for="telefono" class="mb-2">Telefono:*</label>
+                                    <input type="text" class="form-control" id="telefono" name="telefono" placeholder=""
+                                      spellcheck="false" data-ms-editor="true" v-model="personalInformacionEditar.telefono" />
                                   </div>
                                 </b-col>
                                 <b-col md="6">
-                                  <b-form-group>
+                                  <b-form-group v-if="personalInformacionEditar">
                                     <label class="mb-2">Puesto: *</label>
-                                    <b-form-select
-                                      id="selectedPuesto"
-                                      plain
-                                      v-model="selectedPuesto"
-                                      :options="optionsPuesto"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
+                                    <b-form-select id="selectedPuesto" plain v-model="selectedPuesto"
+                                      :options="optionsPuesto" size="sm" class="mb-2">
                                       <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Puesto
-                                          --</b-form-select-option
-                                        >
+                                        <b-form-select-option :value="null">-- Seleccionar Puesto
+                                          --</b-form-select-option>
                                       </template>
+                                      <b-form-select-option :value="personalInformacionEditar.puesto" v-if="personalInformacionEditar.puesto">
+                                        {{ personalInformacionEditar.puesto }}
+                                      </b-form-select-option>
                                     </b-form-select>
                                   </b-form-group>
                                 </b-col>
+                            
+
                                 <b-col md="6">
                                   <b-form-group>
                                     <label class="mb-2">Estatus: *</label>
-                                    <b-form-select
-                                      id="selectedEstatus"
-                                      plain
-                                      v-model="selectedEstatus"
-                                      :options="optionsEstatus"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
+                                    <b-form-select id="selectedEstatus" plain v-model="selectedEstatus"
+                                      :options="optionsEstatus" size="sm" class="mb-2">
                                       <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Estatus
-                                          --</b-form-select-option
-                                        >
+                                        <b-form-select-option :value="null">-- Seleccionar Estatus
+                                          --</b-form-select-option>
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
                                 </b-col>
                               </b-row>
                             </div>
-                            <a
-                              href="#personal"
-                              class="btn btn-primary next action-button float-end"
-                              @click="extractFormPersonal()"
-                              value="Next"
-                              >Next</a
-                            >
+                            <a href="#personal" class="btn btn-primary next action-button float-end"
+                              @click="extractFormPersonal()" value="Next">Next</a>
                           </fieldset>
                         </form>
                       </div>
@@ -463,19 +182,11 @@
                 <b-table striped bordered hover :items="rows" :fields="columns">
                 </b-table>
                 <div class="table-ad mb-3 me-2 mt-3">
-                  <b-button
-                    variant="btn btn-sm iq-bg-success float-end mb-3 me-3"
-                    @click="add"
-                  >
-                    <i class="las la-edit"></i> Editar</b-button
-                  >
+                  <b-button variant="btn btn-sm iq-bg-success float-end mb-3 me-3" @click="editarPersonal()">
+                    <i class="las la-edit"></i> Editar</b-button>
 
-                  <b-button
-                    variant="btn btn-sm iq-bg-danger float-end mb-3 me-3"
-                    @click="add"
-                  >
-                    <i class="fa fa-trash"></i> Eliminar</b-button
-                  >
+                  <b-button variant="btn btn-sm iq-bg-danger float-end mb-3 me-3" @click="add">
+                    <i class="fa fa-trash"></i> Eliminar</b-button>
                 </div>
               </b-col>
             </b-row>
@@ -494,39 +205,24 @@
           <template v-slot:body>
             <b-row>
               <div class="table-ad mb-3 me-2">
-                <b-button
-                  variant="btn btn-sm iq-bg-success float-end"
-                  @click="add"
-                  >Asignar Personal</b-button
-                >
+                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">Asignar Personal</b-button>
               </div>
 
               <b-modal id="modal" size="xl" v-model="modalOpen" title="">
                 <b-row>
                   <b-col md="3">
                     <ul id="top-tabbar-vertical" class="p-0">
-                      <li
-                        class="active"
-                        :class="`${currentindex == 1 ? 'active' : ''} ${
-                          currentindex > 1 ? 'done active' : ''
-                        } `"
-                        id="personal"
-                      >
+                      <li class="active" :class="`${currentindex == 1 ? 'active' : ''} ${currentindex > 1 ? 'done active' : ''
+                      } `" id="personal">
                         <a href="#">
-                          <i class="fa fa-id-card text-primary"></i
-                          ><span>Personal</span>
+                          <i class="fa fa-id-card text-primary"></i><span>Personal</span>
                         </a>
                       </li>
 
-                      <li
-                        id="official"
-                        :class="`${currentindex == 2 ? 'active' : ''} ${
-                          currentindex > 2 ? 'done active' : ''
-                        }`"
-                      >
+                      <li id="official" :class="`${currentindex == 2 ? 'active' : ''} ${currentindex > 2 ? 'done active' : ''
+                      }`">
                         <a href="#">
-                          <i class="ri-calendar-event-fill text-success"></i
-                          ><span><br />Asgignar Horario</span>
+                          <i class="ri-calendar-event-fill text-success"></i><span><br />Asgignar Horario</span>
                         </a>
                       </li>
                     </ul>
@@ -546,153 +242,80 @@
                               <b-row>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <label for="nombre" class="mb-2"
-                                      >Nombre(s): *</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="nombre"
-                                      name="nombre"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
+                                    <label for="nombre" class="mb-2">Nombre(s): *</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder=""
+                                      spellcheck="false" data-ms-editor="true" />
                                   </div>
                                 </b-col>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <label for="primerApellido" class="mb-2"
-                                      >Primer Paterno: *</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="primerApellido"
-                                      name="primerApellido"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
+                                    <label for="primerApellido" class="mb-2">Primer Paterno: *</label>
+                                    <input type="text" class="form-control" id="primerApellido" name="primerApellido"
+                                      placeholder="" spellcheck="false" data-ms-editor="true" />
                                   </div>
                                 </b-col>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <label for="segundoApellido" class="mb-2"
-                                      >Apellido Materno(s): *</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="segundoApellido"
-                                      name="segundoApellido"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
+                                    <label for="segundoApellido" class="mb-2">Apellido Materno(s): *</label>
+                                    <input type="text" class="form-control" id="segundoApellido" name="segundoApellido"
+                                      placeholder="" spellcheck="false" data-ms-editor="true" />
                                   </div>
                                 </b-col>
 
                                 <b-col md="6">
                                   <div class="form-group">
                                     <label for="curp" class="mb-2">CURP*</label>
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="curp"
-                                      name="curp"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
+                                    <input type="text" class="form-control" id="curp" name="curp" placeholder=""
+                                      spellcheck="false" data-ms-editor="true" />
                                   </div>
                                 </b-col>
                                 <b-col md="6">
                                   <b-form-group>
                                     <label class="mb-2">Género: *</label>
-                                    <b-form-select
-                                      id="selectedGenero"
-                                      plain
-                                      v-model="selectedGenero"
-                                      :options="optionsGenero"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
+                                    <b-form-select id="selectedGenero" plain v-model="selectedGenero"
+                                      :options="optionsGenero" size="sm" class="mb-2">
                                       <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Género
-                                          --</b-form-select-option
-                                        >
+                                        <b-form-select-option :value="null">-- Seleccionar Género
+                                          --</b-form-select-option>
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
                                 </b-col>
                                 <b-col md="6">
                                   <b-form-group>
-                                    <label class="mb-2"
-                                      >Grupo Sanguineo: *</label
-                                    >
-                                    <b-form-select
-                                      id="selectedGrupoSanguineo"
-                                      plain
-                                      v-model="selectedGrupoSanguineo"
-                                      :options="optionsGrupoSanguineo"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
+                                    <label class="mb-2">Grupo Sanguineo: *</label>
+                                    <b-form-select id="selectedGrupoSanguineo" plain v-model="selectedGrupoSanguineo"
+                                      :options="optionsGrupoSanguineo" size="sm" class="mb-2">
                                       <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Grupo Sanguineo
-                                          --</b-form-select-option
-                                        >
+                                        <b-form-select-option :value="null">-- Seleccionar Grupo Sanguineo
+                                          --</b-form-select-option>
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
                                 </b-col>
                                 <b-col md="6">
                                   <b-form-group>
-                                    <label class="mb-2"
-                                      >Tipo Sanguineo: *</label
-                                    >
-                                    <b-form-select
-                                      id="selectedTipoSanguineo"
-                                      plain
-                                      v-model="selectedTipoSanguineo"
-                                      :options="optionsTipoSanguineo"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
+                                    <label class="mb-2">Tipo Sanguineo: *</label>
+                                    <b-form-select id="selectedTipoSanguineo" plain v-model="selectedTipoSanguineo"
+                                      :options="optionsTipoSanguineo" size="sm" class="mb-2">
                                       <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Tipo Sanguineo
-                                          --</b-form-select-option
-                                        >
+                                        <b-form-select-option :value="null">-- Seleccionar Tipo Sanguineo
+                                          --</b-form-select-option>
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
                                 </b-col>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <label for="fechaNacimiento" class="mb-2"
-                                      >Fecha de Inicio: *</label
-                                    >
-                                    <input
-                                      type="date"
-                                      class="form-control"
-                                      id="fechaNacimiento"
-                                      name="fechaNacimiento"
-                                    />
+                                    <label for="fechaNacimiento" class="mb-2">Fecha de Inicio: *</label>
+                                    <input type="date" class="form-control" id="fechaNacimiento"
+                                      name="fechaNacimiento" />
                                   </div>
                                 </b-col>
                               </b-row>
                             </div>
-                            <a
-                              href="#personal"
-                              class="btn btn-primary next action-button float-end"
-                              @click="extractFormData()"
-                              value="Next"
-                              >Next</a
-                            >
+                            <a href="#personal" class="btn btn-primary next action-button float-end"
+                              @click="extractFormData()" value="Next">Next</a>
                           </fieldset>
                         </form>
                       </div>
@@ -708,25 +331,13 @@
                               <b-row>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <b-form-group
-                                      label="Ingresa codigo Postal"
-                                      label-for="buscarCP"
-                                    >
-                                      <b-form-input
-                                        id="buscarCP"
-                                        type="text"
-                                        v-model="codigoPostal"
-                                        placeholder="Inserta CodigoPostal"
-                                      ></b-form-input>
+                                    <b-form-group label="Ingresa codigo Postal" label-for="buscarCP">
+                                      <b-form-input id="buscarCP" type="text" v-model="codigoPostal"
+                                        placeholder="Inserta CodigoPostal"></b-form-input>
                                     </b-form-group>
                                   </div>
-                                  <a
-                                    href="#"
-                                    class="btn btn-primary next action-button float-end"
-                                    @click="obtenerDomicilio()"
-                                    value="Buscar"
-                                    >Buscar</a
-                                  >
+                                  <a href="#" class="btn btn-primary next action-button float-end"
+                                    @click="obtenerDomicilio()" value="Buscar">Buscar</a>
 
                                   <div v-if="Domicilio"></div>
                                   <div v-else>
@@ -742,40 +353,21 @@
                                 <b-col md="6">
                                   <div v-if="pais">
                                     <div class="form-group">
-                                      <label for="fname" class="mb-2"
-                                        >Pais</label
-                                      >
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        id="fname"
-                                        name="fname"
-                                        placeholder=""
-                                        spellcheck="false"
-                                        data-ms-editor="true"
-                                        :disabled="isDisabled"
-                                        v-model="pais"
-                                      />
+                                      <label for="fname" class="mb-2">Pais</label>
+                                      <input type="text" class="form-control" id="fname" name="fname" placeholder=""
+                                        spellcheck="false" data-ms-editor="true" :disabled="isDisabled"
+                                        v-model="pais" />
                                     </div>
                                   </div>
                                 </b-col>
                                 <b-col md="6">
                                   <div v-if="estado">
                                     <div class="form-group">
-                                      <label for="fname" class="mb-2"
-                                        >Estado:
+                                      <label for="fname" class="mb-2">Estado:
                                       </label>
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        id="fname"
-                                        name="fname"
-                                        placeholder=""
-                                        spellcheck="false"
-                                        data-ms-editor="true"
-                                        :disabled="isDisabled"
-                                        v-model="estado"
-                                      />
+                                      <input type="text" class="form-control" id="fname" name="fname" placeholder=""
+                                        spellcheck="false" data-ms-editor="true" :disabled="isDisabled"
+                                        v-model="estado" />
                                     </div>
                                   </div>
                                 </b-col>
@@ -783,107 +375,54 @@
                                 <b-col md="6">
                                   <div v-if="municipio">
                                     <div class="form-group">
-                                      <label for="fname" class="mb-2"
-                                        >Municipio</label
-                                      >
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        id="fname"
-                                        name="fname"
-                                        placeholder=""
-                                        spellcheck="false"
-                                        data-ms-editor="true"
-                                        :disabled="isDisabled"
-                                        v-model="municipio"
-                                      />
+                                      <label for="fname" class="mb-2">Municipio</label>
+                                      <input type="text" class="form-control" id="fname" name="fname" placeholder=""
+                                        spellcheck="false" data-ms-editor="true" :disabled="isDisabled"
+                                        v-model="municipio" />
                                     </div>
                                   </div>
                                 </b-col>
                                 <b-col md="6">
                                   <b-form-group>
                                     <label class="mb-2">Colonia: *</label>
-                                    <b-form-select
-                                      id="selectedGrupoSanguineo"
-                                      plain
-                                      v-model="selectedColonia"
-                                      :options="optionsColonia"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
+                                    <b-form-select id="selectedGrupoSanguineo" plain v-model="selectedColonia"
+                                      :options="optionsColonia" size="sm" class="mb-2">
                                       <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Colonia
-                                          --</b-form-select-option
-                                        >
+                                        <b-form-select-option :value="null">-- Seleccionar Colonia
+                                          --</b-form-select-option>
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
                                 </b-col>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <label for="calle" class="mb-2"
-                                      >Calle:*</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="calle"
-                                      name="calle"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
+                                    <label for="calle" class="mb-2">Calle:*</label>
+                                    <input type="text" class="form-control" id="calle" name="calle" placeholder=""
+                                      spellcheck="false" data-ms-editor="true" />
                                   </div>
                                 </b-col>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <label for="email" class="mb-2"
-                                      >Correo:*</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="email"
-                                      name="email"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
+                                    <label for="email" class="mb-2">Correo:*</label>
+                                    <input type="text" class="form-control" id="email" name="email" placeholder=""
+                                      spellcheck="false" data-ms-editor="true" />
                                   </div>
                                 </b-col>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <label for="telefono" class="mb-2"
-                                      >Telefono:*</label
-                                    >
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="telefono"
-                                      name="telefono"
-                                      placeholder=""
-                                      spellcheck="false"
-                                      data-ms-editor="true"
-                                    />
+                                    <label for="telefono" class="mb-2">Telefono:*</label>
+                                    <input type="text" class="form-control" id="telefono" name="telefono" placeholder=""
+                                      spellcheck="false" data-ms-editor="true" />
                                   </div>
                                 </b-col>
                                 <b-col md="6">
                                   <b-form-group>
                                     <label class="mb-2">Puesto: *</label>
-                                    <b-form-select
-                                      id="selectedPuesto"
-                                      plain
-                                      v-model="selectedPuesto"
-                                      :options="optionsPuesto"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
+                                    <b-form-select id="selectedPuesto" plain v-model="selectedPuesto"
+                                      :options="optionsPuesto" size="sm" class="mb-2">
                                       <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Puesto
-                                          --</b-form-select-option
-                                        >
+                                        <b-form-select-option :value="null">-- Seleccionar Puesto
+                                          --</b-form-select-option>
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
@@ -891,32 +430,19 @@
                                 <b-col md="6">
                                   <b-form-group>
                                     <label class="mb-2">Estatus: *</label>
-                                    <b-form-select
-                                      id="selectedEstatus"
-                                      plain
-                                      v-model="selectedEstatus"
-                                      :options="optionsEstatus"
-                                      size="sm"
-                                      class="mb-2"
-                                    >
+                                    <b-form-select id="selectedEstatus" plain v-model="selectedEstatus"
+                                      :options="optionsEstatus" size="sm" class="mb-2">
                                       <template v-slot:first>
-                                        <b-form-select-option :value="null"
-                                          >-- Seleccionar Estatus
-                                          --</b-form-select-option
-                                        >
+                                        <b-form-select-option :value="null">-- Seleccionar Estatus
+                                          --</b-form-select-option>
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
                                 </b-col>
                               </b-row>
                             </div>
-                            <a
-                              href="#personal"
-                              class="btn btn-primary next action-button float-end"
-                              @click="extractFormPersonal()"
-                              value="Next"
-                              >Next</a
-                            >
+                            <a href="#personal" class="btn btn-primary next action-button float-end"
+                              @click="extractFormPersonal()" value="Next">Next</a>
                           </fieldset>
                         </form>
                       </div>
@@ -930,80 +456,42 @@
                 <b-table striped bordered hover :items="rows" :fields="columns">
                   <template v-slot:cell(name)="data">
                     <span v-if="!data.item.editable">{{ data.item.name }}</span>
-                    <input
-                      type="text"
-                      v-model="data.item.name"
-                      v-else
-                      class="form-control text-center"
-                    />
+                    <input type="text" v-model="data.item.name" v-else class="form-control text-center" />
                   </template>
                   <template v-slot:cell(age)="data">
                     <span v-if="!data.item.editable">{{ data.item.age }}</span>
-                    <input
-                      type="text"
-                      v-model="data.item.age"
-                      v-else
-                      class="form-control text-center"
-                    />
+                    <input type="text" v-model="data.item.age" v-else class="form-control text-center" />
                   </template>
                   <template v-slot:cell(company_name)="data">
                     <span v-if="!data.item.editable">{{
                       data.item.company_name
                     }}</span>
-                    <input
-                      type="text"
-                      v-model="data.item.company_name"
-                      v-else
-                      class="form-control text-center"
-                    />
+                    <input type="text" v-model="data.item.company_name" v-else class="form-control text-center" />
                   </template>
                   <template v-slot:cell(country)="data">
                     <span v-if="!data.item.editable">{{
                       data.item.country
                     }}</span>
-                    <input
-                      type="text"
-                      v-model="data.item.country"
-                      v-else
-                      class="form-control text-center"
-                    />
+                    <input type="text" v-model="data.item.country" v-else class="form-control text-center" />
                   </template>
                   <template v-slot:cell(city)="data">
                     <span v-if="!data.item.editable">{{ data.item.city }}</span>
-                    <input
-                      type="text"
-                      v-model="data.item.city"
-                      v-else
-                      class="form-control text-center"
-                    />
+                    <input type="text" v-model="data.item.city" v-else class="form-control text-center" />
                   </template>
                   <template v-slot:cell(sort)>
                     <td>
-                      <a href="#!" class="indigo-text"
-                        ><i class="fa fa-long-arrow-up" aria-hidden="true"></i>
-                        <i
-                          class="fa fa-long-arrow-down ms-1"
-                          aria-hidden="true"
-                        ></i
-                      ></a>
+                      <a href="#!" class="indigo-text"><i class="fa fa-long-arrow-up" aria-hidden="true"></i>
+                        <i class="fa fa-long-arrow-down ms-1" aria-hidden="true"></i></a>
                     </td>
                   </template>
                   <template v-slot:cell(remove)="data">
-                    <b-button
-                      variant=" iq-bg-danger"
-                      size="sm"
-                      @click="remove(data.item)"
-                      >Remove
+                    <b-button variant=" iq-bg-danger" size="sm" @click="remove(data.item)">Remove
                     </b-button>
                   </template>
 
                   <!-- Boton para edita -->
                   <template v-slot:cell(edit)="data">
-                    <b-button
-                      variant=" iq-bg-primary"
-                      size="sm"
-                      @click="edit(data.item)"
-                      >Edit
+                    <b-button variant=" iq-bg-primary" size="sm" @click="edit(data.item)">Edit
                     </b-button>
                   </template>
                 </b-table>
@@ -1036,12 +524,15 @@ export default {
       Domicilio: [],
       persona: {},
       listPersonal: {},
+      nombreCompletoPersonal: "",
       personalData: {},
       Puesto: {},
       newlyCreatedUserId: "",
       datosDomicilio: "",
+      personalInformacionEditar: {},
       //
       modalOpen: false,
+      modalEditar: false,
       currentindex: 1,
       selectedEstatus: null,
       selectedDiasSemana: null,
@@ -1253,6 +744,9 @@ export default {
         estatus: formulario.selectedEstatus.value,
       };
 
+
+
+
       console.log(personalInformacion); // This will log the updated object
 
       // Send HTTP POST request to the API
@@ -1310,15 +804,14 @@ export default {
 
                   axios.get(PuestoDataURL).then((response) => {
                     this.Puesto = response.data;
+                    
+
+                  this.nombreCompletoPersonal = this.persona.nombre +" " +this.persona.primer_apellido + " " + this.persona.segundo_apellido;
+
 
                     this.listPersonal = {
                       id: personID,
-                      name:
-                        this.persona.nombre +
-                        " " +
-                        this.persona.primer_apellido +
-                        " " +
-                        this.persona.segundo_apellido,
+                      name:this.persona.nombre +" " +this.persona.primer_apellido + " " + this.persona.segundo_apellido,
                       curp: this.persona.curp,
                       telefono: this.personalData.telefono,
                       puesto: this.Puesto.nombre,
@@ -1328,6 +821,14 @@ export default {
                     };
 
                     this.rows.push(this.listPersonal);
+
+                    
+                    this.personalInformacionEditar = {
+                      ...this.listPersonal,
+                      ...this.curp
+                    }
+
+                    console.log("Personal a editar", this.personalInformacionEditar);
 
                     // Log person ID and first name from the person data
                     console.log("Personal Data:", this.listPersonal);
@@ -1359,6 +860,15 @@ export default {
           this.persona = null;
         });
     },
+
+    editarPersonal() {
+      let obj = this.default();
+      this.rows.push(obj);
+      this.modalEditar = true;
+      this.currentindex = 1;
+    },
+
+
 
     //
     add() {

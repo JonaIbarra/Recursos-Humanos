@@ -1,209 +1,255 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col lg="6" v-for="(item, index) in charts" :key="index">
+      <b-col lg="6" sm="12">
         <iq-card>
           <template v-slot:headerTitle>
-            <h4>{{ item.title }}</h4>
+            <h4>Frecuencia de Dias de Descanso del Personal</h4>
           </template>
           <template v-slot:body>
-            <ApexChart :element="item.type" :chartOption="item.bodyData" />
+            <DoughnutChart :chartData="DoughnutChartData" />
+          </template>
+        </iq-card>
+        <iq-card>
+          <template v-slot:headerTitle>
+            <h4>Bar Chart</h4>
+          </template>
+          <template v-slot:body>
+            <BarChart :chartData="BarChartData" />
           </template>
         </iq-card>
       </b-col>
+      <b-col lg="6" sm="12">
+        <iq-card>
+          <template v-slot:headerTitle>
+            <h4>Pie Charts</h4>
+          </template>
+          <template v-slot:body>
+            <PieChart :chartData="PieChartData" />
+          </template>
+        </iq-card>
+        <iq-card>
+          <template v-slot:headerTitle>
+            <h4>Line chart</h4>
+          </template>
+          <template v-slot:body>
+            <LineChart :chartData="LineChartData" />
+          </template>
+        </iq-card>
+      </b-col>
+
+
     </b-row>
   </b-container>
 </template>
 <script>
+import axios from 'axios'
 import { xray } from '../../config/pluginInit'
 import iqCard from '../../components/xray/cards/iq-card'
-import ApexChart from '../../components/xray/charts/ApexChart'
+
+// Chart
+import { LineChart, BarChart, PieChart, DoughnutChart } from 'vue-chart-3'
+import { Chart, registerables } from 'chart.js'
+Chart.register(...registerables)
 export default {
-  name: 'ApexCharts',
-  components: { iqCard, ApexChart },
+  name: 'ChartJs',
+  components: { iqCard, LineChart, BarChart, DoughnutChart, PieChart },
   mounted() {
     xray.index()
-  },
-  methods: {
-    generateData(baseval, count, yrange) {
-      var i = 0
-      var series = []
-      while (i < count) {
-        var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min
-        var z = Math.floor(Math.random() * (75 - 15 + 1)) + 15
-
-        series.push([baseval, y, z])
-        baseval += 86400000
-        i++
-      }
-      return series
-    }
+    this.extraerDatosPersonal()
   },
   data() {
-    return {
-      charts: [
-        {
-          title: 'Grafico de Personal',
-          type: 'line',
-          bodyData: {
-            chart: {
-              height: 350,
-              type: 'line',
-              zoom: {
-                enabled: false
-              }
-            },
-            series: [
-              {
-                name: 'Desktops',
-                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-              }
-            ],
-            dataLabels: {
-              enabled: false
-            },
-            stroke: {
-              curve: 'straight'
-            },
-            title: {
-              text: 'Product Trends by Month',
-              align: 'left'
-            },
-            grid: {
-              row: {
-                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                opacity: 0.5
-              }
-            },
-            xaxis: {
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
-            }
-          }
-        },
-        {
-          title: 'Grafico de Puestos',
-          type: 'line-area',
-          bodyData: {
-            chart: {
-              height: 350,
-              type: 'area'
-            },
-            dataLabels: {
-              enabled: false
-            },
-            stroke: {
-              curve: 'smooth'
-            },
-            colors: ['#089bab', '#FC9F5B'],
-            series: [
-              {
-                name: 'series1',
-                data: [31, 40, 28, 51, 42, 109, 100]
-              },
-              {
-                name: 'series2',
-                data: [11, 32, 45, 32, 34, 52, 41]
-              }
-            ],
 
-            xaxis: {
-              type: 'datetime',
-              categories: ['2018-09-19T00:00:00', '2018-09-19T01:30:00', '2018-09-19T02:30:00', '2018-09-19T03:30:00', '2018-09-19T04:30:00', '2018-09-19T05:30:00', '2018-09-19T06:30:00']
-            },
-            tooltip: {
-              x: {
-                format: 'dd/MM/yy HH:mm'
-              }
-            }
-          }
-        },
 
+   
+    const LineChartData = {
+      labels: ['August', 'September', 'October', 'November', 'December', 'January', 'February'],
+      datasets: [
         {
-          title: 'Grafico de Horarios',
-          type: 'column',
-          bodyData: {
-            chart: {
-              height: 350,
-              type: 'bar'
-            },
-            plotOptions: {
-              bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
-              }
-            },
-            dataLabels: {
-              enabled: false
-            },
-            stroke: {
-              show: true,
-              width: 2,
-              colors: ['transparent']
-            },
-            colors: ['#089bab', '#FC9F5B', '#e64141'],
-            series: [
-              {
-                name: 'Net Profit',
-                data: [44, 55, 57, 56, 61, 58]
-              },
-              {
-                name: 'Revenue',
-                data: [76, 85, 101, 98, 87, 105]
-              },
-              {
-                name: 'Free Cash Flow',
-                data: [35, 41, 36, 26, 45, 48]
-              }
-            ],
-            xaxis: {
-              categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
-            },
-            yaxis: {
-              title: {
-                text: '$ (thousands)'
-              }
-            },
-            fill: {
-              opacity: 1
-            },
-            tooltip: {
-              y: {
-                formatter: function (val) {
-                  return '$ ' + val + ' thousands'
-                }
-              }
-            }
-          }
-        },
-        {
-          title: 'Bar Chart',
-          type: 'bar',
-          bodyData: {
-            chart: {
-              height: 350,
-              type: 'bar'
-            },
-            plotOptions: {
-              bar: {
-                horizontal: true
-              }
-            },
-            dataLabels: {
-              enabled: false
-            },
-            series: [
-              {
-                data: [470, 540, 580, 690, 1100, 1200, 1380]
-              }
-            ],
-            xaxis: {
-              categories: ['Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany']
-            }
+          label: 'Line Chart',
+          data: [65, 59, 80, 81, 55, 55],
+
+          backgroundColor: 'rgba(8, 155, 171, 1)',
+          borderColor: 'rgba(8, 155, 171, 1)',
+          tension: 0.1,
+          borderSkipped: false
+        }
+      ],
+      options: {
+        responsive: true,
+        plugins: {
+          legends: {
+            display: false
           }
         }
-      ]
+      }
     }
+
+    const BarChartData = {
+      labels: ['August', 'September', 'October', 'November', 'December', 'January', 'February'],
+      datasets: [
+        {
+          label: 'Fully Rounded',
+          data: [65, 59, 80, 81, 55, 55],
+
+          backgroundColor: 'rgba(8, 155, 171, 1)',
+          borderColor: 'rgba(8, 155, 171, 1)',
+          tension: 0.1,
+          borderSkipped: false
+        }
+      ],
+      options: {
+        responsive: true,
+        plugins: {
+          legends: {
+            display: false
+          }
+        }
+      }
+    }
+
+
+
+    // const DoughnutChartData = {
+    //   type: 'doughnut',
+      
+    //   labels : ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+
+    //   datasets: [
+    //     {
+    //       label: 'Donut Chart',
+    //       data: this.frecuenciasDias,
+    //       backgroundColor: ['rgba(8, 155, 171, 1)', 'rgba(252, 159, 91, 1)', 'rgba(242, 99, 97, 1)', 'rgba(87, 222, 83, 1)', 'rgba(97, 226, 252, 1)'],
+    //       hoverOffset: 4,
+    //       borderSkipped: false
+    //     }
+    //   ],
+    //   options: {
+    //     responsive: true,
+    //     plugins: {
+    //       legend: {
+    //         position: 'top'
+    //       },
+    //       title: {
+    //         display: true,
+    //         text: 'Chart.js Doughnut Chart'
+    //       }
+    //     }
+    //   }
+    // }
+
+    const PieChartData = {
+      type: 'pie',
+      labels: ['January', 'February', 'March', 'April', 'May'],
+      datasets: [
+        {
+          label: 'Pie Chart',
+          data: [10, 20, 15, 30, 25],
+          backgroundColor: ['rgba(8, 155, 171, 1)', 'rgba(252, 159, 91, 1)', 'rgba(242, 99, 97, 1)', 'rgba(87, 222, 83, 1)', 'rgba(97, 226, 252, 1)'],
+          hoverOffset: 4,
+          borderSkipped: false
+        }
+      ],
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Doughnut Chart'
+          }
+        }
+      }
+    }
+
+
+ 
+
+    return { LineChartData, BarChartData, PieChartData,
+    
+      
+
+      
+     DoughnutChartData : {
+      type: 'doughnut',
+      
+      labels : ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+
+      datasets: [
+        {
+          label: 'Frencuencia de Dias de descanso del personal',
+          data: [],
+          backgroundColor: ['rgba(8, 155, 171, 1)', 'rgba(252, 159, 91, 1)', 'rgba(242, 99, 97, 1)', 'rgba(87, 222, 83, 1)', 'rgba(97, 226, 252, 1)', '#ba01ff', '#b6ff00'],
+          hoverOffset: 4,
+          borderSkipped: false
+        }
+      ],
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          title: {
+            display: true,
+            text: 'Chart.js  Frecuencia de Dias de descanso del personal'
+          }
+        }
+      }
+    },
+
+
+     
+
+    }
+  },
+
+  methods : {
+    extraerDatosPersonal() {
+
+
+        const apiUrl = 'http://127.0.0.1:8000/hospital/api/v1HorarioPersonal/';
+
+        axios.get(apiUrl)
+          .then(response => {
+
+
+        
+                // Lista de días de la semana
+            const DIAS_SEMANA = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+
+              // Contar los días de descanso
+              const diasDescanso = DIAS_SEMANA.reduce((obj, dia) => ({ ...obj, [dia]: 0 }), {});
+              for (const registro of response.data) {
+                const diaDescanso = registro["dia_descanso"];
+                diasDescanso[diaDescanso] += 1;
+              }
+
+
+              
+              // Extraer las frecuencias y almacenar en un arreglo
+               const frecuenciasDias = Object.values(diasDescanso);
+
+              
+
+               this.DoughnutChartData.datasets[0].data = frecuenciasDias
+
+            // Mostrar el resultado
+            console.log("datos", frecuenciasDias);
+   
+          
+
+            // Handle successful response (e.g., show success message)
+            console.log("Datos recibidos", response.data); // Log response data for debugging
+          })
+          .catch(error => {
+            // Handle API request errors (e.g., show error message)
+            console.error('Error sending data:', error);
+          });
+        },
   }
 }
 </script>
+<style scoped></style>
