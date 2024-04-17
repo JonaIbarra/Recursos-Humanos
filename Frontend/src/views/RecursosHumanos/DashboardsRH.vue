@@ -22,7 +22,7 @@
       <b-col lg="6" sm="12">
         <iq-card>
           <template v-slot:headerTitle>
-            <h4>Pie Charts</h4>
+            <h4>Frecuencia de Dias de Descanso del Personal</h4>
           </template>
           <template v-slot:body>
             <PieChart :chartData="PieChartData" />
@@ -202,12 +202,12 @@ export default {
 
     PieChartData : {
       type: 'pie',
-      labels: ['January', 'February', 'March', 'April', 'May'],
+      labels: ['Mañana', 'Tarde', 'Noche'],
       datasets: [
         {
           label: 'Pie Chart',
-          data: [10, 20, 15, 30, 25],
-          backgroundColor: ['rgba(8, 155, 171, 1)', 'rgba(252, 159, 91, 1)', 'rgba(242, 99, 97, 1)', 'rgba(87, 222, 83, 1)', 'rgba(97, 226, 252, 1)'],
+          data: [],
+          backgroundColor: ['rgba(8, 155, 171, 1)', 'rgba(252, 159, 91, 1)', 'rgba(242, 99, 97, 1)'],
           hoverOffset: 4,
           borderSkipped: false
         }
@@ -220,7 +220,7 @@ export default {
           },
           title: {
             display: true,
-            text: 'Chart.js Doughnut Chart'
+            text: 'Chart.js Frecuencia de Turnos del Personal'
           }
         }
       }
@@ -254,6 +254,25 @@ export default {
                this.DoughnutChartData.datasets[0].data = frecuenciasDias
             // Mostrar el resultado
             console.log("datos", frecuenciasDias);
+            // Handle successful response (e.g., show success message)
+            console.log("Datos recibidos", response.data); // Log response data for debugging
+
+
+
+                    
+                // Lista de días de la semana
+                const SELECT_TURNO = ["Mañana", "Tarde", "Noche"];
+              // Contar los días de descanso
+              const horaTurno = SELECT_TURNO.reduce((obj, turno) => ({ ...obj, [turno]: 0 }), {});
+              for (const registro2 of response.data) {
+                const hrTurno = registro2["turno"];
+                horaTurno[hrTurno] += 1;
+              }
+              // Extraer las frecuencias y almacenar en un arreglo
+               const frecuenciaDescanso = Object.values(horaTurno);
+               this.PieChartData.datasets[0].data = frecuenciaDescanso
+            // Mostrar el resultado
+            console.log("descansos", frecuenciaDescanso);
             // Handle successful response (e.g., show success message)
             console.log("Datos recibidos", response.data); // Log response data for debugging
 
