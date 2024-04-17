@@ -4,7 +4,7 @@
       <b-col md="12">
         <iq-card>
           <template v-slot:headerTitle>
-            <h4 class="card-title">Personal del hospital</h4>
+            <h4 class="card-title text-left">Asignacion de un horario a Personal</h4>
           </template>
           <template v-slot:body>
             <b-row>
@@ -180,49 +180,45 @@
                 </template>
               </b-modal>
 
-              <b-col md="12" class="table-responsive w-100">
-                <b-table striped bordered hover :items="rows" :fields="columns">
-                  <template v-slot:cell(name)="data">
-                    <span v-if="!data.item.editable">{{ data.item.name }}</span>
-                    <input type="text" v-model="data.item.name" v-else class="form-control text-center" />
+              <b-col md="12">
+                <iq-card>
+                  <template v-slot:headerTitle>
+                    <h4 class="card-title">Tabla para todos los puestos</h4>
                   </template>
-                  <template v-slot:cell(age)="data">
-                    <span v-if="!data.item.editable">{{ data.item.age }}</span>
-                    <input type="text" v-model="data.item.age" v-else class="form-control text-center" />
+                  <template v-slot:body>
+                    <div class="table-responsive" v-if="rows.length > 0">
+                      <table class="table table-striped table-bordered">
+                        <thead>
+                          <tr>
+                            <th v-for="column in columns" :key="column.field">
+                              {{ column.label }}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="item in paginatedRows" :key="item.id">
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.personal }}</td>
+                            <td>{{ item.dia_descanso }}</td>
+                            <td>{{ item.fecha_inicio }}</td>
+                            <td>{{ item.turno }}</td>
+                          </tr>
+                        </tbody>
+                        <div class="pagination-controls mb-3 me-2 mt-3">
+                          <button class="btn btn-sm iq-bg-success   mb-3 me-3" @click="nextPage" :disabled="currentPage >= totalPages">Siguiente → </button>
+                          <button class="btn btn-sm iq-bg-danger  mb-3 me-3" @click="previousPage" :disabled="currentPage === 1"> ← Anterior</button>
+                        </div>
+                      </table>
+                    </div>
+                    <!-- <div v-else class="text-center" v-if="isLoading">
+                      <b-spinner variant="primary"></b-spinner>
+                      <p>Cargando datos...</p>
+                    </div>
+                    <div v-else class="text-center" v-if="isError">
+                      <p>Error al cargar datos. Intente de nuevo más tarde.</p>
+                    </div> -->
                   </template>
-                  <template v-slot:cell(company_name)="data">
-                    <span v-if="!data.item.editable">{{
-                  data.item.company_name
-                }}</span>
-                    <input type="text" v-model="data.item.company_name" v-else class="form-control text-center" />
-                  </template>
-                  <template v-slot:cell(country)="data">
-                    <span v-if="!data.item.editable">{{
-                  data.item.country
-                }}</span>
-                    <input type="text" v-model="data.item.country" v-else class="form-control text-center" />
-                  </template>
-                  <template v-slot:cell(city)="data">
-                    <span v-if="!data.item.editable">{{ data.item.city }}</span>
-                    <input type="text" v-model="data.item.city" v-else class="form-control text-center" />
-                  </template>
-                  <template v-slot:cell(sort)>
-                    <td>
-                      <a href="#!" class="indigo-text"><i class="fa fa-long-arrow-up" aria-hidden="true"></i>
-                        <i class="fa fa-long-arrow-down ms-1" aria-hidden="true"></i></a>
-                    </td>
-                  </template>
-                  <template v-slot:cell(remove)="data">
-                    <b-button variant=" iq-bg-danger" size="sm" @click="remove(data.item)">Remove
-                    </b-button>
-                  </template>
-
-                  <!-- Boton para edita -->
-                  <template v-slot:cell(edit)="data">
-                    <b-button variant=" iq-bg-primary" size="sm" @click="edit(data.item)">Edit
-                    </b-button>
-                  </template>
-                </b-table>
+                </iq-card>
               </b-col>
             </b-row>
           </template>
@@ -259,7 +255,10 @@ export default {
       personalData: {},
       Puesto: {},
   
-      
+    // Paginacion de la tabla
+      currentPage: 1,
+      pageSize: 10,
+      //
 
       // 
       modalOpen: false,
@@ -295,99 +294,64 @@ export default {
 
 
       columns: [
-        { label: "Nombre", key: "name", class: "text-left" },
-        { label: "Género", key: "genero", class: "text-left" },
-        { label: "Telefono", key: "telefono", class: "text-left" },
-        { label: "Puesto", key: "puesto", class: "text-left" },
-        { label: "Horario", key: "horario", class: "text-left" },
-        { label: "Estatus", key: "estatus", class: "text-left" },
-        { label: "Remove", key: "remove", class: "text-center" },
-        { label: "Edit", key: "edit", class: "text-center" },
+        { label: 'ID', field: 'id', headerClass: 'text-left' },
+        { label: 'Persona_ID', field: 'personal', headerClass: 'text-left' },
+        { label: 'Dia de Descanso', field: 'dia_descanso', headerClass: 'text-left' },
+        { label: 'Fecha de Inicio', field: 'fecha_inicio', headerClass: 'text-left' },
+        { label: 'Turno', field: 'turno', headerClass: 'text-left' },
       ],
-      rows: [
-        {
-          id: 1,
-          name: "Jonathan Ibarra",
-          genero: "Masculino",
-          telefono: "7761090829",
-          puesto: "Enfermero",
-          horario: "Horario Matutino",
-          estatus: false,
-        },
-        {
-          id: 2,
-          name: "María García",
-          genero: "Femenino",
-          telefono: "5551234567",
-          puesto: "Médico Residente",
-          horario: "Horario Vespertino",
-          estatus: true,
-        },
-        {
-          id: 3,
-          name: "Luisa Martínez",
-          genero: "Femenino",
-          telefono: "7229876543",
-          puesto: "Médico Cirujano",
-          horario: "Horario Nocturno",
-          estatus: true,
-        },
-        {
-          id: 4,
-          name: "Javier González",
-          genero: "Masculino",
-          telefono: "3338901234",
-          puesto: "Administrativo",
-          horario: "Horario Mixto",
-          estatus: true,
-        },
-        {
-          id: 5,
-          name: "Sofía López",
-          genero: "Femenino",
-          telefono: "8115678901",
-          puesto: "Enfermera",
-          horario: "Horario Matutino",
-          estatus: false,
-        },
-      ],
+      rows: [],
+      isLoading: false,
+      isError: false,
     };
   },
   mounted() {
     xray.index();
+    this.fetchData()
+  },
+
+  // Servira para rastrear la pagina de la tabla
+  computed: {
+    paginatedRows() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.rows.slice(startIndex, endIndex);
+    },
+    totalPages() {
+    return Math.ceil(this.rows.length / this.pageSize);
+  },
+    
   },
 
 
   methods: {
 
-    // 
-    // buscarPersona() {
-    //   const url = `http://127.0.0.1:8000/hospital/api/v1Personas/${this.curp}/`;
-
-    //   axios.get(url)
-    //     .then(response => {
-    //       this.persona = response.data;
-          
-    //       console.log(this.persona.id);
-    //       console.log(this.persona.primer_apellido);
-
-
-    //     //Guardo los datos que llegan de la api para usarlos despues 
+        // Controla la paginacion de la tabla
+        previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
    
+    async fetchData() {
+      this.isLoading = true; // Indicate loading state
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/hospital/api/v1HorarioPersonal/'); // Assuming endpoint fetches a single position
+        this.rows = response.data;
 
-
-    //     })
-    //     .catch(error => {
-    //       console.error(error);
-    //       this.persona = null;
-    //     });
-    // },
-
-
-
-
-
-    
+        console.log("Arreglo datos", response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        this.isError = true; // Flag error state
+      } finally {
+        this.isLoading = false; // Clear loading state
+      }
+    }, 
 
 
     extractFormData() {

@@ -185,7 +185,7 @@
                   <b-button variant="btn btn-sm iq-bg-success float-end mb-3 me-3" @click="editarPersonal()">
                     <i class="las la-edit"></i> Editar</b-button>
 
-                  <b-button variant="btn btn-sm iq-bg-danger float-end mb-3 me-3" @click="add">
+                  <b-button variant="btn btn-sm iq-bg-danger float-end mb-3 me-3" @click="eliminarPersonalBuscado()">
                     <i class="fa fa-trash"></i> Eliminar</b-button>
                 </div>
               </b-col>
@@ -453,48 +453,45 @@
               </b-modal>
 
               <b-col md="12" class="table-responsive w-100">
-                <b-table striped bordered hover :items="rows" :fields="columns">
-                  <template v-slot:cell(name)="data">
-                    <span v-if="!data.item.editable">{{ data.item.name }}</span>
-                    <input type="text" v-model="data.item.name" v-else class="form-control text-center" />
+                <iq-card>
+                  <template v-slot:headerTitle>
+                    <h4 class="card-title">Tabla para todos los puestos</h4>
                   </template>
-                  <template v-slot:cell(age)="data">
-                    <span v-if="!data.item.editable">{{ data.item.age }}</span>
-                    <input type="text" v-model="data.item.age" v-else class="form-control text-center" />
+                  <template v-slot:body>
+                    <div class="table-responsive" v-if="filas.length > 0">
+                      <table class="table table-striped table-bordered">
+                        <thead>
+                          <tr>
+                            <th v-for="columna in columna" :key="columna.field">
+                              {{ columna.label }}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="items in paginatedRows" :key="items.id">
+                            <td>{{ items.id }}</td>
+                            <td>{{ items.direccion }}</td>
+                            <td>{{ items.email }}</td>
+                            <td>{{ items.telefono }}</td>
+                            <td>{{ items.persona }}</td>
+                            <td>{{ items.puesto }}</td>
+                          </tr>
+                        </tbody>
+                        <div class="pagination-controls mb-3 me-2 mt-3">
+                          <button class="btn btn-sm iq-bg-success  float-end mb-3 me-3" @click="nextPage" :disabled="currentPage >= totalPages">Siguiente → </button>
+                          <button class="btn btn-sm iq-bg-danger float-end mb-3 me-3" @click="previousPage" :disabled="currentPage === 1"> ← Anterior</button>
+                        </div>
+                      </table>
+                    </div>
+                    <!-- <div v-else class="text-center" v-if="isLoading">
+                      <b-spinner variant="primary"></b-spinner>
+                      <p>Cargando datos...</p>
+                    </div>
+                    <div v-else class="text-center" v-if="isError">
+                      <p>Error al cargar datos. Intente de nuevo más tarde.</p>
+                    </div> -->
                   </template>
-                  <template v-slot:cell(company_name)="data">
-                    <span v-if="!data.item.editable">{{
-                      data.item.company_name
-                    }}</span>
-                    <input type="text" v-model="data.item.company_name" v-else class="form-control text-center" />
-                  </template>
-                  <template v-slot:cell(country)="data">
-                    <span v-if="!data.item.editable">{{
-                      data.item.country
-                    }}</span>
-                    <input type="text" v-model="data.item.country" v-else class="form-control text-center" />
-                  </template>
-                  <template v-slot:cell(city)="data">
-                    <span v-if="!data.item.editable">{{ data.item.city }}</span>
-                    <input type="text" v-model="data.item.city" v-else class="form-control text-center" />
-                  </template>
-                  <template v-slot:cell(sort)>
-                    <td>
-                      <a href="#!" class="indigo-text"><i class="fa fa-long-arrow-up" aria-hidden="true"></i>
-                        <i class="fa fa-long-arrow-down ms-1" aria-hidden="true"></i></a>
-                    </td>
-                  </template>
-                  <template v-slot:cell(remove)="data">
-                    <b-button variant=" iq-bg-danger" size="sm" @click="remove(data.item)">Remove
-                    </b-button>
-                  </template>
-
-                  <!-- Boton para edita -->
-                  <template v-slot:cell(edit)="data">
-                    <b-button variant=" iq-bg-primary" size="sm" @click="edit(data.item)">Edit
-                    </b-button>
-                  </template>
-                </b-table>
+                </iq-card>
               </b-col>
             </b-row>
           </template>
@@ -529,8 +526,16 @@ export default {
       Puesto: {},
       newlyCreatedUserId: "",
       datosDomicilio: "",
-      personalInformacionEditar: {},
+
+      // Paginacion de la tabla
+      currentPage: 1,
+      pageSize: 10,
       //
+
+
+      personalInformacionEditar: {},
+
+   
       modalOpen: false,
       modalEditar: false,
       currentindex: 1,
@@ -646,13 +651,72 @@ export default {
       ],
       // Add the 'this.listPersonal' object to the 'rows' array
       rows: [],
+
+
+      columna: [
+        { label: 'ID del Empleado', field: 'id', headerClass: 'text-left' },
+        { label: 'Dirección del empleado', field: 'direccion', headerClass: 'text-left' },
+        { label: 'Correo electronico', field: 'email', headerClass: 'text-left' },
+        { label: 'Telefono', field: 'telefono', headerClass: 'text-left' },
+        { label: 'Id de la Persona', field: 'persona', headerClass: 'text-left' },
+        { label: 'Id del puesto', field: 'puesto', headerClass: 'text-left' },
+      ],
+      filas: [],
     };
   },
   mounted() {
     xray.index();
+    this.fetchData1()
+  },
+
+
+  // Servira para rastrear la pagina de la tabla
+  computed: {
+    paginatedRows() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.filas.slice(startIndex, endIndex);
+    },
+    totalPages() {
+    return Math.ceil(this.filas.length / this.pageSize);
+  },
+    
   },
 
   methods: {
+
+
+    // Controla la paginacion de la tabla
+    previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+
+    // -----------------------------------
+
+    async fetchData1() {
+      this.isLoading = true; // Indicate loading state
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/hospital/api/v1Personal/'); // Assuming endpoint fetches a single position
+        this.filas = response.data;
+
+        console.log("Arreglo datos", response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        this.isError = true; // Flag error state
+      } finally {
+        this.isLoading = false; // Clear loading state
+      }
+    }, 
+
+
+
     obtenerDomicilio() {
       const apiDomicilio = `https://api.copomex.com/query/info_cp/${this.codigoPostal}?token=c8b0908c-0ce2-4e8e-87f6-4db734093caa`;
       axios
@@ -867,6 +931,38 @@ export default {
       this.modalEditar = true;
       this.currentindex = 1;
     },
+
+
+
+    eliminarPersonalBuscado() {
+  const persona = this.personalInformacionEditar.id;
+
+  // Send HTTP DELETE request to the API
+  const deleteapiUrl = `http://127.0.0.1:8000/hospital/api/v1Personal/${persona}/`;
+
+  console.log("Elemento antes de ser eliminado:", persona);
+
+  axios
+    .delete(deleteapiUrl)
+    .then((response) => {
+      if (response.status === 200 || response.status === 204) {
+        // Successful deletion (assuming success codes are 200 or 204)
+        console.log("Elemento eliminado:", persona);
+        // Update UI or perform other actions after successful deletion
+        // (e.g., remove element from list, show success message)
+      } else {
+        console.error("Unexpected status code:", response.status);
+        // Handle unexpected response status codes
+        // (e.g., show error message to user)
+      }
+    })
+    .catch((error) => {
+      console.error("Error eliminando persona:", error);
+      // Handle errors during request (e.g., network issues, server errors)
+      // (e.g., show error message to user)
+    });
+},
+
 
 
 
