@@ -70,3 +70,6 @@ Facilitar la gestión eficiente del capital humano del hospital mediante una pla
 8. Los horarios laborales deben seguir un formato estándar para facilitar la comprensión y la gestión
 9. Los cambios en los horarios deben ser confirmados por el personal médico y aprobados por un supervisor antes de hacerse efectivos
 10. Los datos importados de sistemas externos deben ser validados para garantizar la coherencia y consistencia en la base de datos
+
+# WIREFRAMES
+![WIREFRAMES](https://github.com/JonaIbarra/Recursos-Humanos/blob/America/Documentation/WIREFRAMES.jpeg)
