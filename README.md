@@ -73,3 +73,6 @@ Facilitar la gestión eficiente del capital humano del hospital mediante una pla
 
 # WIREFRAMES
 ![WIREFRAMES](https://github.com/JonaIbarra/Recursos-Humanos/blob/America/Documentation/WIREFRAMES.jpeg)
+
+# MOCKUPS
+![MOCKUPS](https://github.com/JonaIbarra/Recursos-Humanos/blob/America/Documentation/MOCKUPS.jpeg)
