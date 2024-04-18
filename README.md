@@ -17,7 +17,7 @@ RECURSOS HUMANOS
 | --------------------------- | -------------------------------- |
 | América Yaely Estudillo Licona | Documentador                   |
 | Jesús Ríos Gómez            | Líder, Desarrollador de Front-End |
-| Jonathan Enrique Ibarra Canales | Administrador de Base de Datos |
+| Jonathan Enrique Ibarra Canales | Administrador de Base de Datos, Desarrollador Backend |
 
 
 # ORGANIGRAMA DEL EQUIPO
