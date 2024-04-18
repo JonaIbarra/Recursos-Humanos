@@ -1,5 +1,8 @@
 <div align="center">
- 
+
+ ![Imagen 1](https://github.com/JonaIbarra/Recursos-Humanos/blob/America/Documentation/LOGO%20UNIVERSIDAD%201.jpeg)    
+
+
 ## UNIVERSIDAD TECNOLÓGICA DE XICOTEPEC DE JUÁREZ PUEBLA
 ### PROYECTO INTEGRADOR RECURSOS HUMANOS
 INGENIERIA EN DESARROLLO Y GESTIÓN DE SOFTWARE 
