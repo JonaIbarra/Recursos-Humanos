@@ -138,18 +138,18 @@
                               </div>
                               <div class="col-md-12">
                                 <b-form-group>
-                                  <label class="mb-2">Dias de la semana: *</label>
+                                  <label class="mb-2">Dia de descanso: *</label>
                                   <b-form-select  id="selectedDiasSemana" plain v-model="selectedDiasSemana" :options="optionsDias" size="sm"
                                     class="mb-2">
                                     <template v-slot:first>
-                                      <b-form-select-option :value="null">-- Seleccionar Dias --</b-form-select-option>
+                                      <b-form-select-option :value="null">-- Seleccionar dia de descanso --</b-form-select-option>
                                     </template>
                                   </b-form-select>
                                 </b-form-group>
                               </div>
                               <div class="col-md-12">
                                 <b-form-group >
-                                  <label class="mb-2">Dias de la semana: *</label>
+                                  <label class="mb-2">Turno: *</label>
                                   <b-form-select id="selecteTurno" plain v-model="selecteTurno" :options="optionsTurnos" size="sm"
                                     class="mb-2">
                                     <template v-slot:first>
@@ -158,16 +158,6 @@
                                   </b-form-select>
                                 </b-form-group>
                               </div>                          
-                            </div>
-                            <div class="col-md-12">
-                            <b-form-group label="Horario de Entrada" label-for="exampleInputtime">
-                              <b-form-input id="exampleInputtime" type="time" value="13:45"></b-form-input>
-                             </b-form-group>
-                            </div>
-                            <div class="col-md-12">
-                            <b-form-group label="Horario de Salida" label-for="exampleInputtime">
-                              <b-form-input id="exampleInputtime2" type="time" value="13:45"></b-form-input>
-                             </b-form-group>
                             </div>
                           </div>
 
@@ -240,6 +230,7 @@
       </b-col>
     </b-row>
   </b-container>
+  
 </template>
 
 <script>
@@ -277,27 +268,27 @@ export default {
       selecteTurno: null,
 
     optionsDias: [
-    { value: 'Lunes a Domingo, excepto Lunes', text: 'Lunes a Domingo, excepto Lunes' },
-    { value: 'Lunes a Domingo, excepto Martes', text: 'Lunes a Domingo, excepto Martes' },
-    { value: 'Lunes a Domingo, excepto Miércoles', text: 'Lunes a Domingo, excepto Miércoles' },
-    { value: 'Lunes a Domingo, excepto Jueves', text: 'Lunes a Domingo, excepto Jueves' },
-    { value: 'Lunes a Domingo, excepto Viernes', text: 'Lunes a Domingo, excepto Viernes' },
-    { value: 'Lunes a Domingo, excepto Sábado', text: 'Lunes a Domingo, excepto Sábado' },
-    { value: 'Lunes a Sabado', text: 'Lunes a Sadodo' }
+    { value: 'Lunes', text: 'Lunes' },
+    { value: 'Martes', text: 'Martes' },
+    { value: 'Miércoles', text: 'Miércoles' },
+    { value: 'Jueves', text: 'Jueves' },
+    { value: 'Viernes', text: 'Viernes' },
+    { value: 'Sábado', text: 'Sábado' },
+    { value: 'Domingo', text: 'Domingo' }
     ],
 
     optionsTurnos: [
     { 
         value: 'Mañana', 
-        text: 'Mañana' 
+        text: 'Mañana (7:00 - 15:00)' 
     },
     { 
         value: 'Tarde', 
-        text: 'Tarde' 
+        text: 'Tarde (13:00- 23:00)' 
     },
     { 
         value: 'Noche', 
-        text: 'Noche' 
+        text: 'Noche (23:00 - 7:00)' 
     }
 ],
 
@@ -406,10 +397,8 @@ export default {
   // Create an object to hold form data
   const puestoInformation = {
     fecha_inicio: form.dob.value,
-    dias_semana: form.selectedDiasSemana.value,
+    dia_descanso: form.selectedDiasSemana.value,
     turno: form.selecteTurno.value,
-    horario_entrada: form.exampleInputtime.value,
-    horario_salida: form.exampleInputtime.value,
     personal: this.personalData.id,
   };
 

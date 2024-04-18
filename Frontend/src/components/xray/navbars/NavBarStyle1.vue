@@ -17,10 +17,7 @@
       </div>
       <nav class="navbar navbar-expand-lg navbar-light p-0">
         <div class="iq-search-bar">
-          <form action="#" class="searchbox">
-            <input type="text" class="text search-input" placeholder="Type here to search..." />
-            <a class="search-link" href="#"><i class="ri-search-line"></i></a>
-          </form>
+          <h3 class="text-secondary">Modulo Recursos Humanos</h3>
         </div>
         <b-navbar-toggle target="nav">
           <i class="ri-menu-3-line"></i>
