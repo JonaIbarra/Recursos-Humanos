@@ -8,7 +8,7 @@ RECURSOS HUMANOS - Hospital
 | Nombre y Apellido       | Cargo                      |
 | ----------------------- | -------------------------- |
 | América Yaely Estudillo Licona | Documentador        |
-| Jesús Ríos Gómez        | Líder, Fronted                      |
+| Jesus Rios Gomez        | Líder, Fronted                      |
 | Jonathan Enrique Ibarra Canales        | Administrador de Base de Datos |
 
 
