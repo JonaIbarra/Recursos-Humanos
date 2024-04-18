@@ -17,7 +17,7 @@
       </div>
       <nav class="navbar navbar-expand-lg navbar-light p-0">
         <div class="iq-search-bar">
-          <h3 class="text-secondary">Modulo Recursos Humanos</h3>
+          <h4 class="text-secondary">Modulo Recursos Humanos</h4>
         </div>
         <b-navbar-toggle target="nav">
           <i class="ri-menu-3-line"></i>

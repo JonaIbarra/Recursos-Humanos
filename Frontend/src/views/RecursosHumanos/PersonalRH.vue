@@ -4,13 +4,13 @@
       <b-col md="12">
         <iq-card>
           <template v-slot:headerTitle>
-            <h4 class="card-title">Personal del hospital</h4>
+            <h4 class="card-title text-center">ACTUALIZAR INFORMACIÓN DEL PERSONAL</h4>
           </template>
           <template v-slot:body>
             <b-row>
-              <div class="col-md-6">
+              <div class="col-md-6 mb-3">
                 <div class="form-group">
-                  <b-form-group label="CURP" label-for="curpInput">
+                  <b-form-group label="Para buscar personal ingrese el CURP de la persona" label-for="curpInput">
                     <b-form-input id="curpInput" type="text" v-model="curp"
                       placeholder="Inserta el curp"></b-form-input>
                   </b-form-group>
@@ -41,12 +41,14 @@
                     <b-form id="form-wizard3" class="text-center">
                       <!-- fieldsets -->
                       <div :class="`${currentindex == 1 ? 'show' : 'd-none'}`">
-                        <form ref="FormPersonal">
+                        <form ref="FormUpdatePersonal">
                           <fieldset>
                             <div class="form-card text-start">
                               <b-row>
                                 <div class="col-7">
                                   <h4 class="mb-4 text-primary"> Editar datos del empleado <h4>{{ nombreCompletoPersonal }}</h4> </h4>
+                                  <br>
+                                  <p>Domicilio: {{ listPersonal.direccion }}. Si editara datos del domicio ingrese código postal, colonia y calle. </p>
                                 </div>
                               </b-row>
                               <b-row>
@@ -136,31 +138,16 @@
                                       spellcheck="false" data-ms-editor="true" v-model="personalInformacionEditar.telefono" />
                                   </div>
                                 </b-col>
-                                <b-col md="6">
-                                  <b-form-group v-if="personalInformacionEditar">
-                                    <label class="mb-2">Puesto: *</label>
-                                    <b-form-select id="selectedPuesto" plain v-model="selectedPuesto"
-                                      :options="optionsPuesto" size="sm" class="mb-2">
-                                      <template v-slot:first>
-                                        <b-form-select-option :value="null">-- Seleccionar Puesto
-                                          --</b-form-select-option>
-                                      </template>
-                                      <b-form-select-option :value="personalInformacionEditar.puesto" v-if="personalInformacionEditar.puesto">
-                                        {{ personalInformacionEditar.puesto }}
-                                      </b-form-select-option>
-                                    </b-form-select>
-                                  </b-form-group>
-                                </b-col>
                             
-
                                 <b-col md="6">
-                                  <b-form-group>
+                                  <b-form-group  v-if="personalInformacionEditar">
                                     <label class="mb-2">Estatus: *</label>
                                     <b-form-select id="selectedEstatus" plain v-model="selectedEstatus"
-                                      :options="optionsEstatus" size="sm" class="mb-2">
+                                                  :options="optionsEstatus" size="sm" class="mb-2">
                                       <template v-slot:first>
-                                        <b-form-select-option :value="null">-- Seleccionar Estatus
-                                          --</b-form-select-option>
+                                        <b-form-select-option :value="null">
+                                          {{listPersonal.estatus}}
+                                        </b-form-select-option>
                                       </template>
                                     </b-form-select>
                                   </b-form-group>
@@ -168,7 +155,7 @@
                               </b-row>
                             </div>
                             <a href="#personal" class="btn btn-primary next action-button float-end"
-                              @click="extractFormPersonal()" value="Next">Next</a>
+                              @click="updatePersonal()" value="Next">Guardar</a>
                           </fieldset>
                         </form>
                       </div>
@@ -181,11 +168,22 @@
               <b-col md="12" class="table-responsive w-100">
                 <b-table striped bordered hover :items="rows" :fields="columns">
                 </b-table>
+                <div v-if="mensajePersonalNoEliminado">
+                  <h4 class="text-danger">Personal no eliminado</h4>
+                  <p>No se puedo eliminar al personal porque este tiene un horario asignado</p>
+                </div>
+                <div v-if= "mensajePersonalEliminado">
+                  <h4 class="text-success">Personal eliminado</h4>
+                </div>
+                <div v-if="personaRegistrada">
+                  <h4 class="text-danger">Personal no encontrado</h4>
+                  <p>Es probable que la persona no se encuentra registrada como personal</p>
+                </div>
                 <div class="table-ad mb-3 me-2 mt-3">
                   <b-button variant="btn btn-sm iq-bg-success float-end mb-3 me-3" @click="editarPersonal()">
                     <i class="las la-edit"></i> Editar</b-button>
 
-                  <b-button variant="btn btn-sm iq-bg-danger float-end mb-3 me-3" @click="add">
+                  <b-button variant="btn btn-sm iq-bg-danger float-end mb-3 me-3" @click="eliminarPersonalBuscado()">
                     <i class="fa fa-trash"></i> Eliminar</b-button>
                 </div>
               </b-col>
@@ -200,12 +198,12 @@
       <b-col md="12">
         <iq-card>
           <template v-slot:headerTitle>
-            <h4 class="card-title">Personal del hospital</h4>
+            <h4 class="card-title text-center">PERSONAL DEL HOSPITAL</h4>
           </template>
           <template v-slot:body>
             <b-row>
               <div class="table-ad mb-3 me-2">
-                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">Asignar Personal</b-button>
+                <b-button variant="btn btn-sm iq-bg-success float-end" @click="add">Agregar Personal</b-button>
               </div>
 
               <b-modal id="modal" size="xl" v-model="modalOpen" title="">
@@ -215,14 +213,14 @@
                       <li class="active" :class="`${currentindex == 1 ? 'active' : ''} ${currentindex > 1 ? 'done active' : ''
                       } `" id="personal">
                         <a href="#">
-                          <i class="fa fa-id-card text-primary"></i><span>Personal</span>
+                          <i class="fa fa-id-card text-primary"></i><span>Datos personales</span>
                         </a>
                       </li>
 
                       <li id="official" :class="`${currentindex == 2 ? 'active' : ''} ${currentindex > 2 ? 'done active' : ''
                       }`">
                         <a href="#">
-                          <i class="ri-calendar-event-fill text-success"></i><span><br />Asgignar Horario</span>
+                          <i class="ri-calendar-event-fill text-success"></i><span><br />Datos laborales</span>
                         </a>
                       </li>
                     </ul>
@@ -236,7 +234,7 @@
                             <div class="form-card text-start">
                               <b-row>
                                 <div class="col-7">
-                                  <h3 class="mb-4">User Information:</h3>
+                                  <h4 class="mb-4"> REGISTRO DE PERSONAL:</h4>
                                 </div>
                               </b-row>
                               <b-row>
@@ -315,7 +313,7 @@
                               </b-row>
                             </div>
                             <a href="#personal" class="btn btn-primary next action-button float-end"
-                              @click="extractFormData()" value="Next">Next</a>
+                              @click="extractFormData()" value="Next">Guardar</a>
                           </fieldset>
                         </form>
                       </div>
@@ -325,7 +323,7 @@
                             <div class="form-card text-start">
                               <b-row>
                                 <div class="col-7">
-                                  <h3 class="mb-4">User Information:</h3>
+                                  <h4 class="mb-4">REGISTRO DE PERSONAL:</h4>
                                 </div>
                               </b-row>
                               <b-row>
@@ -453,48 +451,45 @@
               </b-modal>
 
               <b-col md="12" class="table-responsive w-100">
-                <b-table striped bordered hover :items="rows" :fields="columns">
-                  <template v-slot:cell(name)="data">
-                    <span v-if="!data.item.editable">{{ data.item.name }}</span>
-                    <input type="text" v-model="data.item.name" v-else class="form-control text-center" />
+                <iq-card>
+                  <template v-slot:headerTitle>
+                    <h4 class="card-title">Tabla de personal del hospital</h4>
                   </template>
-                  <template v-slot:cell(age)="data">
-                    <span v-if="!data.item.editable">{{ data.item.age }}</span>
-                    <input type="text" v-model="data.item.age" v-else class="form-control text-center" />
+                  <template v-slot:body>
+                    <div class="table-responsive" v-if="filas.length > 0">
+                      <table class="table table-striped table-bordered">
+                        <thead>
+                          <tr>
+                            <th v-for="columna in columna" :key="columna.field">
+                              {{ columna.label }}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="items in paginatedRows" :key="items.id">
+                            <td>{{ items.id }}</td>
+                            <td>{{ items.direccion }}</td>
+                            <td>{{ items.email }}</td>
+                            <td>{{ items.telefono }}</td>
+                            <td>{{ items.persona }}</td>
+                            <td>{{ items.puesto }}</td>
+                          </tr>
+                        </tbody>
+                        <div class="pagination-controls mb-3 me-2 mt-3">
+                          <button class="btn btn-sm iq-bg-success  float-end mb-3 me-3" @click="nextPage" :disabled="currentPage >= totalPages">Siguiente → </button>
+                          <button class="btn btn-sm iq-bg-danger float-end mb-3 me-3" @click="previousPage" :disabled="currentPage === 1"> ← Anterior</button>
+                        </div>
+                      </table>
+                    </div>
+                    <!-- <div v-else class="text-center" v-if="isLoading">
+                      <b-spinner variant="primary"></b-spinner>
+                      <p>Cargando datos...</p>
+                    </div>
+                    <div v-else class="text-center" v-if="isError">
+                      <p>Error al cargar datos. Intente de nuevo más tarde.</p>
+                    </div> -->
                   </template>
-                  <template v-slot:cell(company_name)="data">
-                    <span v-if="!data.item.editable">{{
-                      data.item.company_name
-                    }}</span>
-                    <input type="text" v-model="data.item.company_name" v-else class="form-control text-center" />
-                  </template>
-                  <template v-slot:cell(country)="data">
-                    <span v-if="!data.item.editable">{{
-                      data.item.country
-                    }}</span>
-                    <input type="text" v-model="data.item.country" v-else class="form-control text-center" />
-                  </template>
-                  <template v-slot:cell(city)="data">
-                    <span v-if="!data.item.editable">{{ data.item.city }}</span>
-                    <input type="text" v-model="data.item.city" v-else class="form-control text-center" />
-                  </template>
-                  <template v-slot:cell(sort)>
-                    <td>
-                      <a href="#!" class="indigo-text"><i class="fa fa-long-arrow-up" aria-hidden="true"></i>
-                        <i class="fa fa-long-arrow-down ms-1" aria-hidden="true"></i></a>
-                    </td>
-                  </template>
-                  <template v-slot:cell(remove)="data">
-                    <b-button variant=" iq-bg-danger" size="sm" @click="remove(data.item)">Remove
-                    </b-button>
-                  </template>
-
-                  <!-- Boton para edita -->
-                  <template v-slot:cell(edit)="data">
-                    <b-button variant=" iq-bg-primary" size="sm" @click="edit(data.item)">Edit
-                    </b-button>
-                  </template>
-                </b-table>
+                </iq-card>
               </b-col>
             </b-row>
           </template>
@@ -529,8 +524,20 @@ export default {
       Puesto: {},
       newlyCreatedUserId: "",
       datosDomicilio: "",
-      personalInformacionEditar: {},
+
+      // Paginacion de la tabla
+      currentPage: 1,
+      pageSize: 10,
       //
+
+
+      personalInformacionEditar: {},
+
+      // Controla mensajes de validacion
+      personaRegistrada: "",
+      mensajePersonalNoEliminado: "",
+      mensajePersonalEliminado: "",
+
       modalOpen: false,
       modalEditar: false,
       currentindex: 1,
@@ -626,11 +633,11 @@ export default {
 
       optionsEstatus: [
         {
-          value: "1",
+          value: "activo",
           text: "Activo",
         },
         {
-          value: "0",
+          value: "inactivo",
           text: "Inactivo",
         },
       ],
@@ -639,20 +646,79 @@ export default {
         { label: "Nombre Completo", key: "name", class: "text-left" },
         { label: "CURP", key: "curp", class: "text-left text-primary" },
         { label: "Direccion", key: "direccion", class: "text-left" },
-        { label: "Telefono", key: "telefono", class: "text-left" },
+        { label: "TelÉfono", key: "telefono", class: "text-left" },
         { label: "Correo", key: "email", class: "text-left" },
         { label: "Puesto", key: "puesto", class: "text-left" },
         { label: "Estatus", key: "estatus", class: "text-left" },
       ],
       // Add the 'this.listPersonal' object to the 'rows' array
       rows: [],
+
+
+      columna: [
+        { label: 'ID del Empleado', field: 'id', headerClass: 'text-left' },
+        { label: 'Dirección del empleado', field: 'direccion', headerClass: 'text-left' },
+        { label: 'Correo electrónico', field: 'email', headerClass: 'text-left' },
+        { label: 'TelÉfono', field: 'telefono', headerClass: 'text-left' },
+        { label: 'Id de la Persona', field: 'persona', headerClass: 'text-left' },
+        { label: 'Id del puesto', field: 'puesto', headerClass: 'text-left' },
+      ],
+      filas: [],
     };
   },
   mounted() {
     xray.index();
+    this.fetchData1()
+  },
+
+
+  // Servira para rastrear la pagina de la tabla
+  computed: {
+    paginatedRows() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.filas.slice(startIndex, endIndex);
+    },
+    totalPages() {
+    return Math.ceil(this.filas.length / this.pageSize);
+  },
+    
   },
 
   methods: {
+
+
+    // Controla la paginacion de la tabla
+    previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+
+    // -----------------------------------
+
+    async fetchData1() {
+      this.isLoading = true; // Indicate loading state
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/hospital/api/v1Personal/'); // Assuming endpoint fetches a single position
+        this.filas = response.data;
+
+        console.log("Arreglo datos", response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        this.isError = true; // Flag error state
+      } finally {
+        this.isLoading = false; // Clear loading state
+      }
+    }, 
+
+
+
     obtenerDomicilio() {
       const apiDomicilio = `https://api.copomex.com/query/info_cp/${this.codigoPostal}?token=c8b0908c-0ce2-4e8e-87f6-4db734093caa`;
       axios
@@ -717,6 +783,44 @@ export default {
           console.error("Error sending data:", error);
         });
     },
+
+
+    updatePersonal() {
+
+      const persona = this.listPersonal.id
+      
+      // Access form data using Vue's $refs
+      const constFormUpdate = this.$refs.FormUpdatePersonal;
+
+        const personalUpdateInformacion = {
+              direccion: constFormUpdate.calle.value === ""
+              ? this.personalInformacionEditar.direccion
+              : constFormUpdate.calle.value + ", " + this.datosDomicilio,
+              email: constFormUpdate.email.value,
+              telefono: constFormUpdate.telefono.value,
+              estatus: constFormUpdate.selectedEstatus.value
+        };
+
+      console.log("datos del formulario actualizar", personalUpdateInformacion); // This will log the updated object
+
+      // Send HTTP POST request to the API
+      const apiUrl = `http://127.0.0.1:8000/hospital/api/v1Personal/${persona}/`;
+
+      axios
+        .put(apiUrl, personalUpdateInformacion)
+        .then((response) => {
+          console.log("Datos enviados a la base:", response.data);
+          this.$refs.FormPersonal.reset();
+          this.modalEditar = false;
+          this.personalInformacionEditar = {};
+          this.listPersonal = {};
+        })
+        .catch((error) => {
+          // Handle API request errors (e.g., show error message)
+          console.error("Error sending data:", error);
+        });
+    },
+
 
     getFormattedDateTime() {
       const now = new Date();
@@ -820,10 +924,13 @@ export default {
                       estatus: this.personalData.estatus,
                     };
 
+                    this.rows = [];
+
                     this.rows.push(this.listPersonal);
 
                     
                     this.personalInformacionEditar = {
+  
                       ...this.listPersonal,
                       ...this.curp
                     }
@@ -837,15 +944,19 @@ export default {
                     console.log("Personal Puesto:", this.Puesto);
                   });
 
+                  // Restable la persona encontrada
+                  this.personaRegistrada = "";
                   // Use the person and personal data as needed in your application
                 } else {
                   // Handle the case where person data is not found
                   console.warn("Persona no encontrada.");
                   this.personalData = null;
+                  
                 }
               })
               .catch((error) => {
                 console.error("Error fetching personal data:", error);
+                this.personaRegistrada = "false";
                 this.personalData = null;
               });
           } else {
@@ -857,16 +968,54 @@ export default {
         })
         .catch((error) => {
           console.error("Error fetching person data:", error);
+          
           this.persona = null;
         });
     },
 
+
+
     editarPersonal() {
-      let obj = this.default();
-      this.rows.push(obj);
       this.modalEditar = true;
       this.currentindex = 1;
     },
+
+
+
+    eliminarPersonalBuscado() {
+  const persona = this.personalInformacionEditar.id;
+
+  // Send HTTP DELETE request to the API
+  const deleteapiUrl = `http://127.0.0.1:8000/hospital/api/v1Personal/${persona}/`;
+
+  console.log("Elemento antes de ser eliminado:", persona);
+
+  axios
+    .delete(deleteapiUrl)
+    .then((response) => {
+      if (response.status === 200 || response.status === 204) {
+        // Successful deletion (assuming success codes are 200 or 204)
+        console.log("Elemento eliminado:", persona);
+        this.mensajePersonalEliminado = "a";
+        this.rows = [];
+        // Update UI or perform other actions after successful deletion
+        // (e.g., remove element from list, show success message)
+      } else {
+        console.error("Unexpected status code:", response.status);
+        
+        // Handle unexpected response status codes
+        // (e.g., show error message to user)
+      }
+    })
+    .catch((error) => {
+      console.error("Error eliminando persona:", error);
+      this.mensajePersonalNoEliminado = "a";
+      this.rows = [];
+      // Handle errors during request (e.g., network issues, server errors)
+      // (e.g., show error message to user)
+    });
+},
+
 
 
 
