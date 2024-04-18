@@ -25,7 +25,7 @@ RECURSOS HUMANOS
 </div>
 
 # OBJETIVO GENERAL
-Facilitar la gestión eficiente del capital humano del hospital mediante una plataforma integrada que permita el seguimiento, la actualización y la optimización de información relacionada con el personal, desde la contratación hasta el desarrollo profesional, con el fin de mejorar la calidad de atención médica y el bienestar del personal
+Facilitar la gestión eficiente del capital humano del hospital mediante la plataforma integrada que permita el seguimiento, la actualización y la optimización de información relacionada con el personal, desde la contratación hasta el desarrollo profesional, con el fin de mejorar la calidad de atención médica y el bienestar del personal
 
 # OBJETIVOS ESPECIFICOS
 1. Centralización de la información del personal: Crear una base de datos centralizada que almacene información detallada sobre todos los empleados del hospital, incluyendo datos personales, información laboral, historial de empleo, entre otros.
