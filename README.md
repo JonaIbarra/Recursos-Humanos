@@ -1,6 +1,6 @@
 ### UNIVERSIDAD TECNOLÓGICA DE XICOTEPEC DE JUÁREZ, PUEBLA
 ## PROYECTO INTEGRADOR:
-RECURSOS HUMANOS
+RECURSOS HUMANOS - Hospital
 ### INGENIERIA EN DESARROLLO Y GESTIÓN DE SOFTWARE 
 # "EQUIPO MEDUSA"
 ### ![Logo de la empresa](https://github.com/JonaIbarra/Recursos-Humanos/blob/America/Documentation/LogoAzul.png)
