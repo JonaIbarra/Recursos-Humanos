@@ -305,7 +305,7 @@
                                 </b-col>
                                 <b-col md="6">
                                   <div class="form-group">
-                                    <label for="fechaNacimiento" class="mb-2">Fecha de Inicio: *</label>
+                                    <label for="fechaNacimiento" class="mb-2">Fecha de Nacimiento: *</label>
                                     <input type="date" class="form-control" id="fechaNacimiento"
                                       name="fechaNacimiento" />
                                   </div>
