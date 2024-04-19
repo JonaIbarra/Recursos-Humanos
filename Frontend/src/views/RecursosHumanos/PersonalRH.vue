@@ -622,7 +622,7 @@ export default {
 
       optionsPuesto: [
         { value: 1, text: "Doctor" },
-        { value: 2, text: "Enfermera" },
+        { value: 2, text: "Enfermero/a" },
         { value: 3, text: "Auxiliar de enfermería" },
         { value: 4, text: "Técnico de laboratorio" },
         { value: 5, text: "Técnico de radiografías" },
@@ -720,7 +720,7 @@ export default {
 
 
     obtenerDomicilio() {
-      const apiDomicilio = `https://api.copomex.com/query/info_cp/${this.codigoPostal}?token=77e95f02-fd93-4e42-a622-0f28c48c6a22`;
+      const apiDomicilio = `https://api.copomex.com/query/info_cp/${this.codigoPostal}?token=e036fd88-d6dd-4dc5-994c-bfcc96417212`;
       axios
         .get(apiDomicilio)
         .then((response) => {
