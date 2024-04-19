@@ -313,7 +313,7 @@
                               </b-row>
                             </div>
                             <a href="#personal" class="btn btn-primary next action-button float-end"
-                              @click="extractFormData()" value="Next">Guardar</a>
+                              @click="extractFormData()" value="Next">Next</a>
                           </fieldset>
                         </form>
                       </div>
@@ -440,7 +440,7 @@
                               </b-row>
                             </div>
                             <a href="#personal" class="btn btn-primary next action-button float-end"
-                              @click="extractFormPersonal()" value="Next">Next</a>
+                              @click="extractFormPersonal()" value="Next">Guardar</a>
                           </fieldset>
                         </form>
                       </div>
@@ -646,7 +646,7 @@ export default {
         { label: "Nombre Completo", key: "name", class: "text-left" },
         { label: "CURP", key: "curp", class: "text-left text-primary" },
         { label: "Direccion", key: "direccion", class: "text-left" },
-        { label: "TelÉfono", key: "telefono", class: "text-left" },
+        { label: "Teléfono", key: "telefono", class: "text-left" },
         { label: "Correo", key: "email", class: "text-left" },
         { label: "Puesto", key: "puesto", class: "text-left" },
         { label: "Estatus", key: "estatus", class: "text-left" },
@@ -659,7 +659,7 @@ export default {
         { label: 'ID del Empleado', field: 'id', headerClass: 'text-left' },
         { label: 'Dirección del empleado', field: 'direccion', headerClass: 'text-left' },
         { label: 'Correo electrónico', field: 'email', headerClass: 'text-left' },
-        { label: 'TelÉfono', field: 'telefono', headerClass: 'text-left' },
+        { label: 'Teléfono', field: 'telefono', headerClass: 'text-left' },
         { label: 'Id de la Persona', field: 'persona', headerClass: 'text-left' },
         { label: 'Id del puesto', field: 'puesto', headerClass: 'text-left' },
       ],
@@ -720,7 +720,7 @@ export default {
 
 
     obtenerDomicilio() {
-      const apiDomicilio = `https://api.copomex.com/query/info_cp/${this.codigoPostal}?token=c8b0908c-0ce2-4e8e-87f6-4db734093caa`;
+      const apiDomicilio = `https://api.copomex.com/query/info_cp/${this.codigoPostal}?token=77e95f02-fd93-4e42-a622-0f28c48c6a22`;
       axios
         .get(apiDomicilio)
         .then((response) => {
