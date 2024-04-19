@@ -1,0 +1,50 @@
+[{
+  "_id": {
+    "$oid": "6621214f5e19896e28bae723"
+  },
+  "Departamento_ID": 1,
+  "Nombre": "Departamento de Urgencias",
+  "Descripcion": "Encargado de atender emergencias médicas.",
+  "Puestos": [
+    {
+      "Puesto_ID": 1,
+      "Nombre": "Médico de Urgencias"
+    },
+    {
+      "Puesto_ID": 2,
+      "Nombre": "Enfermero de Urgencias"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6621214f5e19896e28bae724"
+  },
+  "Departamento_ID": 2,
+  "Nombre": "Departamento de Cirugía",
+  "Descripcion": "Encargado de realizar intervenciones quirúrgicas.",
+  "Puestos": [
+    {
+      "Puesto_ID": 1,
+      "Nombre": "Cirujano"
+    },
+    {
+      "Puesto_ID": 3,
+      "Nombre": "Enfermero de Cirugía"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6621214f5e19896e28bae725"
+  },
+  "Departamento_ID": 3,
+  "Nombre": "Departamento de Laboratorio",
+  "Descripcion": "Encargado de realizar análisis clínicos.",
+  "Puestos": [
+    {
+      "Puesto_ID": 4,
+      "Nombre": "Técnico de Laboratorio"
+    }
+  ]
+}]
