@@ -462,8 +462,7 @@ export default {
 
     // 
     add() {
-      let obj = this.default();
-      this.rows.push(obj);
+
       this.modalOpen = true;
       this.currentindex = 1;
     },
