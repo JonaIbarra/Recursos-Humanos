@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "662122955e19896e28bae72f"
+  },
+  "ID": 1,
+  "Personal_ID": 101,
+  "Fecha_inicio": "2024-04-01",
+  "Dias_semana": "Lunes a Viernes",
+  "Turno": "Mañana",
+  "Horario_entrada": "08:00 AM",
+  "Horario_salida": "02:00 PM"
+},
+{
+  "_id": {
+    "$oid": "662122955e19896e28bae730"
+  },
+  "ID": 2,
+  "Personal_ID": 102,
+  "Fecha_inicio": "2024-04-01",
+  "Dias_semana": "Lunes a Viernes",
+  "Turno": "Tarde",
+  "Horario_entrada": "02:00 PM",
+  "Horario_salida": "08:00 PM"
+},
+{
+  "_id": {
+    "$oid": "662122955e19896e28bae731"
+  },
+  "ID": 3,
+  "Personal_ID": 103,
+  "Fecha_inicio": "2024-04-01",
+  "Dias_semana": "Lunes a Viernes",
+  "Turno": "Noche",
+  "Horario_entrada": "10:00 PM",
+  "Horario_salida": "06:00 AM"
+},
+{
+  "_id": {
+    "$oid": "662122955e19896e28bae732"
+  },
+  "ID": 4,
+  "Personal_ID": 104,
+  "Fecha_inicio": "2024-04-01",
+  "Dias_semana": "Sábados y Domingos",
+  "Turno": "Mañana",
+  "Horario_entrada": "08:00 AM",
+  "Horario_salida": "02:00 PM"
+},
+{
+  "_id": {
+    "$oid": "662122955e19896e28bae733"
+  },
+  "ID": 5,
+  "Personal_ID": 105,
+  "Fecha_inicio": "2024-04-01",
+  "Dias_semana": "Sábados y Domingos",
+  "Turno": "Tarde",
+  "Horario_entrada": "02:00 PM",
+  "Horario_salida": "08:00 PM"
+}]
