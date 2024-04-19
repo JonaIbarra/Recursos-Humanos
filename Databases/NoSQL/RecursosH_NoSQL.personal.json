@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "662122885e19896e28bae729"
+  },
+  "ID": 1,
+  "Persona_ID": 101,
+  "Nombre": "Juan Perez",
+  "Direccion": "Calle Principal #123",
+  "Telefono": "123-456-7890",
+  "Puesto_ID": 1,
+  "Estatus": "activo"
+},
+{
+  "_id": {
+    "$oid": "662122885e19896e28bae72a"
+  },
+  "ID": 2,
+  "Persona_ID": 102,
+  "Nombre": "María González",
+  "Direccion": "Avenida Central #456",
+  "Telefono": "987-654-3210",
+  "Puesto_ID": 2,
+  "Estatus": "activo"
+},
+{
+  "_id": {
+    "$oid": "662122885e19896e28bae72b"
+  },
+  "ID": 3,
+  "Persona_ID": 103,
+  "Nombre": "Pedro Ramirez",
+  "Direccion": "Calle Secundaria #789",
+  "Telefono": "456-123-7890",
+  "Puesto_ID": 3,
+  "Estatus": "activo"
+},
+{
+  "_id": {
+    "$oid": "662122885e19896e28bae72c"
+  },
+  "ID": 4,
+  "Persona_ID": 104,
+  "Nombre": "Ana Martinez",
+  "Direccion": "Avenida Norte #567",
+  "Telefono": "321-654-9870",
+  "Puesto_ID": 4,
+  "Estatus": "activo"
+},
+{
+  "_id": {
+    "$oid": "662122885e19896e28bae72d"
+  },
+  "ID": 5,
+  "Persona_ID": 105,
+  "Nombre": "Luis Lopez",
+  "Direccion": "Calle Sur #890",
+  "Telefono": "789-321-6540",
+  "Puesto_ID": 5,
+  "Estatus": "activo"
+}]
