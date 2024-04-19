@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "66211f6a5e19896e28bae717"
+  },
+  "Nombre": "Médico de Urgencias",
+  "Descripcion": "Responsable de atender emergencias médicas en el área de urgencias del hospital.",
+  "Requisitos": "Título de médico, experiencia en atención de urgencias.",
+  "Tipo_Contrato": "Tiempo completo",
+  "Salario_Minimo": 3000,
+  "Salario_Maximo": 5000,
+  "Estatus": "activo"
+},
+{
+  "_id": {
+    "$oid": "66211f6a5e19896e28bae718"
+  },
+  "Nombre": "Enfermero de Piso",
+  "Descripcion": "Encargado de cuidar a los pacientes en el área de hospitalización.",
+  "Requisitos": "Título de enfermería, habilidades de atención al paciente.",
+  "Tipo_Contrato": "Tiempo completo",
+  "Salario_Minimo": 2000,
+  "Salario_Maximo": 4000,
+  "Estatus": "activo"
+},
+{
+  "_id": {
+    "$oid": "66211f6a5e19896e28bae719"
+  },
+  "Nombre": "Administrativo de Recursos Humanos",
+  "Descripcion": "Encargado de gestionar el personal del hospital.",
+  "Requisitos": "Experiencia en recursos humanos, habilidades administrativas.",
+  "Tipo_Contrato": "Tiempo completo",
+  "Salario_Minimo": 2500,
+  "Salario_Maximo": 4500,
+  "Estatus": "activo"
+},
+{
+  "_id": {
+    "$oid": "66211f6a5e19896e28bae71a"
+  },
+  "Nombre": "Técnico de Laboratorio",
+  "Descripcion": "Realiza análisis clínicos y estudios de laboratorio.",
+  "Requisitos": "Título de técnico de laboratorio, experiencia en análisis clínicos.",
+  "Tipo_Contrato": "Tiempo completo",
+  "Salario_Minimo": 2200,
+  "Salario_Maximo": 3800,
+  "Estatus": "activo"
+},
+{
+  "_id": {
+    "$oid": "66211f6a5e19896e28bae71b"
+  },
+  "Nombre": "Personal de Limpieza",
+  "Descripcion": "Encargado de mantener la limpieza y orden en el hospital.",
+  "Requisitos": "Experiencia en limpieza, habilidades de organización.",
+  "Tipo_Contrato": "Medio tiempo",
+  "Salario_Minimo": 1500,
+  "Salario_Maximo": 2500,
+  "Estatus": "activo"
+}]
